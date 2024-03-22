@@ -2,11 +2,11 @@ import * as React from 'react';
 import styles from './Spfx.module.scss';
 import type { ISpfxProps } from './ISpfxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { Button, Checkbox, Input, Tab, Tabs } from '@sebgroup/green-react';
 
 export default class Spfx extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const {
-      description,
       isDarkTheme,
       environmentMessage,
       hasTeamsContext,
@@ -17,25 +17,89 @@ export default class Spfx extends React.Component<ISpfxProps, {}> {
       <section className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ''}`}>
         <div className={styles.welcome}>
           <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
+          <h2>Witaj {escape(userDisplayName)}!</h2>
           <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
-        </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li><a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank" rel="noreferrer">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank" rel="noreferrer">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank" rel="noreferrer">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank" rel="noreferrer">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank" rel="noreferrer">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
-          </ul>
+          <div>
+          <Tabs>
+    <Tab title={'Sekcja 1'}>
+      <>
+        <p>Pytanie 1.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        <p>Pytanie 2.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        <p>Pytanie 3.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        <p>Pytanie 4.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        <p>Pytanie 5.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+      </>
+    </Tab>
+    <Tab title={'Sekcja 2'}>
+        <>
+          <p>Pytanie 1.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 2.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 3.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 4.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 5.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        </>
+    </Tab>
+    <Tab title={'Sekcja 3'}>
+        <>
+          <p>Pytanie 1.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 2.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 3.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 4.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 5.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        </>
+    </Tab>
+    <Tab title={'Sekcja 4'}>
+        <>
+          <p>Pytanie 1.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 2.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 3.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 4.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+          <p>Pytanie 5.</p><Checkbox
+  label="Checkbox input"
+/><Input label="Input"  />
+        </>
+    </Tab>
+  </Tabs>
+          </div>
+          <Button type="submit">Zapisz ankietę</Button>
         </div>
       </section>
     );
