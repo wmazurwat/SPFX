@@ -9,12 +9,18 @@ import { TabsList as BaseTabsList } from '@mui/base/TabsList';
 import { TabPanel as BaseTabPanel } from '@mui/base/TabPanel';
 import { buttonClasses } from '@mui/base/Button';
 import { Tab as BaseTab, tabClasses } from '@mui/base/Tab';
+import { Input as BaseInput } from '@mui/base/Input';
+
+const Input = React.forwardRef(function CustomInput(
+  props: React.InputHTMLAttributes<HTMLInputElement>,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
+  return <BaseInput slots={{ input: InputElement }} {...props} ref={ref} />;
+});
 
 export default class Spfx extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const {
-      isDarkTheme,
-      environmentMessage,
       hasTeamsContext,
       userDisplayName
     } = this.props;
@@ -22,20 +28,65 @@ export default class Spfx extends React.Component<ISpfxProps, {}> {
     return (
       <section className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ''}`}>
         <div className={styles.welcome}>
-          <img alt="" src={isDarkTheme ? require('../assets/welcome-dark.png') : require('../assets/welcome-light.png')} className={styles.welcomeImage} />
-          <h2>Witaj {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
+          <h2>Witaj {escape(userDisplayName)}!</h2><p>v1.01</p>
           <Tabs defaultValue={0} orientation="vertical">
       <TabsList>
         <Tab>Sekcja 1</Tab>
         <Tab>Sekcja 2</Tab>
         <Tab>Sekcja 3</Tab>
+        <Tab>Sekcja 4</Tab>
+        <Tab>Sekcja 5</Tab>
+        <Tab>Sekcja 6</Tab>
+        <Tab>Sekcja 7</Tab>
+        <Tab>Sekcja 8</Tab>
+        <Tab>Sekcja 9</Tab>
       </TabsList>
-      <TabPanel value={0}>First page1</TabPanel>
+      <TabPanel value={0}>
+        <div>
+            Pytanie nr 1
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 2
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 3
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 4
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 5
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 6
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 7
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 8
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        <div>
+            Pytanie nr 9
+            <Input aria-label="Demo input" placeholder="Type something…" />
+        </div>
+        </TabPanel>
       <TabPanel value={1}>Second page</TabPanel>
       <TabPanel value={2}>Third page</TabPanel>
+      <TabPanel value={3}>Third page</TabPanel>
+      <TabPanel value={4}>Third page</TabPanel>
+      <TabPanel value={5}>Third page</TabPanel>
     </Tabs>
-          <Button>Button</Button>
+    <div><Button>Zapisz</Button></div>
+          
         </div>
       </section>
     );
@@ -66,6 +117,37 @@ const grey = {
   800: '#303740',
   900: '#1C2025',
 };
+const InputElement = styled('input')(
+  ({ theme }) => `
+  width: 160px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 2px 4px ${
+    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+  };
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`,
+);
 
 const Tab = styled(BaseTab)`
   font-family: 'IBM Plex Sans', sans-serif;
