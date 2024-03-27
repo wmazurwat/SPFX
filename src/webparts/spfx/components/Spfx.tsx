@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./Spfx.module.scss";
+import './styles.css';
 import type { ISpfxProps } from "./ISpfxProps";
 import { Button } from "@mui/material";
 import { Input as BaseInput } from "@mui/base/Input";
@@ -27,7 +28,7 @@ export default class Spfx extends React.Component<ISpfxProps, {}> {
           </div>
         </div>
         <div>
-          <div>
+          <div className="bg-blue-500 p-4 text-white text-3xl">
             Customer Name
             <Input aria-label="Demo input" placeholder="Type something…" />
           </div>
