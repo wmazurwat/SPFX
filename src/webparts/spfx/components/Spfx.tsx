@@ -3,11 +3,11 @@ import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import { Button } from "@mui/material";
 import Ankieta from "./Ankieta";
+import FeedbackForm from "./FeedbackForm";
 type State = {
   activePage: number;
 };
 
-const Page2 = () => <h1>Page2</h1>;
 const Page3 = () => <h1>Page3</h1>;
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -21,13 +21,13 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <Ankieta {...this.props} />;
+        return <FeedbackForm {...this.props} />;
       case 1:
-        return <Page2 />;
+        return <Ankieta {...this.props} />;
       case 2:
         return <Page3 />;
       default:
-        return <Ankieta {...this.props} />;
+        return <FeedbackForm {...this.props} />;
     }
   };
   handleButtonClick = () => {
@@ -39,9 +39,8 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       <>
         {this.renderPage()}
 
-        <Button onClick={this.handleButtonClick}>
-          {this.state.activePage} Przejdź dalej
-        </Button>
+        <Button onClick={this.handleButtonClick}>Przejdź dalej</Button>
+        <div>{this.state.activePage}</div>
       </>
     );
   }

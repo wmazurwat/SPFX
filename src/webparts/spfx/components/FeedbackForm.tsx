@@ -2,11 +2,9 @@ import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Button, TextField } from "@mui/material";
-import { Input } from "@mui/base/Input";
-import Stack from "@mui/material/Stack";
+import { TextField } from "@mui/material";
 
-export default class Spfx extends React.Component<ISpfxProps, {}> {
+export default class FeedbackForm extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
 
@@ -14,74 +12,93 @@ export default class Spfx extends React.Component<ISpfxProps, {}> {
       <section
         className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <div className={styles.welcome}>
-          <div className={"p-200"}>
-            <h2>Feedback Form</h2>
-          </div>
+        <div className={"p-10 text-4xl flex justify-center"}>
+          <div>Feedback Form</div>
         </div>
+
         <div>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="standard-basic" label="Standard" variant="standard" />
-          <div>
-            Customer Name
-            <TextField id="filled-basic" label="Filled" variant="outlined" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Customer Name"
+              variant="outlined"
+            />
           </div>
-          <div>
-            GCN
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField id="filled-basic" label="GCN" variant="outlined" />
           </div>
-          <div>
-            Current DD Level
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Current DD Level"
+              variant="outlined"
+            />
           </div>
-          <div>
-            QA review started
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="QA review started"
+              variant="outlined"
+            />
           </div>
-          <div>
-            QA review closed
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="QA review closed"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Review type
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Review type"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Responsible Team
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Responsible Team"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Quality Checker
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Quality Checker"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Regulatory Analyst
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Regulatory Analyst"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Amount of feedbacks
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Amount of feedbacks"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Adjustments required?
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Adjustments required?"
+              variant="outlined"
+            />
           </div>
-          <div>
-            Quality:
-            <Input aria-label="Demo input" placeholder="Type something…" />
+          <div className={"p-2"}>
+            <TextField id="filled-basic" label="Quality:" variant="outlined" />
           </div>
-          <div>
-            Challenge process?
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div className={styles.welcome}>
-            <div>
-              <Stack spacing={2} direction="row">
-                <Button>Przejdź dalej</Button>
-              </Stack>
-            </div>
-            <p>v1.02</p>
+          <div className={"p-2"}>
+            <TextField
+              id="filled-basic"
+              label="Challenge process?"
+              variant="outlined"
+            />
           </div>
         </div>
       </section>
