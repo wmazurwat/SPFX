@@ -1,87 +1,48 @@
 import * as React from "react";
-import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Button, TextField } from "@mui/material";
-import { Input } from "@mui/base/Input";
-import Stack from "@mui/material/Stack";
+import { Button } from "@mui/material";
+import Ankieta from "./Ankieta";
+type State = {
+  activePage: number;
+};
 
-export default class Spfx extends React.Component<ISpfxProps, {}> {
-  public render(): React.ReactElement<ISpfxProps> {
-    const { hasTeamsContext } = this.props;
+const Page2 = () => <h1>Page2</h1>;
+const Page3 = () => <h1>Page3</h1>;
 
+export default class Spfx extends React.Component<ISpfxProps, State> {
+  constructor(props: ISpfxProps) {
+    super(props);
+    this.state = {
+      activePage: 0,
+    };
+  }
+
+  renderPage = () => {
+    switch (this.state.activePage) {
+      case 0:
+        return <Ankieta {...this.props} />;
+      case 1:
+        return <Page2 />;
+      case 2:
+        return <Page3 />;
+      default:
+        return <Ankieta {...this.props} />;
+    }
+  };
+  handleButtonClick = () => {
+    this.setState((prevState) => ({ activePage: prevState.activePage + 1 }));
+  };
+
+  render() {
     return (
-      <section
-        className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
-      >
-        <div className={styles.welcome}>
-          <div className={"p-200"}>
-            <h2>Feedback Form</h2>
-          </div>
-        </div>
-        <div>
-          <div>
-            Customer Name
-            <TextField id="filled-basic" label="Filled" variant="outlined" />
-          </div>
-          <div>
-            GCN
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Current DD Level
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            QA review started
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            QA review closed
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Review type
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Responsible Team
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Quality Checker
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Regulatory Analyst
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Amount of feedbacks
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Adjustments required?
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Quality:
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div>
-            Challenge process?
-            <Input aria-label="Demo input" placeholder="Type something…" />
-          </div>
-          <div className={styles.welcome}>
-            <div>
-              <Stack spacing={2} direction="row">
-                <Button>Przejdź dalej</Button>
-              </Stack>
-            </div>
-            <p>v1.02</p>
-          </div>
-        </div>
-      </section>
+      <>
+        {this.renderPage()}
+
+        <Button onClick={this.handleButtonClick}>
+          {this.state.activePage} Przejdź dalej
+        </Button>
+      </>
     );
   }
 }

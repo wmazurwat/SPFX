@@ -17,7 +17,7 @@ const Input = React.forwardRef(function CustomInput(
   return <BaseInput slots={{ input: InputElement }} {...props} ref={ref} />;
 });
 
-export default class Spfx extends React.Component<ISpfxProps, {}> {
+export default class Ankieta extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
 
