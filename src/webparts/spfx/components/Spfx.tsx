@@ -20,9 +20,9 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <Ankieta {...this.props} />;
-      case 1:
         return <FeedbackForm {...this.props} />;
+      case 1:
+        return <Ankieta {...this.props} />;
       case 2:
         return <Review {...this.props} />;
       default:
