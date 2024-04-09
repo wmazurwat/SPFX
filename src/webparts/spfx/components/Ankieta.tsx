@@ -15,7 +15,7 @@ import {
   Select,
 } from "@mui/material";
 
-export default class Ankieta1 extends React.Component<ISpfxProps, {}> {
+export default class Ankieta extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
 
@@ -26,8 +26,9 @@ export default class Ankieta1 extends React.Component<ISpfxProps, {}> {
         }`}
       >
         <div className={"p-5 m-2 text-4xl flex justify-center "}>
-          <div>Ankieta</div>
+          <div>Customer risk analysis - Questionnaire</div>
         </div>
+        <div></div>
 
         <div className={"p-5 m-2 justify-center "}>
           <List>
@@ -37,7 +38,6 @@ export default class Ankieta1 extends React.Component<ISpfxProps, {}> {
             <Divider variant="middle" component="li" textAlign="left">
               Customer Name
             </Divider>
-
             <ListItem>
               <ListItemText primary="AD2137" />
             </ListItem>
@@ -64,9 +64,9 @@ export default class Ankieta1 extends React.Component<ISpfxProps, {}> {
             </Divider>
           </List>
         </div>
-
+        {/* <Accordion defaultExpanded> */}
         <div>
-          <Accordion defaultExpanded>
+          <Accordion>
             <AccordionSummary
               aria-controls="panel1-content"
               id="panel1-header"

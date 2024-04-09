@@ -12,92 +12,126 @@ export default class FeedbackForm extends React.Component<ISpfxProps, {}> {
       <section
         className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <div className={"p-10 text-4xl flex justify-center"}>
-          <div>Feedback Form</div>
+        <div className={"p-5 m-2 text-4xl flex justify-center"}>
+          <div>Customer risk analysis - General information</div>
         </div>
 
-        <div>
-          <div className={"p-2"}>
+        <div className={"p-2 m-2 shadow grid grid-cols-2"}>
+          <div className={"p-2 m-2 justify-start"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Customer Name"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
-            <TextField id="filled-basic" label="GCN" variant="outlined" />
-          </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
+              id="filled-basic"
+              label="GCN"
+            />
+          </div>
+          <div className={"p-2 m-2 justify-center"}>
+            <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Current DD Level"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="QA review started"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="QA review closed"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Review type"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Responsible Team"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Quality Checker"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Regulatory Analyst"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Amount of feedbacks"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Adjustments required?"
-              variant="outlined"
             />
           </div>
-          <div className={"p-2"}>
-            <TextField id="filled-basic" label="Quality:" variant="outlined" />
-          </div>
-          <div className={"p-2"}>
+          <div className={"p-2 m-2 justify-center"}>
             <TextField
+              multiline
+              maxRows={1}
+              fullWidth
+              id="filled-basic"
+              label="Quality:"
+            />
+          </div>
+          <div className={"p-2 m-2 justify-center"}>
+            <TextField
+              multiline
+              maxRows={1}
+              fullWidth
               id="filled-basic"
               label="Challenge process?"
-              variant="outlined"
             />
           </div>
         </div>

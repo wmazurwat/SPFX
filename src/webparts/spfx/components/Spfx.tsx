@@ -29,8 +29,11 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         return <FeedbackForm {...this.props} />;
     }
   };
-  handleButtonClick = () => {
+  handleButtonClickForward = () => {
     this.setState((prevState) => ({ activePage: prevState.activePage + 1 }));
+  };
+  handleButtonClickBack = () => {
+    this.setState((prevState) => ({ activePage: prevState.activePage - 1 }));
   };
 
   render() {
@@ -38,8 +41,20 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       <>
         <div className="w-full">
           {this.renderPage()}
-          <div className={"p-10 flex justify-end"}>
-            <Button onClick={this.handleButtonClick}>Przejdź dalej</Button>
+          <div className={"p-10 flex justify-center"}>
+            <Button
+              className={"p-10 flex "}
+              onClick={this.handleButtonClickForward}
+            >
+              Przejdź dalej
+            </Button>
+
+            <Button
+              className={"p-10 flex "}
+              onClick={this.handleButtonClickBack}
+            >
+              Przejdź do tyłu
+            </Button>
           </div>
           <div>{this.state.activePage}</div>
         </div>
