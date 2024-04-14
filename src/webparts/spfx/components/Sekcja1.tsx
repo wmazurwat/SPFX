@@ -5,9 +5,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  FormControl,
-  MenuItem,
-  Select,
   Button,
 } from "@mui/material";
 import Pytanie from "./Pytanie";
@@ -20,7 +17,18 @@ type SekcjaState = {
 
 const pytania = [
   "Czy organizacja może wykazać, że zidentyfikowała właściwe grupy klientów lub rynków dla uzyskania najlepszych korzyści finansowych i ekonomicznych?",
-  "Test2",
+  "Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania klienta są w pełni zrozumiane?",
+  "Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania powiązanego z organizacją łańcucha dostaw są w pełni zrozumiane?",
+  "Czy organizacja może wykazać, że powyższe pozycje są zarządzane przez ustalenie wyraźnych celów?",
+  "Czy organizacja może wykazać, że cele są skutecznie komunikowane wszystkim pracownikom, których dotyczą?",
+  "Czy organizacja może wykazać, że zrównoważone, uczciwe podejście jest stosowane do wszystkich klientów?",
+  "Czy organizacja może wykazać, że uwagi i reklamacje klientów są rozpatrywane uczciwie i we właściwym czasie?",
+  "Czy organizacja może wykazać, że informacje o zadowoleniu klienta są zbierane, mierzone i oceniane?",
+  "Czy organizacja może wykazać, że zadowolenie klienta jest komunikowane wewnątrz organizacji?",
+  "Czy organizacja może wykazać, że jest stabilny łańcuch dostaw, który zapewnia utrzymanie zadowolenia klienta?",
+  "Czy organizacja może wykazać, że organizacja zapewnia niezbędne zasoby i spełnia wymagania klientów?",
+  "Czy organizacja może wykazać, że organizacja rozeznaje potrzebę wspólnego rozwoju, jeśli jest to wymagane?",
+  "Czy organizacja może wykazać, że zmiany warunków rynkowych, w tym zmiany konkurencyjności, są regularnie przeglądane?",
 ];
 
 export default class Sekcja1 extends React.Component<ISpfxProps, SekcjaState> {
@@ -73,222 +81,6 @@ export default class Sekcja1 extends React.Component<ISpfxProps, SekcjaState> {
               Check Answer
             </Button>
           </form>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania
-              klienta są w pełni zrozumiane?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania
-              powiązanego z organizacją łańcucha dostaw są w pełni zrozumiane?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że powyższe pozycje są zarządzane
-              przez ustalenie wyraźnych celów?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że cele są skutecznie komunikowane
-              wszystkim pracownikom, których dotyczą?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że zrównoważone, uczciwe podejście
-              jest stosowane do wszystkich klientów?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że uwagi i reklamacje klientów są
-              rozpatrywane uczciwie i we właściwym czasie?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że informacje o zadowoleniu klienta
-              są zbierane, mierzone i oceniane?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że zadowolenie klienta jest
-              komunikowane wewnątrz organizacji?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że jest stabilny łańcuch dostaw,
-              który zapewnia utrzymanie zadowolenia klienta?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że organizacja zapewnia niezbędne
-              zasoby i spełnia wymagania klientów?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że organizacja rozeznaje potrzebę
-              wspólnego rozwoju, jeśli jest to wymagane?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className="border-b-2 border-sky-500 flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że zmiany warunków rynkowych, w tym
-              zmiany konkurencyjności, są regularnie przeglądane?
-            </div>
-            <div className={"m-2 justify-end"}>
-              <FormControl>
-                <Select className={"min-w-32"}>
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Tak</MenuItem>
-                  <MenuItem value={20}>Nie</MenuItem>
-                  <MenuItem value={30}>Nie dotyczy</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
         </AccordionDetails>
       </Accordion>
     );
