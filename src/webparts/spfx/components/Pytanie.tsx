@@ -41,7 +41,9 @@ export default class Pytanie extends React.Component<PytanieProps> {
               label="Nie dotyczy"
             />
           </RadioGroup>
-          {this.props.error && <FormHelperText>Uzupełnij</FormHelperText>}
+          {this.props.error && (
+            <FormHelperText>Odpowiedz na pytanie</FormHelperText>
+          )}
         </FormControl>
         {/* </div> */}
       </div>

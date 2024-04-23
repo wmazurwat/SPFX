@@ -31,7 +31,7 @@ const pytania = [
   "Czy organizacja może wykazać, że zmiany warunków rynkowych, w tym zmiany konkurencyjności, są regularnie przeglądane?",
 ];
 
-export default class Sekcja1 extends React.Component<ISpfxProps, SekcjaState> {
+export default class Sekcja2 extends React.Component<ISpfxProps, SekcjaState> {
   constructor(props: ISpfxProps) {
     super(props);
     this.state = {
@@ -57,7 +57,7 @@ export default class Sekcja1 extends React.Component<ISpfxProps, SekcjaState> {
       //     id="panel1-header"
       //     className={"text-2xl"}
       //   >
-      //     Sekcja 1
+      //     Sekcja 2
       //   </AccordionSummary>
       //   <AccordionDetails>
       <form onSubmit={(e) => this.handleSubmit(e)}>

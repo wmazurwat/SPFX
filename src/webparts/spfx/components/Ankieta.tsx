@@ -2,9 +2,22 @@ import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import UserInfo from "./UserInfo";
 import Sekcja1 from "./Sekcja1";
+import Sekcja2 from "./Sekcja2";
+
+// import { Box } from "@mui/system";
+// import { TabPanel } from "@mui/base";
+// import {
+//   Tab,
+//   Tabs,
+// } from "@mui/material";
+// export default function VerticalTabs() {
+//   const [value, setValue] = React.useState(0);
+// const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+//   setValue(newValue);
+// };
+
 export default class Ankieta extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
@@ -18,36 +31,23 @@ export default class Ankieta extends React.Component<ISpfxProps, {}> {
           <div>Customer risk analysis - Questionnaire</div>
         </div>
         <UserInfo {...this.props} />
+        {/* <div>
+          <Box>
+            <Tabs>
+              <Tab label="Sekcja 1"></Tab>
+              <Tab label="Sekcja 2"></Tab>
+            </Tabs>
+            <TabPanel value={value} >
+               <Sekcja1 {...this.props} />
+            </TabPanel>
+            <TabPanel value={value} >
+              <Sekcja2 {...this.props} />
+            </TabPanel>
+          </Box>
+        </div> */}
         <div>
           <Sekcja1 {...this.props} />
-          <Accordion>
-            <AccordionSummary
-              aria-controls="panel2-content"
-              id="panel2-header"
-              className={"text-xl"}
-            >
-              Sekcja 2
-            </AccordionSummary>
-            <AccordionDetails>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              aria-controls="panel3-content"
-              id="panel3-header"
-              className={"text-xl"}
-            >
-              Sekcja 3
-            </AccordionSummary>
-            <AccordionDetails>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </AccordionDetails>
-          </Accordion>
+          <Sekcja2 {...this.props} />
         </div>
       </section>
     );
