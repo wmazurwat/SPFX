@@ -12,6 +12,8 @@
     "test": "gulp test"
   },
   "dependencies": {
+    "@azure/identity": "^4.0.1",
+    "@azure/ms-rest-js": "^2.7.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fluentui/react": "^8.106.4",
@@ -21,11 +23,19 @@
     "@microsoft/sp-office-ui-fabric-core": "1.18.2",
     "@microsoft/sp-property-pane": "1.18.2",
     "@microsoft/sp-webpart-base": "1.18.2",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.14",
     "@mui/system": "^5.15.14",
+    "@mui/x-date-pickers": "^7.1.0",
+    "@pnp/graph": "^3.24.0",
+    "@pnp/nodejs-commonjs": "^2.15.0",
     "@pnp/sp": "^3.24.0",
     "@sebgroup/green-core": "^1.10.0",
     "@sebgroup/green-react": "^3.5.0",
+    "autoprefixer": "^10.4.19",
+    "dayjs": "^1.11.10",
+    "postcss": "^8.4.38",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "tslib": "2.3.1"
@@ -48,7 +58,7 @@
     "eslint": "8.7.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "gulp": "4.0.2",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "typescript": "4.7.4"
   }
 }
