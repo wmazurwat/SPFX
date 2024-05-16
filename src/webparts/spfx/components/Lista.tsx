@@ -6,31 +6,42 @@ import "@pnp/sp/lists";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-// import UserInfo from "./UserInfo";
 
-// type State = {
-//   items: { Title: string; LastName: string }[];
-// };
+type State = {
+  items: { Title: string; LastName: string }[];
+};
 
-export default class Lista extends React.Component<ISpfxProps, {}> {
-  spWeb;
+export default class Lista extends React.Component<ISpfxProps, State> {
+  private spWeb;
+
   constructor(props: ISpfxProps) {
     super(props);
+    this.state = {
+      items: [],
+    };
     const sp = spfi().using(SPFx(this.props.context));
     this.spWeb = sp.web;
-    // Konfiguracja PnP z kontekstem SPFx
-    // wyswitlic::
-    sp.web.lists
-      .getByTitle("Dane")
-      .items.getPaged()
-      .then((items) => {
-        this.setState({ items });
-        console.log(items);
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-    console.log("listy::", sp.web.lists);
+  }
+
+  async componentDidMount() {
+    try {
+      await this.loadItems();
+    } catch (error) {
+      console.error("Error loading items in componentDidMount:", error);
+    }
+  }
+
+  private async loadItems() {
+    try {
+      const items = await this.spWeb.lists
+        .getByTitle("Dane")
+        .items.select("Title", "LastName")
+        .top(100)(); // Pobierz do 100 elementów
+      this.setState({ items });
+      console.log(items);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
   }
 
   public render(): React.ReactElement<ISpfxProps> {
@@ -41,21 +52,19 @@ export default class Lista extends React.Component<ISpfxProps, {}> {
           hasTeamsContext ? styles.teams : "shadow"
         }`}
       >
-        <div className={"p-5 m-2 text-4xl flex-auto justify-center "}>
+        <div className={"p-5 m-2 text-4xl flex justify-center "}>
           <div>Customer risk analysis - List</div>
-          {/* <div>{sp.web.lists.result[0].Title}</div> */}
-          <div className="items-list">
-            <h3>Items from SharePoint list:</h3>
-            {/* <ul>
-            {this.spWeb.lists.map((item, index) => (
+        </div>
+        <div className="items-list">
+          <h3>Items from SharePoint list:</h3>
+          <ul>
+            {this.state.items.map((item, index) => (
               <li key={index}>
                 {item.Title} - {item.LastName}
               </li>
             ))}
-          </ul> */}
-          </div>
+          </ul>
         </div>
-        {/* <UserInfo {...this.props} /> */}
       </section>
     );
   }
