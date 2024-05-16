@@ -3,13 +3,20 @@ import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
-import styles from "./Spfx.module.scss";
-import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 type State = {
-  items: { Title: string; LastName: string }[];
+  items: { Id: number; Title: string; LastName: string }[];
 };
 
 export default class Lista extends React.Component<ISpfxProps, State> {
@@ -36,7 +43,7 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     try {
       const items = await this.spWeb.lists
         .getByTitle("Dane")
-        .items.select("Title", "LastName")
+        .items.select("Id", "Title", "LastName")
         .top(100)(); // Pobierz do 100 elementów
       this.setState({ items });
       console.log(items);
@@ -53,28 +60,52 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     }
   };
 
+  private handleEdit = (id: number) => {
+    // Implementacja funkcji edycji rekordu
+    console.log("Edit item with ID:", id);
+    // Tu możesz dodać nawigację do strony edycji
+  };
+
   public render(): React.ReactElement<ISpfxProps> {
-    const { hasTeamsContext } = this.props;
+    const { hasTeamsContext, userDisplayName } = this.props;
     return (
-      <section
-        className={`${styles.spfx} ${
-          hasTeamsContext ? styles.teams : "shadow"
-        }`}
-      >
-        <div className={"p-5 m-2 text-4xl flex justify-center "}>
-          <div>Customer risk analysis - List</div>
+      <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
+        <div className="flex justify-between items-center bg-gray-100 p-4 border-b border-gray-300">
+          <div className="text-4xl">Customer risk analysis - List</div>
+          <div className="text-xl">{userDisplayName}</div>
         </div>
-        <div className="items-list">
-          <h3>Items from SharePoint list:</h3>
-          <ul>
-            {this.state.items.map((item, index) => (
-              <li key={index}>
-                {item.Title} - {item.LastName}
-              </li>
-            ))}
-          </ul>
+        <div className="p-5">
+          <h3 className="text-2xl mb-4">Items from SharePoint list:</h3>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Last Name</TableCell>
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.items.map((item) => (
+                  <TableRow key={item.Id}>
+                    <TableCell>{item.Title}</TableCell>
+                    <TableCell>{item.LastName}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => this.handleEdit(item.Id)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
-        <div className={"flex justify-center"}>
+        <div className="flex justify-center p-5">
           <Button
             variant="contained"
             color="primary"
