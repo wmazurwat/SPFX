@@ -6,6 +6,7 @@ import "@pnp/sp/lists";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
+import { Button } from "@mui/material";
 
 type State = {
   items: { Title: string; LastName: string }[];
@@ -44,6 +45,14 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     }
   }
 
+  private handleRefresh = async () => {
+    try {
+      await this.loadItems();
+    } catch (error) {
+      console.error("Error refreshing items:", error);
+    }
+  };
+
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
     return (
@@ -64,6 +73,15 @@ export default class Lista extends React.Component<ISpfxProps, State> {
               </li>
             ))}
           </ul>
+        </div>
+        <div className={"flex justify-center"}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleRefresh}
+          >
+            Odśwież listę
+          </Button>
         </div>
       </section>
     );
