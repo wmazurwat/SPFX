@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import Ankieta from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
+import List from "./Lista";
 type State = {
   activePage: number;
 };
@@ -20,7 +21,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <Ankieta {...this.props} />;
+        return <List {...this.props} />;
       case 1:
         return <FeedbackForm {...this.props} />;
       case 2:

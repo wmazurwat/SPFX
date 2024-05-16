@@ -28,8 +28,9 @@ export default class SpfxWebPart extends BaseClientSideWebPart<ISpfxWebPartProps
         description: this.properties.description,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
+        context: this.context,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
       }
     );
 
