@@ -31,6 +31,7 @@ export default class SpfxWebPart extends BaseClientSideWebPart<ISpfxWebPartProps
         context: this.context,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
+        userEmail: this.context.pageContext.user.displayName,
       }
     );
 
