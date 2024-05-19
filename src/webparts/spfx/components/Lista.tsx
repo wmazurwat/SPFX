@@ -75,14 +75,24 @@ export default class Lista extends React.Component<ISpfxProps, State> {
           <div className="text-xl">{userDisplayName}</div>
         </div>
         <div className="p-5">
-          <h3 className="text-2xl mb-4">Items from SharePoint list:</h3>
+          <h3 className="text-2xl mb-4">Items from SharePoint list:</h3>{" "}
+          {/* przenieść na lewą stronę */}
+          <div className="flex items-end right-0 p-5">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleRefresh}
+            >
+              Odśwież listę
+            </Button>
+          </div>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Title</TableCell>
                   <TableCell>Last Name</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell align="right"> </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -104,15 +114,6 @@ export default class Lista extends React.Component<ISpfxProps, State> {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
-        <div className="flex justify-center p-5">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleRefresh}
-          >
-            Odśwież listę
-          </Button>
         </div>
       </section>
     );
