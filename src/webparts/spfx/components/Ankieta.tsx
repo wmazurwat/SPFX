@@ -9,14 +9,23 @@ import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
 import Sekcja1 from "./Sekcja1";
 import Sekcja2 from "./Sekcja2";
-import { Button } from "@mui/material";
+import { Button, Tabs, Tab, Box } from "@mui/material";
 
-export default class Ankieta extends React.Component<ISpfxProps, {}> {
+export default class Ankieta extends React.Component<
+  ISpfxProps,
+  { tabIndex: number }
+> {
   spWeb;
+
   constructor(props: ISpfxProps) {
     super(props);
+    this.state = {
+      tabIndex: 0,
+    };
+
     const sp = spfi().using(SPFx(this.props.context));
     this.spWeb = sp.web;
+
     // Konfiguracja PnP z kontekstem SPFx
     // wyswitlic::
     sp.web.lists
@@ -28,19 +37,12 @@ export default class Ankieta extends React.Component<ISpfxProps, {}> {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    // console.log("listy::", sp.web.lists);
-
-    // sp.web.lists
-    //   .add("TestDane")
-    //   .then(() => {
-    //     console.log("added");
-    //     console.log(sp.web.lists);
-    //   })
-    //   .catch(() => console.log("error"));
-    // this.list = spWeb.lists.getByTitle("Dane");
   }
 
-  // Metoda do zapisu danych
+  handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    this.setState({ tabIndex: newValue });
+  };
+  //metoda zapisu dancyh
   saveDataToSharePoint = async (title: string, lastName: string) => {
     try {
       const result = await this.spWeb.lists.getByTitle("Dane").items.add({
@@ -57,6 +59,8 @@ export default class Ankieta extends React.Component<ISpfxProps, {}> {
 
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
+    const { tabIndex } = this.state;
+
     return (
       <section
         className={`${styles.spfx} ${
@@ -74,10 +78,23 @@ export default class Ankieta extends React.Component<ISpfxProps, {}> {
           </Button>
         </div>
         <UserInfo {...this.props} />
-        <div>
-          <Sekcja1 {...this.props} />
-          <Sekcja2 {...this.props} />
-        </div>
+        <Box sx={{ flexGrow: 1, display: "flex" }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={tabIndex}
+            onChange={this.handleTabChange}
+            aria-label="Vertical tabs"
+            sx={{ borderRight: 1, borderColor: "divider" }}
+          >
+            <Tab label="Sekcja 1" />
+            <Tab label="Sekcja 2" />
+          </Tabs>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            {tabIndex === 0 && <Sekcja1 {...this.props} />}
+            {tabIndex === 1 && <Sekcja2 {...this.props} />}
+          </Box>
+        </Box>
       </section>
     );
   }
