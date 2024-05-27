@@ -3,6 +3,7 @@ import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
+import "@pnp/sp/fields";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
@@ -10,12 +11,16 @@ import UserInfo from "./UserInfo";
 import Sekcja1 from "./Sekcja1";
 import Sekcja2 from "./Sekcja2";
 import { Button, Tabs, Tab, Box } from "@mui/material";
+import {
+  addMultiLineTextColumnToSharePoint,
+  addSingleLineTextColumnToSharePoint,
+} from "./ColumnUtils";
 
 export default class Ankieta extends React.Component<
   ISpfxProps,
   { tabIndex: number }
 > {
-  spWeb;
+  private spWeb;
 
   constructor(props: ISpfxProps) {
     super(props);
@@ -25,24 +30,21 @@ export default class Ankieta extends React.Component<
 
     const sp = spfi().using(SPFx(this.props.context));
     this.spWeb = sp.web;
+  }
 
-    // Konfiguracja PnP z kontekstem SPFx
-    // wyswitlic::
-    sp.web.lists
-      .getByTitle("Dane")
-      .items.getPaged()
-      .then((items) => {
-        console.log(items);
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
+  async componentDidMount() {
+    try {
+      const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
+      console.log(items);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
   }
 
   handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     this.setState({ tabIndex: newValue });
   };
-  //metoda zapisu dancyh
+
   saveDataToSharePoint = async (title: string, lastName: string) => {
     try {
       const result = await this.spWeb.lists.getByTitle("Dane").items.add({
@@ -55,6 +57,14 @@ export default class Ankieta extends React.Component<
       console.error("Error adding item to SharePoint list", error);
       alert("Failed to save data!");
     }
+  };
+
+  handleAddMultiLineColumn = async (columnName: string) => {
+    await addMultiLineTextColumnToSharePoint(this.spWeb, columnName);
+  };
+
+  handleAddSingleLineColumn = async (columnName: string) => {
+    await addSingleLineTextColumnToSharePoint(this.spWeb, columnName);
   };
 
   public render(): React.ReactElement<ISpfxProps> {
@@ -75,6 +85,12 @@ export default class Ankieta extends React.Component<
             }
           >
             Save Data
+          </Button>
+          <Button onClick={() => this.handleAddMultiLineColumn("Wiele")}>
+            Dodaj kolumnę z wieloma wierszami tekstu
+          </Button>
+          <Button onClick={() => this.handleAddSingleLineColumn("Jedna")}>
+            Dodaj jedną kolumnę tekstową
           </Button>
         </div>
         <UserInfo {...this.props} />
