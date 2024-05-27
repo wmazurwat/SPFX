@@ -8,18 +8,18 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
-import Sekcja1 from "./Sekcja1";
-import Sekcja2 from "./Sekcja2";
 import { Button, Tabs, Tab, Box } from "@mui/material";
 import {
   getColumnList,
   addMultiLineTextColumnToSharePoint,
   addSingleLineTextColumnToSharePoint,
+  getQAData,
 } from "./ColumnUtils";
+import DynamicSection from "./DynamicSection";
 
 export default class Ankieta extends React.Component<
   ISpfxProps,
-  { tabIndex: number; existingColumns: string[] }
+  { tabIndex: number; existingColumns: string[]; sections: any }
 > {
   private spWeb;
 
@@ -28,6 +28,7 @@ export default class Ankieta extends React.Component<
     this.state = {
       tabIndex: 0,
       existingColumns: [],
+      sections: {},
     };
 
     const sp = spfi().using(SPFx(this.props.context));
@@ -37,9 +38,15 @@ export default class Ankieta extends React.Component<
   async componentDidMount() {
     try {
       const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
-      console.log(items);
+      console.log("Items from 'Dane':", items);
+
       const existingColumns = await getColumnList(this.spWeb);
-      this.setState({ existingColumns });
+      console.log("Existing columns:", existingColumns);
+
+      const sections = await getQAData(this.spWeb);
+      console.log("Sections from QA:", sections);
+
+      this.setState({ existingColumns, sections });
     } catch (error) {
       console.error("Error fetching items or columns:", error);
     }
@@ -79,6 +86,34 @@ export default class Ankieta extends React.Component<
     );
   };
 
+  renderSections = () => {
+    const { sections } = this.state;
+    const {
+      description,
+      isDarkTheme,
+      environmentMessage,
+      hasTeamsContext,
+      userDisplayName,
+      userEmail,
+      context,
+    } = this.props;
+    console.log("Rendering sections with data:", sections); // Dodaj ten wiersz
+    return Object.keys(sections).map((section, index) => (
+      <DynamicSection
+        key={index}
+        sectionName={section}
+        questions={sections[section]}
+        description={description}
+        isDarkTheme={isDarkTheme}
+        environmentMessage={environmentMessage}
+        hasTeamsContext={hasTeamsContext}
+        userDisplayName={userDisplayName}
+        userEmail={userEmail}
+        context={context}
+      />
+    ));
+  };
+
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
     const { tabIndex } = this.state;
@@ -115,13 +150,11 @@ export default class Ankieta extends React.Component<
             aria-label="Vertical tabs"
             sx={{ borderRight: 1, borderColor: "divider" }}
           >
-            <Tab label="Sekcja 1" />
-            <Tab label="Sekcja 2" />
+            {Object.keys(this.state.sections).map((section, index) => (
+              <Tab key={index} label={section} />
+            ))}
           </Tabs>
-          <Box sx={{ flexGrow: 1, p: 3 }}>
-            {tabIndex === 0 && <Sekcja1 {...this.props} />}
-            {tabIndex === 1 && <Sekcja2 {...this.props} />}
-          </Box>
+          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSections()}</Box>
         </Box>
       </section>
     );
