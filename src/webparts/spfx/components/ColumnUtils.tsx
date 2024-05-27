@@ -18,13 +18,13 @@ export async function getQAData(spWeb: IWeb): Promise<any> {
       const section = item.Title;
       const question = item.field_1;
       const hint = item.field_2;
-
+      const id = item.ID;
       if (!acc[section]) {
         acc[section] = [];
       }
-      acc[section].push({ Pytanie: question, Podpowiedź: hint });
+      acc[section].push({ Pytanie: question, Podpowiedź: hint, id });
       return acc;
-    }, {} as Record<string, { Pytanie: string; Podpowiedź: string }[]>);
+    }, {} as Record<string, { Pytanie: string; Podpowiedź: string; id: string }[]>);
 
     console.log("Sections:", sections); // Dodaj ten wiersz
 

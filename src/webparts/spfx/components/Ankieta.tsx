@@ -86,8 +86,8 @@ export default class Ankieta extends React.Component<
     );
   };
 
-  renderSections = () => {
-    const { sections } = this.state;
+  renderSection = () => {
+    const { sections, tabIndex } = this.state;
     const {
       description,
       isDarkTheme,
@@ -98,11 +98,19 @@ export default class Ankieta extends React.Component<
       context,
     } = this.props;
     console.log("Rendering sections with data:", sections); // Dodaj ten wiersz
-    return Object.keys(sections).map((section, index) => (
+    const sectionName = Object.keys(sections)[tabIndex];
+    console.log(
+      "sectionName",
+      sections,
+      Object.keys(sections),
+      tabIndex,
+      sectionName
+    );
+    return (
       <DynamicSection
-        key={index}
-        sectionName={section}
-        questions={sections[section]}
+        key={tabIndex}
+        sectionName={sectionName}
+        questions={sections[sectionName] || []}
         description={description}
         isDarkTheme={isDarkTheme}
         environmentMessage={environmentMessage}
@@ -111,7 +119,7 @@ export default class Ankieta extends React.Component<
         userEmail={userEmail}
         context={context}
       />
-    ));
+    );
   };
 
   public render(): React.ReactElement<ISpfxProps> {
@@ -154,7 +162,7 @@ export default class Ankieta extends React.Component<
               <Tab key={index} label={section} />
             ))}
           </Tabs>
-          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSections()}</Box>
+          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSection()}</Box>
         </Box>
       </section>
     );
