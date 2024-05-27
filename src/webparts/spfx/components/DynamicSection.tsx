@@ -8,7 +8,7 @@ import {
   // FormHelperText,
   Radio,
   Button,
-  FormLabel,
+  // FormLabel,
 } from "@mui/material";
 type DynamicSectionProps = {
   sectionName: string;
@@ -47,8 +47,12 @@ export default class DynamicSection extends React.Component<
     return questions.map((q, i) => (
       <div key={i}>
         <FormControl variant="standard" required>
-          <FormLabel id="demo-error-radios">{q.Pytanie}</FormLabel>
-          <FormLabel id="demo-error-radios">{q.Podpowiedź}</FormLabel>
+          <div className={"  text-xl justify-start"} id="demo-error-radios">
+            {q.Pytanie}
+          </div>
+          <div className={"  text-base justify-start"} id="demo-error-radios">
+            {q.Podpowiedź}
+          </div>
           <RadioGroup
             aria-labelledby="demo-error-radios"
             name="quiz"
@@ -73,6 +77,7 @@ export default class DynamicSection extends React.Component<
           {/* {this.props.error && (
             <FormHelperText>Odpowiedz na pytanie</FormHelperText>
           )} */}
+          <div className="border-b-2 border-sky-500" />
         </FormControl>
       </div>
     ));
