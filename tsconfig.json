@@ -14,7 +14,6 @@
     "inlineSources": false,
     "noImplicitAny": true,
     "noEmitOnError": false,
-
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@microsoft"
@@ -27,11 +26,12 @@
       "dom",
       "es2015.collection",
       "es2015.promise",
+      "es2017",
       "es2016"
     ]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx"
-  ],
+  ]
 }
