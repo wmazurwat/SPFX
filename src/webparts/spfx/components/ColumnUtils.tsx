@@ -1,10 +1,26 @@
 import { IWeb } from "@pnp/sp/webs";
-import { IFieldAddResult } from "@pnp/sp/fields";
+import { IFieldAddResult, IFieldInfo } from "@pnp/sp/fields";
+
+export async function getColumnList(spWeb: IWeb): Promise<string[]> {
+  try {
+    const fields: IFieldInfo[] = await spWeb.lists.getByTitle("Dane").fields();
+    return fields.map((field) => field.InternalName);
+  } catch (error) {
+    console.error("Error fetching column list:", error);
+    return [];
+  }
+}
 
 export async function addMultiLineTextColumnToSharePoint(
   spWeb: IWeb,
-  columnName: string
+  columnName: string,
+  existingColumns: string[]
 ): Promise<void> {
+  if (existingColumns.includes(columnName)) {
+    alert(`Kolumna "${columnName}" już istnieje!`);
+    return;
+  }
+
   try {
     const list = spWeb.lists.getByTitle("Dane");
 
@@ -46,8 +62,14 @@ export async function addMultiLineTextColumnToSharePoint(
 
 export async function addSingleLineTextColumnToSharePoint(
   spWeb: IWeb,
-  columnName: string
+  columnName: string,
+  existingColumns: string[]
 ): Promise<void> {
+  if (existingColumns.includes(columnName)) {
+    alert(`Kolumna "${columnName}" już istnieje!`);
+    return;
+  }
+
   try {
     const list = spWeb.lists.getByTitle("Dane");
 

@@ -12,13 +12,14 @@ import Sekcja1 from "./Sekcja1";
 import Sekcja2 from "./Sekcja2";
 import { Button, Tabs, Tab, Box } from "@mui/material";
 import {
+  getColumnList,
   addMultiLineTextColumnToSharePoint,
   addSingleLineTextColumnToSharePoint,
 } from "./ColumnUtils";
 
 export default class Ankieta extends React.Component<
   ISpfxProps,
-  { tabIndex: number }
+  { tabIndex: number; existingColumns: string[] }
 > {
   private spWeb;
 
@@ -26,6 +27,7 @@ export default class Ankieta extends React.Component<
     super(props);
     this.state = {
       tabIndex: 0,
+      existingColumns: [],
     };
 
     const sp = spfi().using(SPFx(this.props.context));
@@ -36,8 +38,10 @@ export default class Ankieta extends React.Component<
     try {
       const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
       console.log(items);
+      const existingColumns = await getColumnList(this.spWeb);
+      this.setState({ existingColumns });
     } catch (error) {
-      console.error("Error fetching items:", error);
+      console.error("Error fetching items or columns:", error);
     }
   }
 
@@ -60,11 +64,19 @@ export default class Ankieta extends React.Component<
   };
 
   handleAddMultiLineColumn = async (columnName: string) => {
-    await addMultiLineTextColumnToSharePoint(this.spWeb, columnName);
+    await addMultiLineTextColumnToSharePoint(
+      this.spWeb,
+      columnName,
+      this.state.existingColumns
+    );
   };
 
   handleAddSingleLineColumn = async (columnName: string) => {
-    await addSingleLineTextColumnToSharePoint(this.spWeb, columnName);
+    await addSingleLineTextColumnToSharePoint(
+      this.spWeb,
+      columnName,
+      this.state.existingColumns
+    );
   };
 
   public render(): React.ReactElement<ISpfxProps> {
