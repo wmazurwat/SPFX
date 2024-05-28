@@ -21,13 +21,13 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <Ankieta {...this.props} />;
+        return <List {...this.props} />;
       case 1:
         return <FeedbackForm {...this.props} />;
       case 2:
-        return <Review {...this.props} />;
+        return <Ankieta {...this.props} />;
       default:
-        return <List {...this.props} />;
+        return <Review {...this.props} />;
     }
   };
   handleButtonClickForward = () => {
@@ -47,16 +47,15 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
               className={"p-10 flex "}
               onClick={this.handleButtonClickBack}
             >
-              Przejdź do tyłu
+              Backward
             </Button>
             <Button
               className={"p-10 flex "}
               onClick={this.handleButtonClickForward}
             >
-              Przejdź dalej
+              Forward
             </Button>
           </div>
-          <div>{this.state.activePage}</div>
         </div>
       </>
     );

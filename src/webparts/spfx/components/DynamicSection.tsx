@@ -66,13 +66,9 @@ export default class DynamicSection extends React.Component<
               }))
             }
           >
-            <FormControlLabel value="Tak" control={<Radio />} label="Tak" />
-            <FormControlLabel value="Nie" control={<Radio />} label="Nie" />
-            <FormControlLabel
-              value="Nie dotyczy"
-              control={<Radio />}
-              label="Nie dotyczy"
-            />
+            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="No" control={<Radio />} label="No" />
+            <FormControlLabel value="N/a" control={<Radio />} label="N/a" />
           </RadioGroup>
           {/* {this.props.error && (
             <FormHelperText>Odpowiedz na pytanie</FormHelperText>
