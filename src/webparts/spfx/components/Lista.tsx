@@ -16,7 +16,14 @@ import {
 } from "@mui/material";
 
 type State = {
-  items: { Id: number; Title: string; LastName: string }[];
+  items: {
+    Id: number;
+    CustomerName: string;
+    CurrentDDLevel: string;
+    QAreviewstarted: string;
+    QAreviewclosed: string;
+    Quality: string;
+  }[];
 };
 
 export default class Lista extends React.Component<ISpfxProps, State> {
@@ -43,7 +50,14 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     try {
       const items = await this.spWeb.lists
         .getByTitle("Dane")
-        .items.select("Id", "Title", "LastName")
+        .items.select(
+          "Id",
+          "CustomerName",
+          "CurrentDDLevel",
+          "QAreviewstarted",
+          "QAreviewclosed",
+          "Quality"
+        )
         .top(100)(); // Pobierz do 100 elementów
       this.setState({ items });
       console.log(items);
@@ -66,6 +80,12 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     // Tu możesz dodać nawigację do strony edycji
   };
 
+  private formatDate(dateString: string): string {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()}`;
+  }
+
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext, userDisplayName } = this.props;
     return (
@@ -75,31 +95,42 @@ export default class Lista extends React.Component<ISpfxProps, State> {
           <div className="text-xl">{userDisplayName}</div>
         </div>
         <div className="p-5">
-          <h3 className="text-2xl mb-4">Items from SharePoint list:</h3>{" "}
-          {/* przenieść na lewą stronę */}
-          <div className="flex items-end right-0 p-5">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-2xl">Items from SharePoint list:</h3>
             <Button
               variant="contained"
               color="primary"
               onClick={this.handleRefresh}
             >
-              Odśwież listę
+              Refresh
             </Button>
           </div>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Last Name</TableCell>
-                  <TableCell align="right"> </TableCell>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Customer Name</TableCell>
+                  <TableCell>Current DD Level</TableCell>
+                  <TableCell>QA review started</TableCell>
+                  <TableCell>QA review closed</TableCell>
+                  <TableCell>Quality</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {this.state.items.map((item) => (
                   <TableRow key={item.Id}>
-                    <TableCell>{item.Title}</TableCell>
-                    <TableCell>{item.LastName}</TableCell>
+                    <TableCell>{item.Id}</TableCell>
+                    <TableCell>{item.CustomerName}</TableCell>
+                    <TableCell>{item.CurrentDDLevel}</TableCell>
+                    <TableCell>
+                      {this.formatDate(item.QAreviewstarted)}
+                    </TableCell>
+                    <TableCell>
+                      {this.formatDate(item.QAreviewclosed)}
+                    </TableCell>
+                    <TableCell>{item.Quality}%</TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
