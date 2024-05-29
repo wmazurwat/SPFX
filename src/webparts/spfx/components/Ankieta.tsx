@@ -8,7 +8,7 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
-import { Button, Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box } from "@mui/material";
 import {
   getColumnList,
   addMultiLineTextColumnToSharePoint,
@@ -134,7 +134,7 @@ export default class Ankieta extends React.Component<
       >
         <div className={"p-5 m-2 text-4xl flex justify-center "}>
           <div>Customer risk analysis - Questionnaire</div>
-          <Button
+          {/* <Button
             onClick={() =>
               this.saveDataToSharePoint("Sample Title", "Sample LastName")
             }
@@ -146,7 +146,7 @@ export default class Ankieta extends React.Component<
           </Button>
           <Button onClick={() => this.handleAddSingleLineColumn("Jedna")}>
             Dodaj jedną kolumnę tekstową
-          </Button>
+          </Button> */}
         </div>
         <UserInfo {...this.props} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
