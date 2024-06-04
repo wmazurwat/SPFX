@@ -11,13 +11,16 @@ import {
   TextField,
   // FormLabel,
 } from "@mui/material";
+import { SectionAnswers } from "./Ankieta";
+
 type DynamicSectionProps = {
   sectionName: string;
+  saveAnswers: (answers: SectionAnswers) => void;
   questions: Array<{ Pytanie: string; Podpowiedź: string; id: string }>;
+  answers: { [key: string]: string };
 } & ISpfxProps;
 
 type DynamicSectionState = {
-  answers: { [key: string]: string };
   hasErrors: boolean;
 };
 
@@ -28,18 +31,25 @@ export default class DynamicSection extends React.Component<
   constructor(props: DynamicSectionProps) {
     super(props);
     this.state = {
-      answers: {},
       hasErrors: false,
     };
   }
 
+  static defaultProps = {
+    answers: {},
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    const hasErrors = Object.values(this.props.answers).some(
+      (answer: string) => !answer
+    );
     this.setState({
-      hasErrors: Object.values(this.state.answers).some(
-        (answer: string) => !answer
-      ),
+      hasErrors,
     });
+    if (!hasErrors) {
+      this.props.saveAnswers(this.props.answers);
+    }
   };
 
   renderQuestion = () => {
@@ -57,15 +67,14 @@ export default class DynamicSection extends React.Component<
           <RadioGroup
             aria-labelledby="demo-error-radios"
             name="quiz"
-            value={this.state.answers[q.id]}
-            onChange={(e) =>
-              this.setState((state) => ({
-                answers: {
-                  ...state.answers,
-                  [q.id]: e.target.value,
-                },
-              }))
-            }
+            value={this.props.answers[q.id]}
+            onChange={(e) => {
+              const newAnswers = {
+                ...this.props.answers,
+                [q.id]: e.target.value,
+              };
+              this.props.saveAnswers(newAnswers);
+            }}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="No" control={<Radio />} label="No" />
@@ -92,7 +101,6 @@ export default class DynamicSection extends React.Component<
   public render(): React.ReactElement<DynamicSectionProps> {
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2>{this.props.sectionName}</h2>
         {this.renderQuestion()}
         <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
           Check Answer

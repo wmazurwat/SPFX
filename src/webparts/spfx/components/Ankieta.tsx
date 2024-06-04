@@ -20,12 +20,17 @@ import DynamicSection from "./DynamicSection";
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
 }
+
+export interface SectionAnswers {
+  [key: string]: string;
+}
 export default class Ankieta extends React.Component<
   AnkietaProps,
   {
     tabIndex: number;
     existingColumns: string[];
     sections: any;
+    savedAnswers: { [x: number]: SectionAnswers };
   }
 > {
   private spWeb;
@@ -33,6 +38,7 @@ export default class Ankieta extends React.Component<
   constructor(props: AnkietaProps) {
     super(props);
     this.state = {
+      savedAnswers: [],
       tabIndex: 0,
       existingColumns: [],
       sections: {},
@@ -93,6 +99,12 @@ export default class Ankieta extends React.Component<
     );
   };
 
+  saveAnswers = (index: number, answers: SectionAnswers) => {
+    this.setState({
+      savedAnswers: { ...this.state.savedAnswers, [index]: answers },
+    });
+  };
+
   renderSection = () => {
     const { sections, tabIndex } = this.state;
     const {
@@ -105,6 +117,7 @@ export default class Ankieta extends React.Component<
       context,
     } = this.props;
     console.log("Rendering sections with data:", sections); // Dodaj ten wiersz
+    console.log("savedAnswers:", this.state.savedAnswers); // Dodaj ten wiersz
     const sectionName = Object.keys(sections)[tabIndex];
     console.log(
       "sectionName",
@@ -115,6 +128,10 @@ export default class Ankieta extends React.Component<
     );
     return (
       <DynamicSection
+        saveAnswers={(answers: SectionAnswers) =>
+          this.saveAnswers(tabIndex, answers)
+        }
+        answers={this.state.savedAnswers[tabIndex]}
         key={tabIndex}
         sectionName={sectionName}
         questions={sections[sectionName] || []}
@@ -173,8 +190,9 @@ export default class Ankieta extends React.Component<
             <div className={"p-2 m-2"}>
               <TextField
                 fullWidth
-                // id={section}
-                label="Komentarz sekcji"
+                id={Object.keys(this.state.sections)[this.state.tabIndex]}
+                // label="Komentarz sekcji"
+                label={Object.keys(this.state.sections)[this.state.tabIndex]}
                 multiline
                 maxRows={4}
               />
