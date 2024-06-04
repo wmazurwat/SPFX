@@ -17,13 +17,20 @@ import {
 } from "./ColumnUtils";
 import DynamicSection from "./DynamicSection";
 
+interface AnkietaProps extends ISpfxProps {
+  customerName: string;
+}
 export default class Ankieta extends React.Component<
-  ISpfxProps,
-  { tabIndex: number; existingColumns: string[]; sections: any }
+  AnkietaProps,
+  {
+    tabIndex: number;
+    existingColumns: string[];
+    sections: any;
+  }
 > {
   private spWeb;
 
-  constructor(props: ISpfxProps) {
+  constructor(props: AnkietaProps) {
     super(props);
     this.state = {
       tabIndex: 0,

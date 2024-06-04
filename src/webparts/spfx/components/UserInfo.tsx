@@ -2,40 +2,35 @@ import * as React from "react";
 import type { ISpfxProps } from "./ISpfxProps";
 import { Divider, List, ListItem, ListItemText } from "@mui/material";
 
-export default class UserInfo extends React.Component<ISpfxProps, {}> {
-  public render(): React.ReactElement<ISpfxProps> {
+type UserInfoProps = {
+  customerName: string;
+};
+
+export default class UserInfo extends React.Component<
+  UserInfoProps & ISpfxProps,
+  {}
+> {
+  public render(): React.ReactElement<UserInfoProps & ISpfxProps> {
     return (
       <div className={"p-5 m-2 justify-center "}>
         <List>
           <ListItem>
-            <ListItemText primary="Marcin Lesiak" />
+            <ListItemText primary={this.props.customerName} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
             Customer Name
           </Divider>
           <ListItem>
-            <ListItemText primary="AD2137" />
+            <ListItemText primary={this.props.customerName} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
-            Current DD Level
+            Quality
           </Divider>
           <ListItem>
-            <ListItemText primary="Programmer" />
+            <ListItemText primary={this.props.customerName} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
-            Review type
-          </Divider>
-          <ListItem>
-            <ListItemText primary="20.03.2024" />
-          </ListItem>
-          <Divider variant="middle" component="li" textAlign="left">
-            QA review started
-          </Divider>
-          <ListItem>
-            <ListItemText primary="19.04.2024" />
-          </ListItem>
-          <Divider variant="middle" component="li" textAlign="left">
-            QA review closed
+            Process Deficiency
           </Divider>
         </List>
       </div>
