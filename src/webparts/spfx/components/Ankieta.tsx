@@ -8,7 +8,7 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box, TextField } from "@mui/material";
 import {
   getColumnList,
   addMultiLineTextColumnToSharePoint,
@@ -169,7 +169,18 @@ export default class Ankieta extends React.Component<
               <Tab key={index} label={section} />
             ))}
           </Tabs>
-          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSection()}</Box>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <div className={"p-2 m-2"}>
+              <TextField
+                fullWidth
+                // id={section}
+                label="Komentarz sekcji"
+                multiline
+                maxRows={4}
+              />
+            </div>
+            {this.renderSection()}
+          </Box>
         </Box>
       </section>
     );

@@ -21,16 +21,16 @@ export default class UserInfo extends React.Component<
             Customer Name
           </Divider>
           <ListItem>
-            <ListItemText primary={this.props.customerName} />
+            <ListItemText primary="100" />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
             Quality
           </Divider>
           <ListItem>
-            <ListItemText primary={this.props.customerName} />
+            <ListItemText primary="Full" />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
-            Process Deficiency
+            Process Efficiency
           </Divider>
         </List>
       </div>
