@@ -8,29 +8,67 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
+interface FeedbackFormProps extends ISpfxProps {
+  customerName: string;
+  setCustomerName: (name: string) => void;
+}
 
 type State = {
   qaReviewStarted: any;
+  gcn: string;
+  currentDdLevel: string;
+  qaReviewClosed: string;
+  reviewType: string;
+  responsibleTeam: string;
+  qualityChecker: string;
+  regulatoryAnalyst: string;
+  amountOfFeedbacks: string;
+  adjustmentsRequired: string;
+  challengeProcess: string;
 };
 
-export default class FeedbackForm extends React.Component<ISpfxProps, State> {
-  constructor(props: ISpfxProps) {
+export default class FeedbackForm extends React.Component<
+  FeedbackFormProps,
+  State
+> {
+  constructor(props: FeedbackFormProps) {
     super(props);
     this.state = {
-      qaReviewStarted: dayjs().toDate(), // Setting default value as today's date
+      qaReviewStarted: dayjs().toDate(),
+      gcn: "",
+      currentDdLevel: "",
+      qaReviewClosed: "",
+      reviewType: "",
+      responsibleTeam: "",
+      qualityChecker: "",
+      regulatoryAnalyst: "",
+      amountOfFeedbacks: "",
+      adjustmentsRequired: "",
+      challengeProcess: "",
     };
   }
 
-  // handleDateChange = (newValue: Date | null) => {
-  //   this.setState({ qaReviewStarted: newValue });
-  // };
+  handleInputChange =
+    (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      this.setState({ [field]: event.target.value } as unknown as Pick<
+        State,
+        keyof State
+      >);
+      if (field === "customerName") {
+        this.props.setCustomerName(event.target.value);
+      }
+    };
 
-  public render(): React.ReactElement<ISpfxProps> {
+  handleDateChange = (newValue: Date | null) => {
+    this.setState({ qaReviewStarted: newValue });
+  };
+
+  public render(): React.ReactElement<FeedbackFormProps> {
     const { hasTeamsContext } = this.props;
     // const { qaReviewStarted } = this.state;
-
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
         <div className={"p-5 m-2 text-4xl flex justify-center"}>
@@ -45,10 +83,20 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="customer-name"
               label="Customer Name"
+              value={this.props.customerName}
+              onChange={this.handleInputChange("customerName")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
-            <TextField multiline maxRows={1} fullWidth id="gcn" label="GCN" />
+            <TextField
+              multiline
+              maxRows={1}
+              fullWidth
+              id="gcn"
+              label="GCN"
+              value={this.state.gcn}
+              onChange={this.handleInputChange("gcn")}
+            />
           </div>
           <div className={"p-2 m-2 justify-center"}>
             <FormControl fullWidth>
@@ -59,6 +107,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
                 labelId="current-dd-level-label"
                 id="current-dd-level"
                 label="Current DD Level"
+                value={this.state.currentDdLevel}
+                onChange={this.handleInputChange("currentDdLevel")}
               >
                 <MenuItem value="SDD">SDD</MenuItem>
                 <MenuItem value="CDD">CDD</MenuItem>
@@ -66,14 +116,13 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               </Select>
             </FormControl>
           </div>
-          {/* <div className={"p-2 m-2 justify-center"}>
-            <DatePicker
+          <div className={"p-2 m-2 justify-center"}>
+            {/* <DatePicker
               label="QA review started"
               value={qaReviewStarted}
               onChange={(newValue) => this.handleDateChange(newValue)}
-              renderInput={(params: any) => <TextField fullWidth {...params} />}
-            />
-          </div> */}
+            /> */}
+          </div>
           <div className={"p-2 m-2 justify-center"}>
             <TextField
               multiline
@@ -81,6 +130,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="qa-review-closed"
               label="QA review closed"
+              value={this.state.qaReviewClosed}
+              onChange={this.handleInputChange("qaReviewClosed")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
@@ -90,9 +141,11 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
                 labelId="Review Type"
                 id="Review Type"
                 label="Review Type"
+                value={this.state.reviewType}
+                onChange={this.handleInputChange("reviewType")}
               >
-                <MenuItem value="SDD">Review</MenuItem>
-                {/* <MenuItem value="CDD">Onboarding</MenuItem> */}
+                <MenuItem value="Review">Review</MenuItem>
+                {/* <MenuItem value="Onboarding">Onboarding</MenuItem> */}
               </Select>
             </FormControl>
           </div>
@@ -103,15 +156,17 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
                 labelId="Responsible Team"
                 id="Responsible Team"
                 label="Responsible Team"
+                value={this.state.responsibleTeam}
+                onChange={this.handleInputChange("responsibleTeam")}
               >
-                <MenuItem value="SDD">Remediation</MenuItem>
-                <MenuItem value="CDD">CB 1 Reviews</MenuItem>
-                <MenuItem value="CDD">CB 2 Reviews</MenuItem>
-                <MenuItem value="CDD">CB 3 Reviews</MenuItem>
-                <MenuItem value="CDD">SF Reviews</MenuItem>
-                <MenuItem value="CDD">IB Reviews</MenuItem>
-                <MenuItem value="CDD">MidCorp Reviews</MenuItem>
-                <MenuItem value="CDD">C&PC</MenuItem>
+                <MenuItem value="Remediation">Remediation</MenuItem>
+                <MenuItem value="CB 1 Reviews">CB 1 Reviews</MenuItem>
+                <MenuItem value="CB 2 Reviews">CB 2 Reviews</MenuItem>
+                <MenuItem value="CB 3 Reviews">CB 3 Reviews</MenuItem>
+                <MenuItem value="SF Reviews">SF Reviews</MenuItem>
+                <MenuItem value="IB Reviews">IB Reviews</MenuItem>
+                <MenuItem value="MidCorp Reviews">MidCorp Reviews</MenuItem>
+                <MenuItem value="C&PC">C&PC</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -122,6 +177,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="quality-checker"
               label="Quality Checker"
+              value={this.state.qualityChecker}
+              onChange={this.handleInputChange("qualityChecker")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
@@ -131,6 +188,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="regulatory-analyst"
               label="Regulatory Analyst"
+              value={this.state.regulatoryAnalyst}
+              onChange={this.handleInputChange("regulatoryAnalyst")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
@@ -140,6 +199,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="amount-of-feedbacks"
               label="Amount of feedbacks"
+              value={this.state.amountOfFeedbacks}
+              onChange={this.handleInputChange("amountOfFeedbacks")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
@@ -149,15 +210,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="adjustments-required"
               label="Adjustments required?"
-            />
-          </div>
-          <div className={"p-2 m-2 justify-center"}>
-            <TextField
-              multiline
-              maxRows={1}
-              fullWidth
-              id="quality"
-              label="Quality"
+              value={this.state.adjustmentsRequired}
+              onChange={this.handleInputChange("adjustmentsRequired")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>
@@ -167,6 +221,8 @@ export default class FeedbackForm extends React.Component<ISpfxProps, State> {
               fullWidth
               id="challenge-process"
               label="Challenge process?"
+              value={this.state.challengeProcess}
+              onChange={this.handleInputChange("challengeProcess")}
             />
           </div>
         </div>
