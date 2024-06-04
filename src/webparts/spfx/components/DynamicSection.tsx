@@ -8,6 +8,7 @@ import {
   // FormHelperText,
   Radio,
   Button,
+  TextField,
   // FormLabel,
 } from "@mui/material";
 type DynamicSectionProps = {
@@ -70,6 +71,15 @@ export default class DynamicSection extends React.Component<
             <FormControlLabel value="No" control={<Radio />} label="No" />
             <FormControlLabel value="N/a" control={<Radio />} label="N/a" />
           </RadioGroup>
+          <div className={"p-2 m-2"}>
+            <TextField
+              fullWidth
+              id="outlined-multiline-flexible"
+              label="Komentarz"
+              multiline
+              maxRows={4}
+            />
+          </div>
           {/* {this.props.error && (
             <FormHelperText>Odpowiedz na pytanie</FormHelperText>
           )} */}
