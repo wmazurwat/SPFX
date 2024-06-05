@@ -132,14 +132,14 @@ export default class FeedbackForm extends React.Component<
               </Select>
             </FormControl>
           </div>
-          <div className={"p-2 m-2 justify-center"}>
-            {/* <DatePicker
+          {/* <div className={"p-2 m-2 justify-center"}> */}
+          {/* <DatePicker
               label="QA review started"
               value={qaReviewStarted}
               onChange={(newValue) => this.handleDateChange(newValue)}
             /> */}
-          </div>
-          <div className={"p-2 m-2 justify-center"}>
+          {/* </div> */}
+          {/* <div className={"p-2 m-2 justify-center"}>
             <TextField
               multiline
               maxRows={1}
@@ -149,7 +149,7 @@ export default class FeedbackForm extends React.Component<
               value={this.state.qaReviewClosed}
               onChange={this.handleInputChange("qaReviewClosed")}
             />
-          </div>
+          </div> */}
           <div className={"p-2 m-2 justify-center"}>
             <FormControl fullWidth>
               <InputLabel id="Review Type">Review Type</InputLabel>

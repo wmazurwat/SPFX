@@ -222,7 +222,8 @@ export default class Ankieta extends React.Component<
               <TextField
                 fullWidth
                 id={Object.keys(this.state.sections)[this.state.tabIndex]}
-                label={Object.keys(this.state.sections)[this.state.tabIndex]}
+                label="Komendarz zbiorczy"
+                // label={Object.keys(this.state.sections)[this.state.tabIndex]}
                 multiline
                 maxRows={4}
               />
