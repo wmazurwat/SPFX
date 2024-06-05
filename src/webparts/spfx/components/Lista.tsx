@@ -80,11 +80,10 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     // Tu możesz dodać nawigację do strony edycji
   };
 
-  // private formatDate(dateString: string): string {
-  //   if (!dateString) return "";
-  //   const date = new Date(dateString);
-  //   return `${date.toLocaleDateString()}`;
-  // }
+  private handleNew = () => {
+    // Navigate to FeedbackForm
+    (this.props as any).setActivePage(1);
+  };
 
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext, userDisplayName } = this.props;
@@ -97,13 +96,23 @@ export default class Lista extends React.Component<ISpfxProps, State> {
         <div className="p-5">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-2xl">Items from SharePoint list:</h3>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleRefresh}
-            >
-              Refresh
-            </Button>
+            <div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleRefresh}
+              >
+                Refresh
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={this.handleNew}
+                style={{ marginLeft: "10px" }}
+              >
+                New
+              </Button>
+            </div>
           </div>
           <TableContainer component={Paper}>
             <Table>
@@ -114,7 +123,6 @@ export default class Lista extends React.Component<ISpfxProps, State> {
                   <TableCell>Current DD Level</TableCell>
                   <TableCell>Review Type</TableCell>
                   <TableCell>Responsible Team</TableCell>
-                  {/* <TableCell>Quality</TableCell> */}
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -126,13 +134,6 @@ export default class Lista extends React.Component<ISpfxProps, State> {
                     <TableCell>{item.CurrentDDLevel}</TableCell>
                     <TableCell>{item.Reviewtype}</TableCell>
                     <TableCell>{item.ResponsibleTeam}</TableCell>
-                    {/* <TableCell>
-                      {this.formatDate(item.QAreviewstarted)}
-                    </TableCell> */}
-                    {/* <TableCell>
-                      {this.formatDate(item.QAreviewclosed)}
-                    </TableCell> */}
-                    {/* <TableCell>{item.Quality}%</TableCell> */}
                     <TableCell align="right">
                       <Button
                         variant="contained"

@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
-import List from "./Lista";
+import Lista from "./Lista";
 
 type State = {
   activePage: number;
@@ -39,10 +39,14 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     this.setState({ feedbackFormState: state });
   };
 
+  setActivePage = (page: number) => {
+    this.setState({ activePage: page });
+  };
+
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <List {...this.props} />;
+        return <Lista {...this.props} setActivePage={this.setActivePage} />;
       case 1:
         return (
           <FeedbackForm
