@@ -2,7 +2,7 @@ import * as React from "react";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import { Button } from "@mui/material";
-import Ankieta from "./Ankieta";
+import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
 import List from "./Lista";
@@ -10,6 +10,7 @@ import List from "./Lista";
 type State = {
   activePage: number;
   customerName: string;
+  savedAnswers: { [x: number]: SectionAnswers };
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -18,11 +19,18 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     this.state = {
       activePage: 0,
       customerName: "",
+      savedAnswers: {},
     };
   }
 
   setCustomerName = (name: string) => {
     this.setState({ customerName: name });
+  };
+
+  saveAnswers = (index: number, answers: SectionAnswers) => {
+    this.setState({
+      savedAnswers: { ...this.state.savedAnswers, [index]: answers },
+    });
   };
 
   renderPage = () => {
@@ -39,7 +47,12 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         );
       case 2:
         return (
-          <Ankieta customerName={this.state.customerName} {...this.props} />
+          <Ankieta
+            customerName={this.state.customerName}
+            {...this.props}
+            savedAnswers={this.state.savedAnswers}
+            saveAnswers={this.saveAnswers}
+          />
         );
       default:
         return <Review {...this.props} />;

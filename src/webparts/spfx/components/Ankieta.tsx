@@ -8,10 +8,9 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
-import { Tabs, Tab, Box, TextField } from "@mui/material";
+import { Tabs, Tab, Box, TextField, Button } from "@mui/material";
 import {
   getColumnList,
-  addMultiLineTextColumnToSharePoint,
   addSingleLineTextColumnToSharePoint,
   getQAData,
 } from "./ColumnUtils";
@@ -19,18 +18,20 @@ import DynamicSection from "./DynamicSection";
 
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
+  savedAnswers: { [x: number]: SectionAnswers };
+  saveAnswers: (index: number, answers: SectionAnswers) => void;
 }
 
 export interface SectionAnswers {
   [key: string]: string;
 }
+
 export default class Ankieta extends React.Component<
   AnkietaProps,
   {
     tabIndex: number;
     existingColumns: string[];
     sections: any;
-    savedAnswers: { [x: number]: SectionAnswers };
   }
 > {
   private spWeb;
@@ -38,7 +39,6 @@ export default class Ankieta extends React.Component<
   constructor(props: AnkietaProps) {
     super(props);
     this.state = {
-      savedAnswers: [],
       tabIndex: 0,
       existingColumns: [],
       sections: {},
@@ -69,26 +69,43 @@ export default class Ankieta extends React.Component<
     this.setState({ tabIndex: newValue });
   };
 
-  saveDataToSharePoint = async (title: string, lastName: string) => {
+  saveAnswersToSharePoint = async () => {
     try {
-      const result = await this.spWeb.lists.getByTitle("Dane").items.add({
-        Title: title,
-        LastName: lastName,
-      });
-      console.log("Item created:", result);
+      const { savedAnswers } = this.props;
+      let { existingColumns } = this.state;
+
+      // Fetch the latest column list to avoid duplicates
+      existingColumns = await getColumnList(this.spWeb);
+
+      // Check and add columns if they do not exist
+      for (const answers of Object.values(savedAnswers)) {
+        for (const questionId of Object.keys(answers)) {
+          const columnName = `Answer${questionId}`;
+          if (!existingColumns.includes(columnName)) {
+            await this.handleAddSingleLineColumn(columnName);
+            existingColumns.push(columnName); // Update the local list of existing columns
+          }
+        }
+      }
+
+      // Save answers to the SharePoint list
+      for (const [sectionIndex, answers] of Object.entries(savedAnswers)) {
+        const item: { [key: string]: string } = {
+          Title: `Section ${sectionIndex}`,
+        };
+
+        for (const [questionId, answer] of Object.entries(answers)) {
+          item[`Answer${questionId}`] = answer;
+        }
+
+        await this.spWeb.lists.getByTitle("Dane").items.add(item);
+      }
+
       alert("Data saved successfully!");
     } catch (error) {
       console.error("Error adding item to SharePoint list", error);
       alert("Failed to save data!");
     }
-  };
-
-  handleAddMultiLineColumn = async (columnName: string) => {
-    await addMultiLineTextColumnToSharePoint(
-      this.spWeb,
-      columnName,
-      this.state.existingColumns
-    );
   };
 
   handleAddSingleLineColumn = async (columnName: string) => {
@@ -97,12 +114,6 @@ export default class Ankieta extends React.Component<
       columnName,
       this.state.existingColumns
     );
-  };
-
-  saveAnswers = (index: number, answers: SectionAnswers) => {
-    this.setState({
-      savedAnswers: { ...this.state.savedAnswers, [index]: answers },
-    });
   };
 
   renderSection = () => {
@@ -116,8 +127,8 @@ export default class Ankieta extends React.Component<
       userEmail,
       context,
     } = this.props;
-    console.log("Rendering sections with data:", sections); // Dodaj ten wiersz
-    console.log("savedAnswers:", this.state.savedAnswers); // Dodaj ten wiersz
+    console.log("Rendering sections with data:", sections);
+    console.log("savedAnswers:", this.props.savedAnswers);
     const sectionName = Object.keys(sections)[tabIndex];
     console.log(
       "sectionName",
@@ -129,9 +140,9 @@ export default class Ankieta extends React.Component<
     return (
       <DynamicSection
         saveAnswers={(answers: SectionAnswers) =>
-          this.saveAnswers(tabIndex, answers)
+          this.props.saveAnswers(tabIndex, answers)
         }
-        answers={this.state.savedAnswers[tabIndex]}
+        answers={this.props.savedAnswers[tabIndex]}
         key={tabIndex}
         sectionName={sectionName}
         questions={sections[sectionName] || []}
@@ -158,19 +169,6 @@ export default class Ankieta extends React.Component<
       >
         <div className={"p-5 m-2 text-4xl flex justify-center "}>
           <div>Customer risk analysis - Questionnaire</div>
-          {/* <Button
-            onClick={() =>
-              this.saveDataToSharePoint("Sample Title", "Sample LastName")
-            }
-          >
-            Save Data
-          </Button>
-          <Button onClick={() => this.handleAddMultiLineColumn("Wiele")}>
-            Dodaj kolumnę z wieloma wierszami tekstu
-          </Button>
-          <Button onClick={() => this.handleAddSingleLineColumn("Jedna")}>
-            Dodaj jedną kolumnę tekstową
-          </Button> */}
         </div>
         <UserInfo {...this.props} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
@@ -191,7 +189,6 @@ export default class Ankieta extends React.Component<
               <TextField
                 fullWidth
                 id={Object.keys(this.state.sections)[this.state.tabIndex]}
-                // label="Komentarz sekcji"
                 label={Object.keys(this.state.sections)[this.state.tabIndex]}
                 multiline
                 maxRows={4}
@@ -200,6 +197,9 @@ export default class Ankieta extends React.Component<
             {this.renderSection()}
           </Box>
         </Box>
+        <Button className={"p-10 m-2"} onClick={this.saveAnswersToSharePoint}>
+          Save Answers
+        </Button>
       </section>
     );
   }

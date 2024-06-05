@@ -1,5 +1,5 @@
 import { IWeb } from "@pnp/sp/webs";
-import { IFieldAddResult, IFieldInfo } from "@pnp/sp/fields";
+import { IFieldAddResult } from "@pnp/sp/fields";
 // import { IQAItem } from "./types"; // Importuj typ IQAItem
 
 export async function getQAData(spWeb: IWeb): Promise<any> {
@@ -37,7 +37,7 @@ export async function getQAData(spWeb: IWeb): Promise<any> {
 
 export async function getColumnList(spWeb: IWeb): Promise<string[]> {
   try {
-    const fields: IFieldInfo[] = await spWeb.lists.getByTitle("Dane").fields();
+    const fields = await spWeb.lists.getByTitle("Dane").fields();
     return fields.map((field) => field.InternalName);
   } catch (error) {
     console.error("Error fetching column list:", error);
