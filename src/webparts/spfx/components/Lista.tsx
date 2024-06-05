@@ -20,8 +20,8 @@ type State = {
     Id: number;
     CustomerName: string;
     CurrentDDLevel: string;
-    QAreviewstarted: string;
-    QAreviewclosed: string;
+    Reviewtype: string;
+    ResponsibleTeam: string;
     Quality: string;
   }[];
 };
@@ -54,8 +54,8 @@ export default class Lista extends React.Component<ISpfxProps, State> {
           "Id",
           "CustomerName",
           "CurrentDDLevel",
-          "QAreviewstarted",
-          "QAreviewclosed",
+          "Reviewtype",
+          "ResponsibleTeam",
           "Quality"
         )
         .top(100)(); // Pobierz do 100 elementów
@@ -80,11 +80,11 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     // Tu możesz dodać nawigację do strony edycji
   };
 
-  private formatDate(dateString: string): string {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()}`;
-  }
+  // private formatDate(dateString: string): string {
+  //   if (!dateString) return "";
+  //   const date = new Date(dateString);
+  //   return `${date.toLocaleDateString()}`;
+  // }
 
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext, userDisplayName } = this.props;
@@ -112,9 +112,9 @@ export default class Lista extends React.Component<ISpfxProps, State> {
                   <TableCell>ID</TableCell>
                   <TableCell>Customer Name</TableCell>
                   <TableCell>Current DD Level</TableCell>
-                  <TableCell>QA review started</TableCell>
-                  <TableCell>QA review closed</TableCell>
-                  <TableCell>Quality</TableCell>
+                  <TableCell>Review Type</TableCell>
+                  <TableCell>Responsible Team</TableCell>
+                  {/* <TableCell>Quality</TableCell> */}
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -124,20 +124,22 @@ export default class Lista extends React.Component<ISpfxProps, State> {
                     <TableCell>{item.Id}</TableCell>
                     <TableCell>{item.CustomerName}</TableCell>
                     <TableCell>{item.CurrentDDLevel}</TableCell>
-                    <TableCell>
+                    <TableCell>{item.Reviewtype}</TableCell>
+                    <TableCell>{item.ResponsibleTeam}</TableCell>
+                    {/* <TableCell>
                       {this.formatDate(item.QAreviewstarted)}
-                    </TableCell>
-                    <TableCell>
+                    </TableCell> */}
+                    {/* <TableCell>
                       {this.formatDate(item.QAreviewclosed)}
-                    </TableCell>
-                    <TableCell>{item.Quality}%</TableCell>
+                    </TableCell> */}
+                    {/* <TableCell>{item.Quality}%</TableCell> */}
                     <TableCell align="right">
                       <Button
                         variant="contained"
                         color="primary"
                         onClick={() => this.handleEdit(item.Id)}
                       >
-                        Edit
+                        Review
                       </Button>
                     </TableCell>
                   </TableRow>
