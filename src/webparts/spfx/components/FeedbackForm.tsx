@@ -7,16 +7,16 @@ import {
   TextField,
   InputLabel,
   FormControl,
+  Button,
 } from "@mui/material";
 import dayjs from "dayjs";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 interface FeedbackFormProps extends ISpfxProps {
   customerName: string;
   setCustomerName: (name: string) => void;
   savedAnswers: { [x: number]: any };
   saveAnswers: (index: number, answers: any) => void;
-  setFeedbackFormState: (state: any) => void; // Dodane
+  setFeedbackFormState: (state: any) => void;
 }
 
 type State = {
@@ -75,9 +75,16 @@ export default class FeedbackForm extends React.Component<
     this.setState({ qaReviewStarted: newValue });
   };
 
+  handleNext = () => {
+    this.props.setActivePage!(2);
+  };
+
+  handleBack = () => {
+    this.props.setActivePage!(0);
+  };
+
   public render(): React.ReactElement<FeedbackFormProps> {
     const { hasTeamsContext } = this.props;
-    // const { qaReviewStarted } = this.state;
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
         <div className={"p-5 m-2 text-4xl flex justify-center"}>
@@ -154,7 +161,6 @@ export default class FeedbackForm extends React.Component<
                 onChange={this.handleInputChange("reviewType")}
               >
                 <MenuItem value="Review">Review</MenuItem>
-                {/* <MenuItem value="Onboarding">Onboarding</MenuItem> */}
               </Select>
             </FormControl>
           </div>
@@ -234,6 +240,14 @@ export default class FeedbackForm extends React.Component<
               onChange={this.handleInputChange("challengeProcess")}
             />
           </div>
+        </div>
+        <div className="flex justify-between">
+          <Button variant="contained" onClick={this.handleBack}>
+            Back
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleNext}>
+            Next
+          </Button>
         </div>
       </section>
     );

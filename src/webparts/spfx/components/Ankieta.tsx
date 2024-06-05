@@ -21,6 +21,7 @@ interface AnkietaProps extends ISpfxProps {
   savedAnswers: { [x: number]: SectionAnswers };
   saveAnswers: (index: number, answers: SectionAnswers) => void;
   feedbackFormState: any; // New prop
+  setActivePage: (page: number) => void; // Added this prop
 }
 
 export interface SectionAnswers {
@@ -134,6 +135,20 @@ export default class Ankieta extends React.Component<
     );
   };
 
+  handleNext = () => {
+    const { tabIndex, sections } = this.state;
+    if (tabIndex < Object.keys(sections).length - 1) {
+      this.setState({ tabIndex: tabIndex + 1 });
+    }
+  };
+
+  handleBack = () => {
+    const { tabIndex } = this.state;
+    if (tabIndex > 0) {
+      this.setState({ tabIndex: tabIndex - 1 });
+    }
+  };
+
   renderSection = () => {
     const { sections, tabIndex } = this.state;
     const {
@@ -215,6 +230,22 @@ export default class Ankieta extends React.Component<
             {this.renderSection()}
           </Box>
         </Box>
+        <div className="flex justify-between p-10">
+          <Button
+            variant="contained"
+            onClick={this.handleBack}
+            disabled={tabIndex === 0}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            onClick={this.handleNext}
+            disabled={tabIndex === Object.keys(this.state.sections).length - 1}
+          >
+            Next
+          </Button>
+        </div>
         <Button className={"p-10 m-2"} onClick={this.saveAnswersToSharePoint}>
           Save Answers
         </Button>
