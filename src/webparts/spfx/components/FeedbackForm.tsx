@@ -14,6 +14,9 @@ import dayjs from "dayjs";
 interface FeedbackFormProps extends ISpfxProps {
   customerName: string;
   setCustomerName: (name: string) => void;
+  savedAnswers: { [x: number]: any };
+  saveAnswers: (index: number, answers: any) => void;
+  setFeedbackFormState: (state: any) => void; // Dodane
 }
 
 type State = {
@@ -49,6 +52,12 @@ export default class FeedbackForm extends React.Component<
       adjustmentsRequired: "",
       challengeProcess: "",
     };
+  }
+
+  componentDidUpdate(prevProps: FeedbackFormProps, prevState: State) {
+    if (prevState !== this.state) {
+      this.props.setFeedbackFormState(this.state);
+    }
   }
 
   handleInputChange =

@@ -20,6 +20,7 @@ interface AnkietaProps extends ISpfxProps {
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
   saveAnswers: (index: number, answers: SectionAnswers) => void;
+  feedbackFormState: any; // New prop
 }
 
 export interface SectionAnswers {
@@ -71,7 +72,7 @@ export default class Ankieta extends React.Component<
 
   saveAnswersToSharePoint = async () => {
     try {
-      const { savedAnswers } = this.props;
+      const { savedAnswers, feedbackFormState, customerName } = this.props;
       let { existingColumns } = this.state;
 
       // Fetch the latest column list to avoid duplicates
@@ -88,10 +89,27 @@ export default class Ankieta extends React.Component<
         }
       }
 
+      // Prepare feedbackFormState to be saved in SharePoint
+      const feedbackFormColumns = {
+        // qaReviewStarted: feedbackFormState.qaReviewStarted,
+        GCN: feedbackFormState.gcn,
+        CurrentDDLevel: feedbackFormState.currentDdLevel,
+        // qaReviewClosed: feedbackFormState.qaReviewClosed,
+        Reviewtype: feedbackFormState.reviewType,
+        ResponsibleTeam: feedbackFormState.responsibleTeam,
+        QualityChecker: feedbackFormState.qualityChecker,
+        RegulatoryAnalyst: feedbackFormState.regulatoryAnalyst,
+        Amountoffeedbacks: feedbackFormState.amountOfFeedbacks,
+        Adjustmentsrequired: feedbackFormState.adjustmentsRequired,
+        // challengeProcess: feedbackFormState.challengeProcess,
+        CustomerName: customerName,
+      };
+
       // Save answers to the SharePoint list
       for (const [sectionIndex, answers] of Object.entries(savedAnswers)) {
         const item: { [key: string]: string } = {
-          Title: `Section ${sectionIndex}`,
+          Title: `Section ${sectionIndex}`, //nazwa Title Tytuł
+          ...feedbackFormColumns, // Add feedback form state to the item
         };
 
         for (const [questionId, answer] of Object.entries(answers)) {

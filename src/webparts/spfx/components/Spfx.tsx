@@ -11,6 +11,7 @@ type State = {
   activePage: number;
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
+  feedbackFormState: any; // Dodane
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -20,6 +21,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       activePage: 0,
       customerName: "",
       savedAnswers: {},
+      feedbackFormState: {}, // Dodane
     };
   }
 
@@ -33,6 +35,10 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     });
   };
 
+  setFeedbackFormState = (state: any) => {
+    this.setState({ feedbackFormState: state });
+  };
+
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
@@ -43,6 +49,9 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             setCustomerName={this.setCustomerName}
+            savedAnswers={this.state.savedAnswers} // Dodane
+            saveAnswers={this.saveAnswers} // Dodane
+            setFeedbackFormState={this.setFeedbackFormState} // Dodane
           />
         );
       case 2:
@@ -52,6 +61,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             savedAnswers={this.state.savedAnswers}
             saveAnswers={this.saveAnswers}
+            feedbackFormState={this.state.feedbackFormState} // Dodane
           />
         );
       default:
