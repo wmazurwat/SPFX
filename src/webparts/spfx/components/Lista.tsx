@@ -134,7 +134,7 @@ export default class Lista extends React.Component<
                   <TableCell>Current DD Level</TableCell>
                   <TableCell>Review Type</TableCell>
                   <TableCell>Responsible Team</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell align="right"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
