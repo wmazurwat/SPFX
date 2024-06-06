@@ -30,6 +30,7 @@ export default class Lista extends React.Component<
   ISpfxProps & {
     setActivePage: (page: number) => void;
     setCustomerName: (name: string) => void;
+    setQuality: (name: string) => void;
   },
   State
 > {
@@ -39,6 +40,7 @@ export default class Lista extends React.Component<
     props: ISpfxProps & {
       setActivePage: (page: number) => void;
       setCustomerName: (name: string) => void;
+      setQuality: (name: string) => void;
     }
   ) {
     super(props);
@@ -85,10 +87,11 @@ export default class Lista extends React.Component<
     }
   };
 
-  private handleEdit = (id: number, customerName: string) => {
+  private handleEdit = (id: number, customerName: string, quality: string) => {
     // Przejdź do komponentu Review
     this.props.setCustomerName(customerName);
-    this.props.setActivePage(3); // Zakładam, że Review ma index 0
+    this.props.setQuality(quality);
+    this.props.setActivePage(3);
   };
 
   private handleNew = () => {
@@ -152,7 +155,11 @@ export default class Lista extends React.Component<
                         variant="contained"
                         color="primary"
                         onClick={() =>
-                          this.handleEdit(item.Id, item.CustomerName)
+                          this.handleEdit(
+                            item.Id,
+                            item.CustomerName,
+                            item.Quality
+                          )
                         }
                       >
                         Review

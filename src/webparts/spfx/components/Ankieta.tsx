@@ -161,6 +161,7 @@ export default class Ankieta extends React.Component<
       userDisplayName,
       userEmail,
       context,
+      quality,
     } = this.props;
     console.log("Rendering sections with data:", sections);
     console.log("savedAnswers:", this.props.savedAnswers);
@@ -188,6 +189,7 @@ export default class Ankieta extends React.Component<
         userDisplayName={userDisplayName}
         userEmail={userEmail}
         context={context}
+        quality={quality}
       />
     );
   };

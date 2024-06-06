@@ -35,7 +35,7 @@ export default class Review extends React.Component<ISpfxProps, {}> {
               Customer Name
             </Divider>
             <ListItem>
-              <ListItemText primary="100" />
+              <ListItemText primary={this.props.quality} />
             </ListItem>
             <Divider variant="middle" component="li" textAlign="left">
               Quality

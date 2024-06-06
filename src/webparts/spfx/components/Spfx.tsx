@@ -12,6 +12,7 @@ type State = {
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
   feedbackFormState: any;
+  quality: string;
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -22,11 +23,15 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       customerName: "",
       savedAnswers: {},
       feedbackFormState: {},
+      quality: "",
     };
   }
 
   setCustomerName = (name: string) => {
     this.setState({ customerName: name });
+  };
+  setQuality = (name: string) => {
+    this.setState({ quality: name });
   };
 
   saveAnswers = (index: number, answers: SectionAnswers) => {
@@ -51,6 +56,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             setActivePage={this.setActivePage}
             setCustomerName={this.setCustomerName}
+            setQuality={this.setQuality}
           />
         );
       case 1:
@@ -68,8 +74,8 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       case 2:
         return (
           <Ankieta
-            customerName={this.state.customerName}
             {...this.props}
+            customerName={this.state.customerName}
             savedAnswers={this.state.savedAnswers}
             saveAnswers={this.saveAnswers}
             feedbackFormState={this.state.feedbackFormState}
@@ -78,11 +84,19 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         );
       case 3:
         return (
-          <Review {...this.props} customerName={this.state.customerName} />
+          <Review
+            {...this.props}
+            customerName={this.state.customerName}
+            quality={this.state.quality}
+          />
         );
       default:
         return (
-          <Review {...this.props} customerName={this.state.customerName} />
+          <Review
+            {...this.props}
+            customerName={this.state.customerName}
+            quality={this.state.quality}
+          />
         );
     }
   };
