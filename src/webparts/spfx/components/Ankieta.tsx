@@ -100,6 +100,7 @@ export default class Ankieta extends React.Component<
         RegulatoryAnalyst: feedbackFormState.regulatoryAnalyst,
         Amountoffeedbacks: feedbackFormState.amountOfFeedbacks,
         Adjustmentsrequired: feedbackFormState.adjustmentsRequired,
+        Challengeprocess: feedbackFormState.challengeProcess,
         CustomerName: customerName,
       };
 
