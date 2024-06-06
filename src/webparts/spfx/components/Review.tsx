@@ -91,13 +91,13 @@ export default class Review extends React.Component<ISpfxProps, {}> {
                   <TextField
                     fullWidth
                     id="komentarz"
-                    label="Komentarz"
+                    label="Comment"
                     multiline
                     maxRows={4}
                   />
                 </div>
                 <div id="k2" className="flex items-center">
-                  Komentarz
+                  AC: Comment
                 </div>
               </div>
             </div>
@@ -124,13 +124,13 @@ export default class Review extends React.Component<ISpfxProps, {}> {
                   <TextField
                     fullWidth
                     id="komentarz"
-                    label="Komentarz"
+                    label="Comment"
                     multiline
                     maxRows={4}
                   />
                 </div>
                 <div id="k2" className="flex items-center">
-                  Komentarz
+                  AC: Comment
                 </div>
               </div>
             </div>
@@ -157,13 +157,13 @@ export default class Review extends React.Component<ISpfxProps, {}> {
                   <TextField
                     fullWidth
                     id="komentarz"
-                    label="Komentarz"
+                    label="Comment"
                     multiline
                     maxRows={4}
                   />
                 </div>
                 <div id="k2" className="flex items-center">
-                  Komentarz
+                  AC: Komentarz
                 </div>
               </div>
             </div>
