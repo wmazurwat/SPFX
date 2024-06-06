@@ -116,7 +116,7 @@ export default class Review extends React.Component<ISpfxProps, {}> {
                   </div>
                 </div>
                 <div className={"p-2 m-2"}>
-                  <Chip label="Yes" color="success" />
+                  <Chip label="No" color="error" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 p-2 m-2">
@@ -134,8 +134,39 @@ export default class Review extends React.Component<ISpfxProps, {}> {
                 </div>
               </div>
             </div>
-            {/* <Chip label="No" color="error" /> */}
-            {/* <Chip label="N/a" color="warning" /> */}
+            <div className="border-b-2 border-sky-500">
+              <div className="flex justify-between items-start p-2 m-2">
+                <div className="flex flex-col">
+                  <div className={"text-xl justify-start"} id="tekst1">
+                    {
+                      "Identification & Verification of the customer correctly performed?"
+                    }
+                  </div>
+                  <div className={"text-base justify-start"} id="tekst2">
+                    {
+                      "Any of the following missing: Full legal name, Registered Address, Correspondence address, Tax residence/TIN, Proof of listing/Proof of regulation"
+                    }
+                  </div>
+                </div>
+                <div className={"p-2 m-2"}>
+                  <Chip label="N/a" color="warning" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 p-2 m-2">
+                <div id="k1">
+                  <TextField
+                    fullWidth
+                    id="komentarz"
+                    label="Komentarz"
+                    multiline
+                    maxRows={4}
+                  />
+                </div>
+                <div id="k2" className="flex items-center">
+                  Komentarz
+                </div>
+              </div>
+            </div>
           </Box>
         </Box>
       </section>
