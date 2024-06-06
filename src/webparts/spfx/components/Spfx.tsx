@@ -46,7 +46,13 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   renderPage = () => {
     switch (this.state.activePage) {
       case 0:
-        return <Lista {...this.props} setActivePage={this.setActivePage} />;
+        return (
+          <Lista
+            {...this.props}
+            setActivePage={this.setActivePage}
+            setCustomerName={this.setCustomerName}
+          />
+        );
       case 1:
         return (
           <FeedbackForm
@@ -70,8 +76,14 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setActivePage={this.setActivePage}
           />
         );
+      case 3:
+        return (
+          <Review {...this.props} customerName={this.state.customerName} />
+        );
       default:
-        return <Review {...this.props} />;
+        return (
+          <Review {...this.props} customerName={this.state.customerName} />
+        );
     }
   };
 

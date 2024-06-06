@@ -26,10 +26,21 @@ type State = {
   }[];
 };
 
-export default class Lista extends React.Component<ISpfxProps, State> {
+export default class Lista extends React.Component<
+  ISpfxProps & {
+    setActivePage: (page: number) => void;
+    setCustomerName: (name: string) => void;
+  },
+  State
+> {
   private spWeb;
 
-  constructor(props: ISpfxProps) {
+  constructor(
+    props: ISpfxProps & {
+      setActivePage: (page: number) => void;
+      setCustomerName: (name: string) => void;
+    }
+  ) {
     super(props);
     this.state = {
       items: [],
@@ -74,15 +85,15 @@ export default class Lista extends React.Component<ISpfxProps, State> {
     }
   };
 
-  private handleEdit = (id: number) => {
-    // Implementacja funkcji edycji rekordu
-    console.log("Edit item with ID:", id);
-    // Tu możesz dodać nawigację do strony edycji
+  private handleEdit = (id: number, customerName: string) => {
+    // Przejdź do komponentu Review
+    this.props.setCustomerName(customerName);
+    this.props.setActivePage(3); // Zakładam, że Review ma index 0
   };
 
   private handleNew = () => {
     // Navigate to FeedbackForm
-    (this.props as any).setActivePage(1);
+    this.props.setActivePage(1);
   };
 
   public render(): React.ReactElement<ISpfxProps> {
@@ -138,7 +149,9 @@ export default class Lista extends React.Component<ISpfxProps, State> {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => this.handleEdit(item.Id)}
+                        onClick={() =>
+                          this.handleEdit(item.Id, item.CustomerName)
+                        }
                       >
                         Review
                       </Button>
