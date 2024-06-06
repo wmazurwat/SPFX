@@ -3,11 +3,14 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import {
+  Box,
   Chip,
   Divider,
   List,
   ListItem,
   ListItemText,
+  Tab,
+  Tabs,
   TextField,
 } from "@mui/material";
 
@@ -26,119 +29,115 @@ export default class Review extends React.Component<ISpfxProps, {}> {
         <div className={"p-5 m-2 justify-center "}>
           <List>
             <ListItem>
-              <ListItemText primary="Marcin Lesiak" />
+              <ListItemText primary={this.props.customerName} />
             </ListItem>
             <Divider variant="middle" component="li" textAlign="left">
               Customer Name
             </Divider>
             <ListItem>
-              <ListItemText primary="AD2137" />
+              <ListItemText primary="100" />
             </ListItem>
             <Divider variant="middle" component="li" textAlign="left">
-              Current DD Level
+              Quality
             </Divider>
             <ListItem>
-              <ListItemText primary="Programmer" />
+              <ListItemText primary="Full" />
             </ListItem>
             <Divider variant="middle" component="li" textAlign="left">
-              Review type
-            </Divider>
-            <ListItem>
-              <ListItemText primary="20.03.2024" />
-            </ListItem>
-            <Divider variant="middle" component="li" textAlign="left">
-              QA review started
-            </Divider>
-            <ListItem>
-              <ListItemText primary="19.04.2024" />
-            </ListItem>
-            <Divider variant="middle" component="li" textAlign="left">
-              QA review closed
+              Process Efficiency
             </Divider>
           </List>
         </div>
-
-        <div className="border-b-2 border-sky-500">
-          <div className=" flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że zidentyfikowała właściwe grupy
-              klientów lub rynków dla uzyskania najlepszych korzyści finansowych
-              i ekonomicznych?
+        <Box sx={{ flexGrow: 1, display: "flex" }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            aria-label="Vertical tabs"
+            sx={{ borderRight: 1, borderColor: "divider" }}
+          >
+            <Tab label="Identification & Verification of the customer" />
+            <Tab label="Ownership & Control" />
+            <Tab label="BO/SMO identification & verification" />
+            <Tab label="Main Principals" />
+            <Tab label="Authorized representatives/signatories" />
+            <Tab label="Screening" />
+            <Tab label="Nature of Business" />
+            <Tab label="Purpose of relationship" />
+            <Tab label="Source of Wealth and Source of Funds" />
+            <Tab label="Recordkeeping" />
+            <Tab label="Escalations" />
+          </Tabs>
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <div className="border-b-2 border-sky-500">
+              <div className="flex justify-between items-start p-2 m-2">
+                <div className="flex flex-col">
+                  <div className={"text-xl justify-start"} id="tekst1">
+                    {
+                      "Identification & Verification of the customer correctly performed?"
+                    }
+                  </div>
+                  <div className={"text-base justify-start"} id="tekst2">
+                    {
+                      "Any of the following missing: Full legal name, Registered Address, Correspondence address, Tax residence/TIN, Proof of listing/Proof of regulation"
+                    }
+                  </div>
+                </div>
+                <div className={"p-2 m-2"}>
+                  <Chip label="Yes" color="success" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 p-2 m-2">
+                <div id="k1">
+                  <TextField
+                    fullWidth
+                    id="komentarz"
+                    label="Komentarz"
+                    multiline
+                    maxRows={4}
+                  />
+                </div>
+                <div id="k2" className="flex items-center">
+                  Komentarz
+                </div>
+              </div>
             </div>
-            <div className={"p-2 m-2 size-20"}>
-              <Chip label="Tak" color="success" />
+            <div className="border-b-2 border-sky-500">
+              <div className="flex justify-between items-start p-2 m-2">
+                <div className="flex flex-col">
+                  <div className={"text-xl justify-start"} id="tekst1">
+                    {
+                      "Identification & Verification of the customer correctly performed?"
+                    }
+                  </div>
+                  <div className={"text-base justify-start"} id="tekst2">
+                    {
+                      "Any of the following missing: Full legal name, Registered Address, Correspondence address, Tax residence/TIN, Proof of listing/Proof of regulation"
+                    }
+                  </div>
+                </div>
+                <div className={"p-2 m-2"}>
+                  <Chip label="Yes" color="success" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 p-2 m-2">
+                <div id="k1">
+                  <TextField
+                    fullWidth
+                    id="komentarz"
+                    label="Komentarz"
+                    multiline
+                    maxRows={4}
+                  />
+                </div>
+                <div id="k2" className="flex items-center">
+                  Komentarz
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={"p-2 m-2"}>
-            <TextField
-              fullWidth
-              id="outlined-multiline-flexible"
-              label="Komentarz"
-              multiline
-              maxRows={4}
-            />
-          </div>
-        </div>
-        <div className="border-b-2 border-sky-500">
-          <div className=" flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania
-              klienta są w pełni zrozumiane?
-            </div>
-            <div className={"p-2 m-2 size-20"}>
-              <Chip label="Nie" color="error" />
-            </div>
-          </div>
-          <div className={"p-2 m-2"}>
-            <TextField
-              fullWidth
-              id="outlined-multiline-flexible"
-              label="Komentarz"
-              multiline
-              maxRows={4}
-            />
-          </div>
-        </div>
-        <div className="border-b-2 border-sky-500">
-          <div className=" flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że potrzeby, oczekiwania i wymagania
-              powiązanego z organizacją łańcucha dostaw są w pełni zrozumiane?
-            </div>
-            <div className={"p-2 m-2 size-auto"}>
-              <Chip label="Nie dotyczy" color="warning" />
-            </div>
-          </div>
-          <div className={"p-2 m-2"}>
-            <TextField
-              fullWidth
-              id="outlined-multiline-flexible"
-              label="Komentarz"
-              multiline
-              maxRows={4}
-            />
-          </div>
-        </div>
-        <div>
-          <div className=" flex justify-evenly ...">
-            <div className={"p-2 m-2"}>
-              Czy organizacja może wykazać, że powyższe pozycje są zarządzane
-              przez ustalenie wyraźnych celów?
-            </div>
-            <div className={"p-2 m-2 size-20"}>
-              <Chip label="Tak" color="success" />
-            </div>
-          </div>
-          <div className={"p-2 m-2"}>
-            <TextField
-              fullWidth
-              id="outlined-multiline-flexible"
-              label="Komentarz"
-              multiline
-              maxRows={4}
-            />
-          </div>
-        </div>
+            {/* <Chip label="No" color="error" /> */}
+            {/* <Chip label="N/a" color="warning" /> */}
+          </Box>
+        </Box>
       </section>
     );
   }
