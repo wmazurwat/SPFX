@@ -16,12 +16,18 @@ import { SectionAnswers } from "./Ankieta";
 type DynamicSectionProps = {
   sectionName: string;
   saveAnswers: (answers: SectionAnswers) => void;
-  questions: Array<{ Pytanie: string; Podpowiedź: string; id: string }>;
+  questions: Array<{
+    Pytanie: string;
+    Podpowiedź: string;
+    id: string;
+    Waga: number;
+  }>;
   answers: { [key: string]: string };
 } & ISpfxProps;
 
 type DynamicSectionState = {
   hasErrors: boolean;
+  totalWeight: number;
 };
 
 export default class DynamicSection extends React.Component<
@@ -32,11 +38,33 @@ export default class DynamicSection extends React.Component<
     super(props);
     this.state = {
       hasErrors: false,
+      totalWeight: 0,
     };
   }
 
   static defaultProps = {
     answers: {},
+  };
+
+  updateWeight = (answers: { [key: string]: string }) => {
+    let totalWeight = 0;
+    this.props.questions.forEach((q) => {
+      if (answers[q.id] === "No") {
+        totalWeight += q.Waga;
+      }
+    });
+    this.setState({ totalWeight }, () => {
+      console.log("Total Weight for 'No' responses:", this.state.totalWeight);
+    });
+  };
+
+  handleChange = (id: string, value: string) => {
+    const newAnswers = {
+      ...this.props.answers,
+      [id]: value,
+    };
+    this.props.saveAnswers(newAnswers);
+    this.updateWeight(newAnswers);
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -68,13 +96,7 @@ export default class DynamicSection extends React.Component<
             aria-labelledby="demo-error-radios"
             name="quiz"
             value={this.props.answers[q.id]}
-            onChange={(e) => {
-              const newAnswers = {
-                ...this.props.answers,
-                [q.id]: e.target.value,
-              };
-              this.props.saveAnswers(newAnswers);
-            }}
+            onChange={(e) => this.handleChange(q.id, e.target.value)}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="No" control={<Radio />} label="No" />
