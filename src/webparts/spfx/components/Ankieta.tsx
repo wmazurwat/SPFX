@@ -34,6 +34,7 @@ export default class Ankieta extends React.Component<
     tabIndex: number;
     existingColumns: string[];
     sections: any;
+    totalWeight: number;
   }
 > {
   private spWeb;
@@ -44,6 +45,7 @@ export default class Ankieta extends React.Component<
       tabIndex: 0,
       existingColumns: [],
       sections: {},
+      totalWeight: 0,
     };
 
     const sp = spfi().using(SPFx(this.props.context));
@@ -61,7 +63,12 @@ export default class Ankieta extends React.Component<
       const sections = await getQAData(this.spWeb);
       console.log("Sections from QA:", sections);
 
-      this.setState({ existingColumns, sections });
+      if (existingColumns && sections) {
+        // Sprawdź, czy dane są poprawnie pobrane
+        this.setState({ existingColumns, sections });
+      } else {
+        console.error("Failed to fetch existing columns or sections");
+      }
     } catch (error) {
       console.error("Error fetching items or columns:", error);
     }
@@ -71,9 +78,18 @@ export default class Ankieta extends React.Component<
     this.setState({ tabIndex: newValue });
   };
 
+  updateTotalWeight = (weight: number) => {
+    this.setState({ totalWeight: weight });
+    if (this.props.setQuality) {
+      // Sprawdzenie, czy setQuality istnieje
+      this.props.setQuality((100 - weight).toString()); // Aktualizacja quality
+    }
+  };
+
   saveAnswersToSharePoint = async () => {
     try {
-      const { savedAnswers, feedbackFormState, customerName } = this.props;
+      const { savedAnswers, feedbackFormState, customerName, quality } =
+        this.props;
       let { existingColumns } = this.state;
 
       // Fetch the latest column list to avoid duplicates
@@ -102,6 +118,7 @@ export default class Ankieta extends React.Component<
         Adjustmentsrequired: feedbackFormState.adjustmentsRequired,
         Challengeprocess: feedbackFormState.challengeProcess,
         CustomerName: customerName,
+        Quality: quality,
       };
 
       // Combine all answers into one item
@@ -152,7 +169,7 @@ export default class Ankieta extends React.Component<
   };
 
   renderSection = () => {
-    const { sections, tabIndex } = this.state;
+    const { sections, tabIndex, totalWeight } = this.state;
     const {
       description,
       isDarkTheme,
@@ -190,6 +207,8 @@ export default class Ankieta extends React.Component<
         userEmail={userEmail}
         context={context}
         quality={quality}
+        updateTotalWeight={this.updateTotalWeight}
+        totalWeight={totalWeight}
       />
     );
   };

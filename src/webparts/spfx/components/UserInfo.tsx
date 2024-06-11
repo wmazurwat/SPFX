@@ -4,6 +4,7 @@ import { Divider, List, ListItem, ListItemText } from "@mui/material";
 
 type UserInfoProps = {
   customerName: string;
+  quality: string;
 };
 
 export default class UserInfo extends React.Component<
@@ -21,7 +22,7 @@ export default class UserInfo extends React.Component<
             Customer Name
           </Divider>
           <ListItem>
-            <ListItemText primary="100" />
+            <ListItemText primary={this.props.quality} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
             Quality

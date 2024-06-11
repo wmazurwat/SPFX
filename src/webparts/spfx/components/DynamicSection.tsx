@@ -5,11 +5,9 @@ import {
   RadioGroup,
   FormControl,
   FormControlLabel,
-  // FormHelperText,
   Radio,
   Button,
   TextField,
-  // FormLabel,
 } from "@mui/material";
 import { SectionAnswers } from "./Ankieta";
 
@@ -23,11 +21,12 @@ type DynamicSectionProps = {
     Waga: number;
   }>;
   answers: { [key: string]: string };
+  updateTotalWeight: (weight: number) => void;
+  totalWeight: number;
 } & ISpfxProps;
 
 type DynamicSectionState = {
   hasErrors: boolean;
-  totalWeight: number;
 };
 
 export default class DynamicSection extends React.Component<
@@ -38,7 +37,6 @@ export default class DynamicSection extends React.Component<
     super(props);
     this.state = {
       hasErrors: false,
-      totalWeight: 0,
     };
   }
 
@@ -53,9 +51,8 @@ export default class DynamicSection extends React.Component<
         totalWeight += q.Waga;
       }
     });
-    this.setState({ totalWeight }, () => {
-      console.log("Total Weight for 'No' responses:", this.state.totalWeight);
-    });
+    this.props.updateTotalWeight(totalWeight);
+    console.log("Total Weight for 'No' responses:", totalWeight);
   };
 
   handleChange = (id: string, value: string) => {
@@ -111,9 +108,6 @@ export default class DynamicSection extends React.Component<
               maxRows={4}
             />
           </div>
-          {/* {this.props.error && (
-            <FormHelperText>Odpowiedz na pytanie</FormHelperText>
-          )} */}
           <div className="border-b-2 border-sky-500" />
         </FormControl>
       </div>
@@ -121,12 +115,16 @@ export default class DynamicSection extends React.Component<
   };
 
   public render(): React.ReactElement<DynamicSectionProps> {
+    const quality = 100 - this.props.totalWeight; // Obliczanie quality
     return (
       <form onSubmit={this.handleSubmit}>
         {this.renderQuestion()}
         <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
           Check Answer
         </Button>
+        <div>Total Weight: {this.props.totalWeight}</div>{" "}
+        {/* Wyświetlanie totalWeight */}
+        <div>Quality: {quality}</div> {/* Wyświetlanie quality */}
       </form>
     );
   }

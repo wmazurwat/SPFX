@@ -23,15 +23,16 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       customerName: "",
       savedAnswers: {},
       feedbackFormState: {},
-      quality: "",
+      quality: "100",
     };
   }
 
   setCustomerName = (name: string) => {
     this.setState({ customerName: name });
   };
-  setQuality = (name: string) => {
-    this.setState({ quality: name });
+
+  setQuality = (quality: string) => {
+    this.setState({ quality });
   };
 
   saveAnswers = (index: number, answers: SectionAnswers) => {
@@ -76,10 +77,12 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
           <Ankieta
             {...this.props}
             customerName={this.state.customerName}
+            quality={this.state.quality}
             savedAnswers={this.state.savedAnswers}
             saveAnswers={this.saveAnswers}
             feedbackFormState={this.state.feedbackFormState}
             setActivePage={this.setActivePage}
+            setQuality={this.setQuality}
           />
         );
       case 3:
