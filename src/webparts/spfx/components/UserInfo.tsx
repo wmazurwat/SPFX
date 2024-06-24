@@ -27,12 +27,6 @@ export default class UserInfo extends React.Component<
           <Divider variant="middle" component="li" textAlign="left">
             Quality
           </Divider>
-          <ListItem>
-            <ListItemText primary="Full" />
-          </ListItem>
-          <Divider variant="middle" component="li" textAlign="left">
-            Process Efficiency
-          </Divider>
         </List>
       </div>
     );
