@@ -143,12 +143,11 @@ export default class FeedbackForm extends React.Component<
                 onChange={this.handleInputChange("reviewType")}
               >
                 <MenuItem value="Review">Review</MenuItem>
-                <MenuItem value="Review">Onboarding</MenuItem>
+                <MenuItem value="Onboarding">Onboarding</MenuItem>
               </Select>
             </FormControl>
           </div>
-          if(this.state.reviewType=="Review")
-          {
+          {this.state.reviewType === "Review" ? (
             <div className={"p-2 m-2 justify-center"}>
               <FormControl fullWidth>
                 <InputLabel id="Responsible Team">Responsible Team</InputLabel>
@@ -170,9 +169,8 @@ export default class FeedbackForm extends React.Component<
                 </Select>
               </FormControl>
             </div>
-          }
-          if(this.state.reviewType=="Onboarding")
-          {
+          ) : null}
+          {this.state.reviewType === "Onboarding" ? (
             <div className={"p-2 m-2 justify-center"}>
               <FormControl fullWidth>
                 <InputLabel id="Responsible Team">Responsible Team</InputLabel>
@@ -183,18 +181,20 @@ export default class FeedbackForm extends React.Component<
                   value={this.state.responsibleTeam}
                   onChange={this.handleInputChange("responsibleTeam")}
                 >
-                  <MenuItem value="Remediation">Norway</MenuItem>
-                  <MenuItem value="CB 1 Reviews">Denmark</MenuItem>
-                  <MenuItem value="CB 1 Reviews">Finland</MenuItem>
-                  <MenuItem value="CB 1 Reviews">SF Onboardings</MenuItem>
-                  <MenuItem value="CB 1 Reviews">IB Onboardings</MenuItem>
-                  <MenuItem value="CB 1 Reviews">MidCorp Onboardings</MenuItem>
-                  <MenuItem value="CB 1 Reviews">LC Onboardings</MenuItem>
-                  <MenuItem value="CB 1 Reviews">C&PC</MenuItem>
+                  <MenuItem value="Norway">Norway</MenuItem>
+                  <MenuItem value="Denmark">Denmark</MenuItem>
+                  <MenuItem value="Finland">Finland</MenuItem>
+                  <MenuItem value="SF Onboardings">SF Onboardings</MenuItem>
+                  <MenuItem value="IB Onboardings">IB Onboardings</MenuItem>
+                  <MenuItem value="MidCorp Onboardings">
+                    MidCorp Onboardings
+                  </MenuItem>
+                  <MenuItem value="LC Onboardings">LC Onboardings</MenuItem>
+                  <MenuItem value="C&PC">C&PC</MenuItem>
                 </Select>
               </FormControl>
             </div>
-          }
+          ) : null}
           <div className={"p-2 m-2 justify-center"}>
             <TextField
               multiline
