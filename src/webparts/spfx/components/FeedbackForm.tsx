@@ -21,14 +21,14 @@ interface FeedbackFormProps extends ISpfxProps {
 
 type State = {
   qaReviewStarted: any;
-  gcn: string;
+  // gcn: string;
   currentDdLevel: string;
   qaReviewClosed: string;
   reviewType: string;
   responsibleTeam: string;
   qualityChecker: string;
   regulatoryAnalyst: string;
-  amountOfFeedbacks: string;
+  // amountOfFeedbacks: string;
   // adjustmentsRequired: string;
   // challengeProcess: string;
 };
@@ -41,14 +41,14 @@ export default class FeedbackForm extends React.Component<
     super(props);
     this.state = {
       qaReviewStarted: dayjs().toDate(),
-      gcn: "",
+      // gcn: "",
       currentDdLevel: "",
       qaReviewClosed: "",
       reviewType: "",
       responsibleTeam: "",
       qualityChecker: "",
       regulatoryAnalyst: "",
-      amountOfFeedbacks: "",
+      // amountOfFeedbacks: "",
       // adjustmentsRequired: "",
       // challengeProcess: "",
     };
@@ -88,7 +88,7 @@ export default class FeedbackForm extends React.Component<
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
         <div className={"p-5 m-2 text-4xl flex justify-center"}>
-          <div>Customer risk analysis - General information</div>
+          <div>QRM Feedbak Form - Review </div>
         </div>
 
         <div className={"p-2 m-2 shadow grid grid-cols-2"}>
@@ -103,7 +103,7 @@ export default class FeedbackForm extends React.Component<
               onChange={this.handleInputChange("customerName")}
             />
           </div>
-          <div className={"p-2 m-2 justify-center"}>
+          {/* <div className={"p-2 m-2 justify-center"}>
             <TextField
               multiline
               maxRows={1}
@@ -113,7 +113,7 @@ export default class FeedbackForm extends React.Component<
               value={this.state.gcn}
               onChange={this.handleInputChange("gcn")}
             />
-          </div>
+          </div> */}
           <div className={"p-2 m-2 justify-center"}>
             <FormControl fullWidth>
               <InputLabel id="current-dd-level-label">
@@ -217,7 +217,7 @@ export default class FeedbackForm extends React.Component<
               onChange={this.handleInputChange("regulatoryAnalyst")}
             />
           </div>
-          <div className={"p-2 m-2 justify-center"}>
+          {/* <div className={"p-2 m-2 justify-center"}>
             <TextField
               multiline
               maxRows={1}
@@ -227,7 +227,7 @@ export default class FeedbackForm extends React.Component<
               value={this.state.amountOfFeedbacks}
               onChange={this.handleInputChange("amountOfFeedbacks")}
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-between">
           <Button variant="contained" onClick={this.handleBack}>

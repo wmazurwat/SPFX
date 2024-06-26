@@ -90,21 +90,21 @@ export default class Ankieta extends React.Component<
     try {
       const { savedAnswers, feedbackFormState, customerName, quality } =
         this.props;
-      let { existingColumns } = this.state;
+      // let { existingColumns } = this.state;
 
       // Fetch the latest column list to avoid duplicates
-      existingColumns = await getColumnList(this.spWeb);
+      // existingColumns = await getColumnList(this.spWeb);
 
-      // Check and add columns if they do not exist
-      for (const answers of Object.values(savedAnswers)) {
-        for (const questionId of Object.keys(answers)) {
-          const columnName = `Answer${questionId}`;
-          if (!existingColumns.includes(columnName)) {
-            await this.handleAddSingleLineColumn(columnName);
-            existingColumns.push(columnName); // Update the local list of existing columns
-          }
-        }
-      }
+      // // Check and add columns if they do not exist
+      // for (const answers of Object.values(savedAnswers)) {
+      //   for (const questionId of Object.keys(answers)) {
+      //     const columnName = `Answer${questionId}`;
+      //     if (!existingColumns.includes(columnName)) {
+      //       await this.handleAddSingleLineColumn(columnName);
+      //       existingColumns.push(columnName); // Update the local list of existing columns
+      //     }
+      //   }
+      // }
 
       // Prepare feedbackFormState to be saved in SharePoint
       const feedbackFormColumns = {
@@ -119,11 +119,12 @@ export default class Ankieta extends React.Component<
         Challengeprocess: feedbackFormState.challengeProcess,
         CustomerName: customerName,
         Quality: quality,
+        // Answer: savedAnswers,// sprawdzić zapis!!!!!!!!!!!!!!!!
       };
 
       // Combine all answers into one item
       const item: { [key: string]: string } = {
-        Title: `Customer Review`, // Title of the item
+        // Title: `Customer Review`, // Title of the item
         ...feedbackFormColumns, // Add feedback form state to the item
       };
 
@@ -132,9 +133,6 @@ export default class Ankieta extends React.Component<
           item[`Answer${questionId}`] = answer;
         }
       }
-
-      // Log columns and answers before saving
-      console.log("Columns and answers to be saved:", item);
 
       // Save the combined answers to the SharePoint list
       await this.spWeb.lists.getByTitle("Dane").items.add(item);
@@ -192,9 +190,27 @@ export default class Ankieta extends React.Component<
     );
     return (
       <DynamicSection
-        saveAnswers={(answers: SectionAnswers) =>
-          this.props.saveAnswers(tabIndex, answers)
-        }
+        saveAnswers={(answers: SectionAnswers) => {
+          this.props.saveAnswers(tabIndex, answers);
+          const valueReduced = Object.values(sections).reduce(
+            (acc: any, val) => acc.concat(val),
+            []
+          ) as any[];
+          const result = valueReduced.map((q: any) => ({
+            ID: q.id,
+            Section: q.section, // naprawić!!!!!!!!!!!!!!
+            Question: q.Pytanie,
+            Hint: q.Podpowiedź,
+            Weight: q.Waga,
+            Answer: answers[q.id] || "",
+            CommentQA: {
+              // Person: comments[q.id] == null ? "" : userDisplayName,
+              // Comment: comments[q.id] || "",
+            },
+            CommentReview: "", // You can modify this to include review comments if needed
+          }));
+          console.log(result);
+        }}
         answers={this.props.savedAnswers[tabIndex]}
         key={tabIndex}
         sectionName={sectionName}

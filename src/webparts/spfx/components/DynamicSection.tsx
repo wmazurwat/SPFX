@@ -27,6 +27,7 @@ type DynamicSectionProps = {
 
 type DynamicSectionState = {
   hasErrors: boolean;
+  comments: { [key: string]: string };
 };
 
 export default class DynamicSection extends React.Component<
@@ -37,6 +38,7 @@ export default class DynamicSection extends React.Component<
     super(props);
     this.state = {
       hasErrors: false,
+      comments: {},
     };
   }
 
@@ -64,6 +66,15 @@ export default class DynamicSection extends React.Component<
     this.updateWeight(newAnswers);
   };
 
+  handleCommentChange = (id: string, value: string) => {
+    this.setState((prevState) => ({
+      comments: {
+        ...prevState.comments,
+        [id]: value,
+      },
+    }));
+  };
+
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const hasErrors = Object.values(this.props.answers).some(
@@ -73,26 +84,42 @@ export default class DynamicSection extends React.Component<
       hasErrors,
     });
     if (!hasErrors) {
+      const { sectionName, questions, answers, userDisplayName } = this.props;
+      const { comments } = this.state;
+      const result = questions.map((q) => ({
+        ID: q.id,
+        Section: sectionName,
+        Question: q.Pytanie,
+        Hint: q.Podpowiedź,
+        Weight: q.Waga,
+        Answer: answers[q.id] || "",
+        CommentQA: {
+          Person: comments[q.id] == null ? "" : userDisplayName,
+          Comment: comments[q.id] || "",
+        },
+        CommentReview: "", // You can modify this to include review comments if needed
+      }));
+      console.log("Saved JSON: ", JSON.stringify(result, null, 2));
       this.props.saveAnswers(this.props.answers);
     }
   };
 
   renderQuestion = () => {
     const { questions } = this.props;
-    console.log("Questions in DynamicSection:", questions); // Dodaj ten wiersz
+    console.log("Questions in DynamicSection:", questions);
     return questions.map((q, i) => (
       <div key={i}>
         <FormControl variant="standard" required>
-          <div className={"  text-xl justify-start"} id="demo-error-radios">
+          <div className={"text-xl justify-start"} id="demo-error-radios">
             {q.Pytanie}
           </div>
-          <div className={"  text-base justify-start"} id="demo-error-radios">
+          <div className={"text-base justify-start"} id="demo-error-radios">
             {q.Podpowiedź}
           </div>
           <RadioGroup
             aria-labelledby="demo-error-radios"
             name="quiz"
-            value={this.props.answers[q.id]}
+            value={this.props.answers[q.id] || ""}
             onChange={(e) => this.handleChange(q.id, e.target.value)}
           >
             <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -103,9 +130,11 @@ export default class DynamicSection extends React.Component<
             <TextField
               fullWidth
               id="outlined-multiline-flexible"
-              label="Komentarz"
+              label="Comment"
               multiline
               maxRows={4}
+              value={this.state.comments[q.id] || ""}
+              onChange={(e) => this.handleCommentChange(q.id, e.target.value)}
             />
           </div>
           <div className="border-b-2 border-sky-500" />
@@ -115,16 +144,14 @@ export default class DynamicSection extends React.Component<
   };
 
   public render(): React.ReactElement<DynamicSectionProps> {
-    const quality = 100 - this.props.totalWeight; // Obliczanie quality
+    // const quality = 100 - this.props.totalWeight; // Obliczanie quality
     return (
       <form onSubmit={this.handleSubmit}>
         {this.renderQuestion()}
         <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
           Check Answer
         </Button>
-        <div>Total Weight: {this.props.totalWeight}</div>{" "}
-        {/* Wyświetlanie totalWeight */}
-        <div>Quality: {quality}</div> {/* Wyświetlanie quality */}
+        {/* <div>Quality: {quality}</div> Wyświetlanie quality */}
       </form>
     );
   }
