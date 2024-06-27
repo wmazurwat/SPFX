@@ -13,7 +13,10 @@ import { SectionAnswers } from "./Ankieta";
 
 type DynamicSectionProps = {
   sectionName: string;
-  saveAnswers: (answers: SectionAnswers) => void;
+  saveAnswers: (
+    answers: SectionAnswers,
+    comments: { [key: string]: string }
+  ) => void;
   questions: Array<{
     Pytanie: string;
     Podpowiedź: string;
@@ -62,17 +65,19 @@ export default class DynamicSection extends React.Component<
       ...this.props.answers,
       [id]: value,
     };
-    this.props.saveAnswers(newAnswers);
+    this.props.saveAnswers(newAnswers, this.state.comments);
     this.updateWeight(newAnswers);
   };
 
   handleCommentChange = (id: string, value: string) => {
-    this.setState((prevState) => ({
-      comments: {
+    this.setState((prevState) => {
+      const newComments = {
         ...prevState.comments,
         [id]: value,
-      },
-    }));
+      };
+      this.props.saveAnswers(this.props.answers, newComments);
+      return { comments: newComments };
+    });
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -97,10 +102,10 @@ export default class DynamicSection extends React.Component<
           Person: comments[q.id] == null ? "" : userDisplayName,
           Comment: comments[q.id] || "",
         },
-        CommentReview: "", // You can modify this to include review comments if needed
+        CommentReview: "", // Możesz dostosować to, aby zawierało komentarze przeglądowe, jeśli potrzebne
       }));
       console.log("Saved JSON: ", JSON.stringify(result, null, 2));
-      this.props.saveAnswers(this.props.answers);
+      this.props.saveAnswers(answers, comments);
     }
   };
 
@@ -144,14 +149,12 @@ export default class DynamicSection extends React.Component<
   };
 
   public render(): React.ReactElement<DynamicSectionProps> {
-    // const quality = 100 - this.props.totalWeight; // Obliczanie quality
     return (
       <form onSubmit={this.handleSubmit}>
         {this.renderQuestion()}
         <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
           Check Answer
         </Button>
-        {/* <div>Quality: {quality}</div> Wyświetlanie quality */}
       </form>
     );
   }

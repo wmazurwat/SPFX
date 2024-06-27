@@ -19,25 +19,34 @@ import DynamicSection from "./DynamicSection";
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
-  saveAnswers: (index: number, answers: SectionAnswers) => void;
+  saveAnswers: (
+    index: number,
+    answers: SectionAnswers,
+    comments: { [key: string]: string }
+  ) => void;
   feedbackFormState: any;
   setActivePage: (page: number) => void;
+  setQuality?: (quality: string) => void;
+  userDisplayName: string;
 }
 
 export interface SectionAnswers {
   [key: string]: string;
 }
 
+interface AnkietaState {
+  tabIndex: number;
+  existingColumns: string[];
+  sections: { [key: string]: any[] };
+  totalWeight: number;
+  comments: { [key: number]: { [key: string]: string } };
+}
+
 export default class Ankieta extends React.Component<
   AnkietaProps,
-  {
-    tabIndex: number;
-    existingColumns: string[];
-    sections: any;
-    totalWeight: number;
-  }
+  AnkietaState
 > {
-  private spWeb;
+  private spWeb: any;
 
   constructor(props: AnkietaProps) {
     super(props);
@@ -46,6 +55,7 @@ export default class Ankieta extends React.Component<
       existingColumns: [],
       sections: {},
       totalWeight: 0,
+      comments: {},
     };
 
     const sp = spfi().using(SPFx(this.props.context));
@@ -64,7 +74,6 @@ export default class Ankieta extends React.Component<
       console.log("Sections from QA:", sections);
 
       if (existingColumns && sections) {
-        // Sprawdź, czy dane są poprawnie pobrane
         this.setState({ existingColumns, sections });
       } else {
         console.error("Failed to fetch existing columns or sections");
@@ -81,32 +90,47 @@ export default class Ankieta extends React.Component<
   updateTotalWeight = (weight: number) => {
     this.setState({ totalWeight: weight });
     if (this.props.setQuality) {
-      // Sprawdzenie, czy setQuality istnieje
-      this.props.setQuality((100 - weight).toString()); // Aktualizacja quality
+      this.props.setQuality((100 - weight).toString());
     }
   };
 
   saveAnswersToSharePoint = async () => {
     try {
-      const { savedAnswers, feedbackFormState, customerName, quality } =
-        this.props;
-      // let { existingColumns } = this.state;
+      const {
+        savedAnswers,
+        feedbackFormState,
+        customerName,
+        quality,
+        userDisplayName,
+      } = this.props;
+      const { comments } = this.state;
 
-      // Fetch the latest column list to avoid duplicates
-      // existingColumns = await getColumnList(this.spWeb);
+      const allAnswers = Object.entries(savedAnswers).flatMap(
+        ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
+          const sectionQuestions =
+            this.state.sections[
+              Object.keys(this.state.sections)[parseInt(sectionIndex, 10)]
+            ];
+          return sectionQuestions.map((q) => ({
+            ID: q.id,
+            Section: Object.keys(this.state.sections)[
+              parseInt(sectionIndex, 10)
+            ],
+            Question: q.Pytanie,
+            Hint: q.Podpowiedź,
+            Weight: q.Waga,
+            Answer: sectionAnswers[q.id] || "",
+            CommentQA: {
+              Person:
+                comments[parseInt(sectionIndex, 10)]?.[q.id] == null
+                  ? ""
+                  : userDisplayName,
+              Comment: comments[parseInt(sectionIndex, 10)]?.[q.id] || "",
+            },
+          }));
+        }
+      );
 
-      // // Check and add columns if they do not exist
-      // for (const answers of Object.values(savedAnswers)) {
-      //   for (const questionId of Object.keys(answers)) {
-      //     const columnName = `Answer${questionId}`;
-      //     if (!existingColumns.includes(columnName)) {
-      //       await this.handleAddSingleLineColumn(columnName);
-      //       existingColumns.push(columnName); // Update the local list of existing columns
-      //     }
-      //   }
-      // }
-
-      // Prepare feedbackFormState to be saved in SharePoint
       const feedbackFormColumns = {
         GCN: feedbackFormState.gcn,
         CurrentDDLevel: feedbackFormState.currentDdLevel,
@@ -119,22 +143,13 @@ export default class Ankieta extends React.Component<
         Challengeprocess: feedbackFormState.challengeProcess,
         CustomerName: customerName,
         Quality: quality,
-        // Answer: savedAnswers,// sprawdzić zapis!!!!!!!!!!!!!!!!
       };
 
-      // Combine all answers into one item
-      const item: { [key: string]: string } = {
-        // Title: `Customer Review`, // Title of the item
-        ...feedbackFormColumns, // Add feedback form state to the item
+      const item = {
+        ...feedbackFormColumns,
+        Answer: JSON.stringify(allAnswers),
       };
 
-      for (const answers of Object.values(savedAnswers)) {
-        for (const [questionId, answer] of Object.entries(answers)) {
-          item[`Answer${questionId}`] = answer;
-        }
-      }
-
-      // Save the combined answers to the SharePoint list
       await this.spWeb.lists.getByTitle("Dane").items.add(item);
 
       alert("Data saved successfully!");
@@ -166,6 +181,16 @@ export default class Ankieta extends React.Component<
     }
   };
 
+  saveAnswers = (
+    index: number,
+    answers: SectionAnswers,
+    comments: { [key: string]: string }
+  ) => {
+    const updatedComments = { ...this.state.comments, [index]: comments };
+    this.props.saveAnswers(index, answers, comments);
+    this.setState({ comments: updatedComments });
+  };
+
   renderSection = () => {
     const { sections, tabIndex, totalWeight } = this.state;
     const {
@@ -178,38 +203,14 @@ export default class Ankieta extends React.Component<
       context,
       quality,
     } = this.props;
-    console.log("Rendering sections with data:", sections);
-    console.log("savedAnswers:", this.props.savedAnswers);
     const sectionName = Object.keys(sections)[tabIndex];
-    console.log(
-      "sectionName",
-      sections,
-      Object.keys(sections),
-      tabIndex,
-      sectionName
-    );
     return (
       <DynamicSection
-        saveAnswers={(answers: SectionAnswers) => {
-          this.props.saveAnswers(tabIndex, answers);
-          const valueReduced = Object.values(sections).reduce(
-            (acc: any, val) => acc.concat(val),
-            []
-          ) as any[];
-          const result = valueReduced.map((q: any) => ({
-            ID: q.id,
-            Section: q.section, // naprawić!!!!!!!!!!!!!!
-            Question: q.Pytanie,
-            Hint: q.Podpowiedź,
-            Weight: q.Waga,
-            Answer: answers[q.id] || "",
-            CommentQA: {
-              // Person: comments[q.id] == null ? "" : userDisplayName,
-              // Comment: comments[q.id] || "",
-            },
-            CommentReview: "", // You can modify this to include review comments if needed
-          }));
-          console.log(result);
+        saveAnswers={(
+          answers: SectionAnswers,
+          comments: { [key: string]: string }
+        ) => {
+          this.saveAnswers(tabIndex, answers, comments);
         }}
         answers={this.props.savedAnswers[tabIndex]}
         key={tabIndex}
@@ -256,18 +257,7 @@ export default class Ankieta extends React.Component<
               <Tab key={index} label={section} />
             ))}
           </Tabs>
-          <Box sx={{ flexGrow: 1, p: 3 }}>
-            {/* <div className={"p-2 m-2"}>
-              <TextField
-                fullWidth
-                id={Object.keys(this.state.sections)[this.state.tabIndex]}
-                label="Komendarz zbiorczy"
-                multiline
-                maxRows={4}
-              />
-            </div> */}
-            {this.renderSection()}
-          </Box>
+          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSection()}</Box>
         </Box>
         <div className="flex justify-between p-10">
           <Button
