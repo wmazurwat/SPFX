@@ -8,10 +8,10 @@ export async function getQAData(spWeb: IWeb): Promise<any> {
     console.log("Raw items from QA list:", items); // Dodaj ten wiersz
 
     items.forEach((item, index) => {
-      console.log(`Item ${index}:`, item);
-      console.log(
-        `Title: ${item.Title}, field_1: ${item.field_1}, field_2: ${item.field_2}, rate: ${item.field_11}`
-      );
+      // console.log(`Item ${index}:`, item);
+      // console.log(
+      //   `Title: ${item.Title}, field_1: ${item.field_1}, field_2: ${item.field_2}, rate: ${item.field_11}`
+      // );
     });
 
     const sections = items.reduce((acc, item) => {

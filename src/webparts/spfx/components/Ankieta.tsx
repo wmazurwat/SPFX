@@ -64,14 +64,14 @@ export default class Ankieta extends React.Component<
 
   async componentDidMount() {
     try {
-      const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
-      console.log("Items from 'Dane':", items);
+      // const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
+      // console.log("Items from 'Dane':", items);
 
       const existingColumns = await getColumnList(this.spWeb);
-      console.log("Existing columns:", existingColumns);
+      // console.log("Existing columns:", existingColumns);
 
       const sections = await getQAData(this.spWeb);
-      console.log("Sections from QA:", sections);
+      // console.log("Sections from QA:", sections);
 
       if (existingColumns && sections) {
         this.setState({ existingColumns, sections });
