@@ -24,6 +24,7 @@ type DynamicSectionProps = {
     Waga: number;
   }>;
   answers: { [key: string]: string };
+  comments: { [key: string]: string };
   updateTotalWeight: (weight: number) => void;
   totalWeight: number;
 } & ISpfxProps;
@@ -41,7 +42,7 @@ export default class DynamicSection extends React.Component<
     super(props);
     this.state = {
       hasErrors: false,
-      comments: {},
+      comments: props.comments || {},
     };
   }
 
@@ -70,14 +71,12 @@ export default class DynamicSection extends React.Component<
   };
 
   handleCommentChange = (id: string, value: string) => {
-    this.setState((prevState) => {
-      const newComments = {
-        ...prevState.comments,
-        [id]: value,
-      };
-      this.props.saveAnswers(this.props.answers, newComments);
-      return { comments: newComments };
-    });
+    const newComments = {
+      ...this.state.comments,
+      [id]: value,
+    };
+    this.setState({ comments: newComments });
+    this.props.saveAnswers(this.props.answers, newComments);
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {

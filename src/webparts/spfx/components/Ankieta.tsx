@@ -192,7 +192,7 @@ export default class Ankieta extends React.Component<
   };
 
   renderSection = () => {
-    const { sections, tabIndex, totalWeight } = this.state;
+    const { sections, tabIndex, totalWeight, comments } = this.state;
     const {
       description,
       isDarkTheme,
@@ -202,6 +202,7 @@ export default class Ankieta extends React.Component<
       userEmail,
       context,
       quality,
+      savedAnswers,
     } = this.props;
     const sectionName = Object.keys(sections)[tabIndex];
     return (
@@ -212,7 +213,8 @@ export default class Ankieta extends React.Component<
         ) => {
           this.saveAnswers(tabIndex, answers, comments);
         }}
-        answers={this.props.savedAnswers[tabIndex]}
+        answers={savedAnswers[tabIndex]}
+        comments={comments[tabIndex] || {}}
         key={tabIndex}
         sectionName={sectionName}
         questions={sections[sectionName] || []}
