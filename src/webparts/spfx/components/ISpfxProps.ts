@@ -8,11 +8,12 @@ export interface ISpfxProps {
   context: WebPartContext;
   userEmail: string;
   customerName?: string;
-  answer?: object;
+  answer?: Answer[]; // Zaktualizowanie typu na Answer[]
   setCustomerName?: (name: string) => void;
-  setActivePage?: (page: number) => void; 
+  setActivePage?: (page: number) => void;
   setQuality?: (quality: string) => void;
-  setAnswer?: (answer: object) => void;
+  setAnswer?: (answer: Answer[] | string[]) => void;
 }
 // Importowanie typów kontekstu z @microsoft/sp-webpart-base
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { Answer } from "./types";

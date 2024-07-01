@@ -6,6 +6,8 @@ import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
 import Lista from "./Lista";
+import { Answer } from "./types";
+// import { Answer } from "./types"; // Poprawny import typu Answer
 
 type State = {
   activePage: number;
@@ -13,7 +15,7 @@ type State = {
   savedAnswers: { [x: number]: SectionAnswers };
   feedbackFormState: any;
   quality: string;
-  answer: object;
+  answers: Answer[]; // Użycie poprawnego typu
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -25,7 +27,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       savedAnswers: {},
       feedbackFormState: {},
       quality: "100",
-      answer: {},
+      answers: [],
     };
   }
 
@@ -36,8 +38,9 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   setQuality = (quality: string) => {
     this.setState({ quality });
   };
-  setAnswer = (answer: object) => {
-    this.setState({ answer });
+
+  setAnswers = (answers: Answer[]) => {
+    this.setState({ answers });
   };
 
   saveAnswers = (index: number, answers: SectionAnswers) => {
@@ -63,7 +66,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setActivePage={this.setActivePage}
             setCustomerName={this.setCustomerName}
             setQuality={this.setQuality}
-            setAnswer={this.setAnswer}
+            setAnswer={this.setAnswers}
           />
         );
       case 1:
@@ -97,7 +100,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             quality={this.state.quality}
-            answer={this.state.answer}
+            answers={this.state.answers}
           />
         );
       default:
@@ -106,7 +109,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             quality={this.state.quality}
-            answer={this.state.answer}
+            answers={this.state.answers}
           />
         );
     }
