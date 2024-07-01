@@ -13,6 +13,7 @@ type State = {
   savedAnswers: { [x: number]: SectionAnswers };
   feedbackFormState: any;
   quality: string;
+  answer: object;
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -24,6 +25,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       savedAnswers: {},
       feedbackFormState: {},
       quality: "100",
+      answer: {},
     };
   }
 
@@ -33,6 +35,9 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
 
   setQuality = (quality: string) => {
     this.setState({ quality });
+  };
+  setAnswer = (answer: object) => {
+    this.setState({ answer });
   };
 
   saveAnswers = (index: number, answers: SectionAnswers) => {
@@ -58,6 +63,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setActivePage={this.setActivePage}
             setCustomerName={this.setCustomerName}
             setQuality={this.setQuality}
+            setAnswer={this.setAnswer}
           />
         );
       case 1:
@@ -91,6 +97,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             quality={this.state.quality}
+            answer={this.state.answer}
           />
         );
       default:
@@ -99,6 +106,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             quality={this.state.quality}
+            answer={this.state.answer}
           />
         );
     }

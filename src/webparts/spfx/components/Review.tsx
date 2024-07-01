@@ -17,6 +17,9 @@ import {
 export default class Review extends React.Component<ISpfxProps, {}> {
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
+    console.log(" test ");
+    console.log(this.props.answer);
+    console.log(" test ");
 
     return (
       <section
@@ -40,14 +43,9 @@ export default class Review extends React.Component<ISpfxProps, {}> {
             <Divider variant="middle" component="li" textAlign="left">
               Quality
             </Divider>
-            <ListItem>
-              <ListItemText primary="Full" />
-            </ListItem>
-            <Divider variant="middle" component="li" textAlign="left">
-              Process Efficiency
-            </Divider>
           </List>
         </div>
+
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"

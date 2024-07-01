@@ -23,6 +23,7 @@ type State = {
     Reviewtype: string;
     ResponsibleTeam: string;
     Quality: string;
+    Answer: object;
   }[];
 };
 
@@ -31,6 +32,7 @@ export default class Lista extends React.Component<
     setActivePage: (page: number) => void;
     setCustomerName: (name: string) => void;
     setQuality: (name: string) => void;
+    setAnswer: (answer: object) => void;
   },
   State
 > {
@@ -41,6 +43,7 @@ export default class Lista extends React.Component<
       setActivePage: (page: number) => void;
       setCustomerName: (name: string) => void;
       setQuality: (name: string) => void;
+      setAnswer: (answer: object) => void;
     }
   ) {
     super(props);
@@ -69,7 +72,8 @@ export default class Lista extends React.Component<
           "CurrentDDLevel",
           "Reviewtype",
           "ResponsibleTeam",
-          "Quality"
+          "Quality",
+          "Answer"
         )
         .top(100)(); // Pobierz do 100 elementów
       this.setState({ items });
@@ -87,11 +91,17 @@ export default class Lista extends React.Component<
     }
   };
 
-  private handleEdit = (id: number, customerName: string, quality: string) => {
+  private handleEdit = (
+    id: number,
+    customerName: string,
+    quality: string,
+    answer: object
+  ) => {
     // Przejdź do komponentu Review
     this.props.setCustomerName(customerName);
     this.props.setQuality(quality);
     this.props.setActivePage(3);
+    this.props.setAnswer(answer);
   };
 
   private handleNew = () => {
@@ -158,7 +168,8 @@ export default class Lista extends React.Component<
                           this.handleEdit(
                             item.Id,
                             item.CustomerName,
-                            item.Quality
+                            item.Quality,
+                            item.Answer
                           )
                         }
                       >
