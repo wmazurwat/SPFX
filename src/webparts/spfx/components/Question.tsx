@@ -17,16 +17,20 @@ export default class Question extends React.Component<QuestionProps, {}> {
             <div className="text-base justify-start">{answer.Hint}</div>
           </div>
           <div className="p-2 m-2">
-            <Chip
-              label={answer.Answer}
-              color={
-                answer.Answer === "Yes"
-                  ? "success"
-                  : answer.Answer === "No"
-                  ? "error"
-                  : "warning"
-              }
-            />
+            {answer.Answer !== null && (
+              <Chip
+                label={answer.Answer}
+                color={
+                  answer.Answer === "Yes"
+                    ? "success"
+                    : answer.Answer === "No"
+                    ? "error"
+                    : answer.Answer === "N/a"
+                    ? "warning"
+                    : undefined
+                }
+              />
+            )}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 p-2 m-2">
@@ -37,14 +41,20 @@ export default class Question extends React.Component<QuestionProps, {}> {
               label="Comment"
               multiline
               maxRows={4}
-              value={answer.CommentQA.Comment}
+              value="" //dodać zapis
               InputProps={{
                 readOnly: true,
               }}
             />
           </div>
           <div className="flex items-center">
-            {answer.CommentQA?.Person}: {answer.CommentQA?.Comment}
+            {answer.CommentQA?.Comment && (
+              <>
+                {answer.CommentQA?.Person}
+                {": "}
+                {answer.CommentQA?.Comment}
+              </>
+            )}
           </div>
         </div>
       </div>
