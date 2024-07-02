@@ -4,11 +4,20 @@ import { Answer } from "./types";
 
 interface QuestionProps {
   answer: Answer;
+  commentsReview: { [id: string]: string };
+  onCommentChange: (id: string, value: string) => void;
 }
 
 export default class Question extends React.Component<QuestionProps, {}> {
+  handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.onCommentChange(
+      this.props.answer.ID.toString(),
+      event.target.value
+    );
+  };
+
   render() {
-    const { answer } = this.props;
+    const { answer, commentsReview } = this.props;
     return (
       <div key={answer.ID} className="border-b-2 border-sky-500">
         <div className="flex justify-between items-start p-2 m-2">
@@ -41,9 +50,10 @@ export default class Question extends React.Component<QuestionProps, {}> {
               label="Comment"
               multiline
               maxRows={4}
-              value="" //dodać zapis
+              value={commentsReview[answer.ID] || ""}
+              onChange={this.handleCommentChange}
               InputProps={{
-                readOnly: true,
+                readOnly: false,
               }}
             />
           </div>

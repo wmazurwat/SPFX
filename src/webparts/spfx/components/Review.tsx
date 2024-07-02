@@ -20,11 +20,51 @@ interface ISpfxPropsWithAnswer extends ISpfxProps {
   quality: string;
 }
 
-export default class Review extends React.Component<ISpfxPropsWithAnswer, {}> {
+interface ReviewState {
+  tabIndex: number;
+  answers: { [id: string]: string };
+  commentsReview: { [id: string]: string };
+}
+
+export default class Review extends React.Component<
+  ISpfxPropsWithAnswer,
+  ReviewState
+> {
+  constructor(props: ISpfxPropsWithAnswer) {
+    super(props);
+    this.state = {
+      tabIndex: 0,
+      answers: {},
+      commentsReview: {},
+    };
+  }
+
+  handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    this.setState({ tabIndex: newValue });
+  };
+
+  handleCommentChange = (id: string, value: string) => {
+    this.setState((prevState) => ({
+      commentsReview: {
+        ...prevState.commentsReview,
+        [id]: value,
+      },
+    }));
+  };
+
   render() {
-    const { hasTeamsContext, answers, customerName, quality } = this.props;
-    console.log(" panswers:0", JSON.parse(answers as unknown as string)[0]);
-    const parsedAnswers = JSON.parse(answers as unknown as string);
+    const { hasTeamsContext, customerName, quality } = this.props;
+    const parsedAnswers = JSON.parse(this.props.answers as unknown as string);
+    const { tabIndex, commentsReview } = this.state;
+
+    const sections = [
+      ...new Set(parsedAnswers.map((item: Answer) => item.Section)),
+    ];
+
+    const filteredAnswers = parsedAnswers.filter(
+      (answer: Answer) => answer.Section === sections[tabIndex]
+    );
+
     return (
       <section
         className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
@@ -52,18 +92,23 @@ export default class Review extends React.Component<ISpfxPropsWithAnswer, {}> {
           <Tabs
             orientation="vertical"
             variant="scrollable"
+            value={tabIndex}
+            onChange={this.handleTabChange}
             aria-label="Vertical tabs"
             sx={{ borderRight: 1, borderColor: "divider" }}
           >
-            {[
-              ...new Set(parsedAnswers.map((item: Answer) => item.Section)),
-            ].map((section: string, index: number) => (
+            {sections.map((section: string, index: number) => (
               <Tab key={index} label={section} />
             ))}
           </Tabs>
           <Box sx={{ flexGrow: 1, p: 3 }}>
-            {parsedAnswers.map((a: any) => (
-              <Question key={a.ID} answer={a} />
+            {filteredAnswers.map((a: any) => (
+              <Question
+                key={a.ID.toString()}
+                answer={a}
+                commentsReview={commentsReview}
+                onCommentChange={this.handleCommentChange}
+              />
             ))}
           </Box>
         </Box>
