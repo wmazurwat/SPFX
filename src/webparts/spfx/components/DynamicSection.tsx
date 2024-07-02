@@ -112,8 +112,8 @@ export default class DynamicSection extends React.Component<
     const { questions } = this.props;
     // console.log("Questions in DynamicSection:", questions);
     return questions.map((q, i) => (
-      <div key={i}>
-        <FormControl variant="standard" required>
+      <div key={i} className="w-full">
+        <FormControl variant="standard" required className="w-full">
           <div className={"text-xl justify-start"} id="demo-error-radios">
             {q.Pytanie}
             {q.Waga === 0.5 ? (
