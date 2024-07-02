@@ -1,4 +1,5 @@
 import * as React from "react";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import {
@@ -8,6 +9,7 @@ import {
   InputLabel,
   FormControl,
   Button,
+  IconButton,
 } from "@mui/material";
 import dayjs from "dayjs";
 
@@ -21,16 +23,12 @@ interface FeedbackFormProps extends ISpfxProps {
 
 type State = {
   qaReviewStarted: any;
-  // gcn: string;
   currentDdLevel: string;
   qaReviewClosed: string;
   reviewType: string;
   responsibleTeam: string;
   qualityChecker: string;
   regulatoryAnalyst: string;
-  // amountOfFeedbacks: string;
-  // adjustmentsRequired: string;
-  // challengeProcess: string;
 };
 
 export default class FeedbackForm extends React.Component<
@@ -41,16 +39,12 @@ export default class FeedbackForm extends React.Component<
     super(props);
     this.state = {
       qaReviewStarted: dayjs().toDate(),
-      // gcn: "",
       currentDdLevel: "",
       qaReviewClosed: "",
       reviewType: "",
       responsibleTeam: "",
       qualityChecker: "",
       regulatoryAnalyst: "",
-      // amountOfFeedbacks: "",
-      // adjustmentsRequired: "",
-      // challengeProcess: "",
     };
   }
 
@@ -87,10 +81,12 @@ export default class FeedbackForm extends React.Component<
     const { hasTeamsContext } = this.props;
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
-        <div className={"p-5 m-2 text-4xl flex justify-center"}>
-          <div>QRM Feedbak Form - Review </div>
+        <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
+          <IconButton onClick={this.handleBack} className="absolute left-5">
+            <ArrowBackIosNewIcon />
+          </IconButton>
+          <div className="flex-grow text-center">QRM Feedbak Form - Review</div>
         </div>
-
         <div className={"p-2 m-2 shadow grid grid-cols-2"}>
           <div className={"p-2 m-2 justify-start"}>
             <TextField
@@ -103,17 +99,6 @@ export default class FeedbackForm extends React.Component<
               onChange={this.handleInputChange("customerName")}
             />
           </div>
-          {/* <div className={"p-2 m-2 justify-center"}>
-            <TextField
-              multiline
-              maxRows={1}
-              fullWidth
-              id="gcn"
-              label="GCN"
-              value={this.state.gcn}
-              onChange={this.handleInputChange("gcn")}
-            />
-          </div> */}
           <div className={"p-2 m-2 justify-center"}>
             <FormControl fullWidth>
               <InputLabel id="current-dd-level-label">
@@ -217,22 +202,8 @@ export default class FeedbackForm extends React.Component<
               onChange={this.handleInputChange("regulatoryAnalyst")}
             />
           </div>
-          {/* <div className={"p-2 m-2 justify-center"}>
-            <TextField
-              multiline
-              maxRows={1}
-              fullWidth
-              id="amount-of-feedbacks"
-              label="Amount of feedbacks"
-              value={this.state.amountOfFeedbacks}
-              onChange={this.handleInputChange("amountOfFeedbacks")}
-            />
-          </div> */}
         </div>
-        <div className="flex justify-between">
-          <Button variant="contained" onClick={this.handleBack}>
-            Back
-          </Button>
+        <div className="flex justify-end mr-10">
           <Button variant="contained" color="primary" onClick={this.handleNext}>
             Next
           </Button>
