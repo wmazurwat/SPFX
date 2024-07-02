@@ -7,7 +7,6 @@ import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
 import Lista from "./Lista";
 import { Answer } from "./types";
-// import { Answer } from "./types"; // Poprawny import typu Answer
 
 type State = {
   activePage: number;
@@ -15,7 +14,7 @@ type State = {
   savedAnswers: { [x: number]: SectionAnswers };
   feedbackFormState: any;
   quality: string;
-  answers: Answer[]; // Użycie poprawnego typu
+  answers: Answer[];
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -101,6 +100,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
+            setActivePage={this.setActivePage} // Pass the setActivePage function
           />
         );
       default:
@@ -110,6 +110,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
+            setActivePage={this.setActivePage} // Pass the setActivePage function
           />
         );
     }

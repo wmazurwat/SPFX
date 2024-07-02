@@ -1,3 +1,4 @@
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
@@ -5,6 +6,7 @@ import type { ISpfxProps } from "./ISpfxProps";
 import {
   Box,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -18,6 +20,7 @@ interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
   customerName: string;
   quality: string;
+  setActivePage: (page: number) => void; // Add this prop to navigate back
 }
 
 interface ReviewState {
@@ -52,6 +55,10 @@ export default class Review extends React.Component<
     }));
   };
 
+  handleBackClick = () => {
+    this.props.setActivePage(0); // Navigate back to Lista
+  };
+
   render() {
     const { hasTeamsContext, customerName, quality } = this.props;
     const parsedAnswers = JSON.parse(this.props.answers as unknown as string);
@@ -69,7 +76,10 @@ export default class Review extends React.Component<
       <section
         className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <div className="p-5 m-2 text-4xl flex justify-center">
+        <div className="flex justify-between items-center p-5 m-2 text-4xl">
+          <IconButton onClick={this.handleBackClick}>
+            <ArrowBackIosNewIcon />
+          </IconButton>
           <div>Customer risk analysis - Review</div>
         </div>
         <div className="p-5 m-2 justify-center">
