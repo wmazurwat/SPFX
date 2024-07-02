@@ -1,4 +1,6 @@
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
+import { IconButton, Box, Tabs, Tab, Button } from "@mui/material";
 import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
@@ -8,7 +10,6 @@ import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import UserInfo from "./UserInfo";
-import { Tabs, Tab, Box, Button } from "@mui/material";
 import {
   getColumnList,
   addSingleLineTextColumnToSharePoint,
@@ -64,14 +65,8 @@ export default class Ankieta extends React.Component<
 
   async componentDidMount() {
     try {
-      // const items = await this.spWeb.lists.getByTitle("Dane").items.getPaged();
-      // console.log("Items from 'Dane':", items);
-
       const existingColumns = await getColumnList(this.spWeb);
-      // console.log("Existing columns:", existingColumns);
-
       const sections = await getQAData(this.spWeb);
-      // console.log("Sections from QA:", sections);
 
       if (existingColumns && sections) {
         this.setState({ existingColumns, sections });
@@ -181,6 +176,10 @@ export default class Ankieta extends React.Component<
     }
   };
 
+  handleNavigateToFeedbackForm = () => {
+    this.props.setActivePage(1); // Navigate to FeedbackForm page
+  };
+
   saveAnswers = (
     index: number,
     answers: SectionAnswers,
@@ -242,8 +241,16 @@ export default class Ankieta extends React.Component<
           hasTeamsContext ? styles.teams : "shadow"
         }`}
       >
-        <div className={"p-5 m-2 text-4xl flex justify-center "}>
-          <div>Customer risk analysis - Questionnaire</div>
+        <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
+          <IconButton
+            onClick={this.handleNavigateToFeedbackForm}
+            className="absolute left-5"
+          >
+            <ArrowBackIosNewIcon />
+          </IconButton>
+          <div className="flex-grow text-center">
+            Customer risk analysis - Questionnaire
+          </div>
         </div>
         <UserInfo {...this.props} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
