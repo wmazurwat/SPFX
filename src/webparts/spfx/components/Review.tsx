@@ -76,11 +76,16 @@ export default class Review extends React.Component<
       <section
         className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <div className="flex justify-between items-center p-5 m-2 text-4xl">
-          <IconButton onClick={this.handleBackClick}>
+        <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
+          <IconButton
+            onClick={this.handleBackClick}
+            className="absolute left-5"
+          >
             <ArrowBackIosNewIcon />
           </IconButton>
-          <div>Customer risk analysis - Review</div>
+          <div className="flex-grow text-center">
+            Customer risk analysis - Review
+          </div>
         </div>
         <div className="p-5 m-2 justify-center">
           <List>
