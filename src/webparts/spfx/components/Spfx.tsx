@@ -64,6 +64,19 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     this.setState({ feedbackFormState: state });
   };
 
+  resetFeedbackFormState = () => {
+    this.setState({
+      customerName: "",
+      feedbackFormState: {
+        currentDdLevel: "",
+        reviewType: "",
+        responsibleTeam: "",
+        qualityChecker: "",
+        regulatoryAnalyst: "",
+      },
+    });
+  };
+
   setActivePage = (page: number) => {
     this.setState({ activePage: page });
   };
@@ -78,6 +91,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setCustomerName={this.setCustomerName}
             setQuality={this.setQuality}
             setAnswer={this.setAnswers}
+            resetFeedbackFormState={this.resetFeedbackFormState}
           />
         );
       case 1:

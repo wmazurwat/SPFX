@@ -33,6 +33,7 @@ export default class Lista extends React.Component<
     setCustomerName: (name: string) => void;
     setQuality: (name: string) => void;
     setAnswer: (answer: object) => void;
+    resetFeedbackFormState: () => void;
   },
   State
 > {
@@ -44,6 +45,7 @@ export default class Lista extends React.Component<
       setCustomerName: (name: string) => void;
       setQuality: (name: string) => void;
       setAnswer: (answer: object) => void;
+      resetFeedbackFormState: () => void;
     }
   ) {
     super(props);
@@ -105,7 +107,8 @@ export default class Lista extends React.Component<
   };
 
   private handleNew = () => {
-    // Navigate to FeedbackForm
+    // Reset feedbackFormState and navigate to FeedbackForm
+    this.props.resetFeedbackFormState();
     this.props.setActivePage(1);
   };
 
