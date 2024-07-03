@@ -33,6 +33,7 @@ export default class Lista extends React.Component<
     setCustomerName: (name: string) => void;
     setQuality: (name: string) => void;
     setAnswer: (answer: object) => void;
+    setIdReview: (id: number) => void;
     resetFeedbackFormState: () => void;
   },
   State
@@ -45,6 +46,7 @@ export default class Lista extends React.Component<
       setCustomerName: (name: string) => void;
       setQuality: (name: string) => void;
       setAnswer: (answer: object) => void;
+      setIdReview: (id: number) => void;
       resetFeedbackFormState: () => void;
     }
   ) {
@@ -102,8 +104,9 @@ export default class Lista extends React.Component<
     // Przejdź do komponentu Review
     this.props.setCustomerName(customerName);
     this.props.setQuality(quality);
-    this.props.setActivePage(3);
     this.props.setAnswer(answer);
+    this.props.setIdReview(id);
+    this.props.setActivePage(3);
   };
 
   private handleNew = () => {

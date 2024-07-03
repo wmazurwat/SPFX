@@ -21,6 +21,7 @@ type State = {
   };
   quality: string;
   answers: Answer[];
+  idReview: number;
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -39,6 +40,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       },
       quality: "100",
       answers: [],
+      idReview: 0,
     };
   }
 
@@ -77,6 +79,10 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     });
   };
 
+  setIdReview = (id: number) => {
+    this.setState({ idReview: id });
+  };
+
   setActivePage = (page: number) => {
     this.setState({ activePage: page });
   };
@@ -92,6 +98,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setQuality={this.setQuality}
             setAnswer={this.setAnswers}
             resetFeedbackFormState={this.resetFeedbackFormState}
+            setIdReview={this.setIdReview}
           />
         );
       case 1:
@@ -126,6 +133,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             quality={this.state.quality}
             answers={this.state.answers}
             setActivePage={this.setActivePage}
+            idReview={this.state.idReview} // Pass idReview to Review component
           />
         );
       default:
@@ -136,6 +144,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             quality={this.state.quality}
             answers={this.state.answers}
             setActivePage={this.setActivePage}
+            idReview={this.state.idReview} // Pass idReview to Review component
           />
         );
     }

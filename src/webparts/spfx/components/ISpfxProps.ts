@@ -8,8 +8,10 @@ export interface ISpfxProps {
   context: WebPartContext;
   userEmail: string;
   customerName?: string;
+  idReview?: number;
   answer?: Answer[]; // Zaktualizowanie typu na Answer[]
   setCustomerName?: (name: string) => void;
+  setIdReview?: (name: number) => void;
   setActivePage?: (page: number) => void;
   setQuality?: (quality: string) => void;
   setAnswer?: (answer: Answer[] | string[]) => void;
