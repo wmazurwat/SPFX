@@ -13,9 +13,7 @@ type State = {
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
   feedbackFormState: {
-    qaReviewStarted: any;
     currentDdLevel: string;
-    qaReviewClosed: string;
     reviewType: string;
     responsibleTeam: string;
     qualityChecker: string;
@@ -33,9 +31,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       customerName: "",
       savedAnswers: {},
       feedbackFormState: {
-        qaReviewStarted: "",
         currentDdLevel: "",
-        qaReviewClosed: "",
         reviewType: "",
         responsibleTeam: "",
         qualityChecker: "",
