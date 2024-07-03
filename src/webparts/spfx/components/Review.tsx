@@ -20,7 +20,7 @@ interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
   customerName: string;
   quality: string;
-  setActivePage: (page: number) => void; // Add this prop to navigate back
+  setActivePage: (page: number) => void;
 }
 
 interface ReviewState {
@@ -64,9 +64,10 @@ export default class Review extends React.Component<
     const parsedAnswers = JSON.parse(this.props.answers as unknown as string);
     const { tabIndex, commentsReview } = this.state;
 
+    // Filter out the section named "MI Data"
     const sections = [
       ...new Set(parsedAnswers.map((item: Answer) => item.Section)),
-    ];
+    ].filter((section) => section !== "MI Data");
 
     const filteredAnswers = parsedAnswers.filter(
       (answer: Answer) => answer.Section === sections[tabIndex]
