@@ -81,7 +81,7 @@ export default class Lista extends React.Component<
         )
         .top(100)(); // Pobierz do 100 elementów
       this.setState({ items });
-      console.log(items);
+      // console.log(items);
     } catch (error) {
       console.error("Error fetching items:", error);
     }

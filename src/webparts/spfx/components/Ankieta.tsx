@@ -131,6 +131,10 @@ export default class Ankieta extends React.Component<
                   : userDisplayName,
               Comment: comments[parseInt(sectionIndex, 10)]?.[q.id] || "",
             },
+            CommentReview: {
+              Person: "",
+              Comment: "",
+            },
           }));
         }
       );

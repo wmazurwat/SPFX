@@ -5,6 +5,7 @@ import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
 import {
   Box,
+  Button,
   Divider,
   IconButton,
   List,
@@ -15,12 +16,14 @@ import {
 } from "@mui/material";
 import Question from "./Question";
 import { Answer } from "./types";
+import { spfi, SPFx } from "@pnp/sp";
 
 interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
   customerName: string;
   quality: string;
   setActivePage: (page: number) => void;
+  idReview: number; // Add idReview prop
 }
 
 interface ReviewState {
@@ -33,6 +36,8 @@ export default class Review extends React.Component<
   ISpfxPropsWithAnswer,
   ReviewState
 > {
+  private spWeb;
+
   constructor(props: ISpfxPropsWithAnswer) {
     super(props);
     this.state = {
@@ -40,6 +45,8 @@ export default class Review extends React.Component<
       answers: {},
       commentsReview: {},
     };
+    const sp = spfi().using(SPFx(this.props.context));
+    this.spWeb = sp.web;
   }
 
   handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -56,6 +63,43 @@ export default class Review extends React.Component<
   };
 
   handleBackClick = () => {
+    this.props.setActivePage(0); // Navigate back to Lista
+  };
+
+  handleSaveComments = async () => {
+    const { commentsReview } = this.state;
+    const { userDisplayName, idReview } = this.props;
+
+    try {
+      const item = await this.spWeb.lists
+        .getByTitle("Dane")
+        .items.getById(idReview);
+      const answerData = await item.select("Answer")();
+      let answers = JSON.parse(answerData.Answer);
+
+      // Add comments to the correct answers
+      for (const [id, comment] of Object.entries(commentsReview)) {
+        if (comment) {
+          const answer = answers.find((a: Answer) => a.ID.toString() === id);
+          if (answer) {
+            if (!Array.isArray(answer.CommentReview)) {
+              answer.CommentReview = [];
+            }
+            answer.CommentReview.push({
+              Person: userDisplayName,
+              Comment: comment,
+            });
+          }
+        }
+      }
+
+      await item.update({
+        Answer: JSON.stringify(answers),
+      });
+    } catch (error) {
+      console.error(`Error updating item ${idReview}:`, error);
+    }
+
     this.props.setActivePage(0); // Navigate back to Lista
   };
 
@@ -87,6 +131,13 @@ export default class Review extends React.Component<
           <div className="flex-grow text-center">
             Customer risk analysis - Review
           </div>
+          <Button
+            onClick={this.handleSaveComments}
+            variant="contained"
+            color="primary"
+          >
+            Save Comments
+          </Button>
         </div>
         <div className="p-5 m-2 justify-center">
           <List>

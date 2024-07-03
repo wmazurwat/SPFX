@@ -4,17 +4,23 @@ export interface IQAItem {
     Podpowiedź: string;
     id: string;
   }
-  export interface CommentQA {
+export interface CommentQA {
     Person: string;
     Comment: string;
   }
   
-  export interface Answer {
+export interface Answer {
     ID: number;
-    Section: string;
     Question: string;
-    Hint: string;
-    Weight: number;
-    Answer: string;
-    CommentQA: CommentQA;
+    Hint?: string;
+    Answer: string | null;
+    Section: string;
+    CommentQA?: {
+      Person: string;
+      Comment: string;
+    };
+    CommentReview?: {
+      Person: string;
+      Comment: string;
+    }[];
   }
