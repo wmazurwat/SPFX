@@ -152,6 +152,7 @@ export default class Ankieta extends React.Component<
       console.error("Error adding item to SharePoint list", error);
       alert("Failed to save data!");
     }
+    this.props.setActivePage(0); // Navigate to List page
   };
 
   handleAddSingleLineColumn = async (columnName: string) => {
