@@ -1,6 +1,15 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
-import { IconButton, Box, Tabs, Tab, Button } from "@mui/material";
+import {
+  IconButton,
+  Box,
+  Tabs,
+  Tab,
+  Button,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
 import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
@@ -9,13 +18,13 @@ import "@pnp/sp/fields";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import UserInfo from "./UserInfo";
 import {
   getColumnList,
   addSingleLineTextColumnToSharePoint,
   getQAData,
 } from "./ColumnUtils";
 import DynamicSection from "./DynamicSection";
+import { List } from "@fluentui/react";
 
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
@@ -253,7 +262,22 @@ export default class Ankieta extends React.Component<
             Customer risk analysis - Questionnaire
           </div>
         </div>
-        <UserInfo {...this.props} />
+        <div className="p-5 m-2 justify-center">
+          <List>
+            <ListItem>
+              <ListItemText primary={this.props.customerName} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Customer Name
+            </Divider>
+            <ListItem>
+              <ListItemText primary={this.props.quality} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Quality
+            </Divider>
+          </List>
+        </div>
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
