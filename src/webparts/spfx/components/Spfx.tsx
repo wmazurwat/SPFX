@@ -12,7 +12,15 @@ type State = {
   activePage: number;
   customerName: string;
   savedAnswers: { [x: number]: SectionAnswers };
-  feedbackFormState: any;
+  feedbackFormState: {
+    qaReviewStarted: any;
+    currentDdLevel: string;
+    qaReviewClosed: string;
+    reviewType: string;
+    responsibleTeam: string;
+    qualityChecker: string;
+    regulatoryAnalyst: string;
+  };
   quality: string;
   answers: Answer[];
 };
@@ -24,7 +32,15 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       activePage: 0,
       customerName: "",
       savedAnswers: {},
-      feedbackFormState: {},
+      feedbackFormState: {
+        qaReviewStarted: "",
+        currentDdLevel: "",
+        qaReviewClosed: "",
+        reviewType: "",
+        responsibleTeam: "",
+        qualityChecker: "",
+        regulatoryAnalyst: "",
+      },
       quality: "100",
       answers: [],
     };
@@ -74,8 +90,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             customerName={this.state.customerName}
             setCustomerName={this.setCustomerName}
-            savedAnswers={this.state.savedAnswers}
-            saveAnswers={this.saveAnswers}
+            feedbackFormState={this.state.feedbackFormState}
             setFeedbackFormState={this.setFeedbackFormState}
             setActivePage={this.setActivePage}
           />
@@ -100,7 +115,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
-            setActivePage={this.setActivePage} // Pass the setActivePage function
+            setActivePage={this.setActivePage}
           />
         );
       default:
@@ -110,7 +125,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
-            setActivePage={this.setActivePage} // Pass the setActivePage function
+            setActivePage={this.setActivePage}
           />
         );
     }

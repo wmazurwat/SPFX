@@ -10,82 +10,65 @@ import {
   FormControl,
   Button,
   IconButton,
+  SelectChangeEvent,
 } from "@mui/material";
-import dayjs from "dayjs";
 
 interface FeedbackFormProps extends ISpfxProps {
+  hasTeamsContext: boolean;
   customerName: string;
   setCustomerName: (name: string) => void;
-  savedAnswers: { [x: number]: any };
-  saveAnswers: (index: number, answers: any) => void;
+  feedbackFormState: {
+    currentDdLevel: string;
+    reviewType: string;
+    responsibleTeam: string;
+    qualityChecker: string;
+    regulatoryAnalyst: string;
+  };
   setFeedbackFormState: (state: any) => void;
+  setActivePage: (page: number) => void;
 }
 
-type State = {
-  qaReviewStarted: any;
-  currentDdLevel: string;
-  qaReviewClosed: string;
-  reviewType: string;
-  responsibleTeam: string;
-  qualityChecker: string;
-  regulatoryAnalyst: string;
-};
-
-export default class FeedbackForm extends React.Component<
-  FeedbackFormProps,
-  State
-> {
-  constructor(props: FeedbackFormProps) {
-    super(props);
-    this.state = {
-      qaReviewStarted: dayjs().toDate(),
-      currentDdLevel: "",
-      qaReviewClosed: "",
-      reviewType: "",
-      responsibleTeam: "",
-      qualityChecker: "",
-      regulatoryAnalyst: "",
-    };
-  }
-
-  componentDidUpdate(prevProps: FeedbackFormProps, prevState: State) {
-    if (prevState !== this.state) {
-      this.props.setFeedbackFormState(this.state);
-    }
-  }
-
+export default class FeedbackForm extends React.Component<FeedbackFormProps> {
   handleInputChange =
     (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({ [field]: event.target.value } as unknown as Pick<
-        State,
-        keyof State
-      >);
+      const value = event.target.value;
+      this.props.setFeedbackFormState({
+        ...this.props.feedbackFormState,
+        [field]: value,
+      });
       if (field === "customerName") {
-        this.props.setCustomerName(event.target.value);
+        this.props.setCustomerName(value);
       }
     };
 
-  handleDateChange = (newValue: Date | null) => {
-    this.setState({ qaReviewStarted: newValue });
-  };
+  handleSelectChange =
+    (field: string) => (event: SelectChangeEvent<string>) => {
+      const value = event.target.value;
+      this.props.setFeedbackFormState({
+        ...this.props.feedbackFormState,
+        [field]: value,
+      });
+    };
 
   handleNext = () => {
-    this.props.setActivePage!(2);
+    this.props.setActivePage(2);
   };
 
   handleBack = () => {
-    this.props.setActivePage!(0);
+    this.props.setActivePage(0);
   };
 
   public render(): React.ReactElement<FeedbackFormProps> {
-    const { hasTeamsContext } = this.props;
+    const { hasTeamsContext, feedbackFormState } = this.props;
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
         <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
           <IconButton onClick={this.handleBack} className="absolute left-5">
             <ArrowBackIosNewIcon />
           </IconButton>
-          <div className="flex-grow text-center">QRM Feedbak Form - Review</div>
+          <div className="flex-grow text-center">
+            QRM Feedback Form - Review
+          </div>
         </div>
         <div className={"p-2 m-2 shadow grid grid-cols-2"}>
           <div className={"p-2 m-2 justify-start"}>
@@ -108,8 +91,8 @@ export default class FeedbackForm extends React.Component<
                 labelId="current-dd-level-label"
                 id="current-dd-level"
                 label="Current DD Level"
-                value={this.state.currentDdLevel}
-                onChange={this.handleInputChange("currentDdLevel")}
+                value={feedbackFormState.currentDdLevel}
+                onChange={this.handleSelectChange("currentDdLevel")}
               >
                 <MenuItem value="SDD">SDD</MenuItem>
                 <MenuItem value="CDD">CDD</MenuItem>
@@ -124,15 +107,15 @@ export default class FeedbackForm extends React.Component<
                 labelId="Review Type"
                 id="Review Type"
                 label="Review Type"
-                value={this.state.reviewType}
-                onChange={this.handleInputChange("reviewType")}
+                value={feedbackFormState.reviewType}
+                onChange={this.handleSelectChange("reviewType")}
               >
                 <MenuItem value="Review">Review</MenuItem>
                 <MenuItem value="Onboarding">Onboarding</MenuItem>
               </Select>
             </FormControl>
           </div>
-          {this.state.reviewType === "Review" ? (
+          {feedbackFormState.reviewType === "Review" ? (
             <div className={"p-2 m-2 justify-center"}>
               <FormControl fullWidth>
                 <InputLabel id="Responsible Team">Responsible Team</InputLabel>
@@ -140,8 +123,8 @@ export default class FeedbackForm extends React.Component<
                   labelId="Responsible Team"
                   id="Responsible Team"
                   label="Responsible Team"
-                  value={this.state.responsibleTeam}
-                  onChange={this.handleInputChange("responsibleTeam")}
+                  value={feedbackFormState.responsibleTeam}
+                  onChange={this.handleSelectChange("responsibleTeam")}
                 >
                   <MenuItem value="Remediation">Remediation</MenuItem>
                   <MenuItem value="CB 1 Reviews">CB 1 Reviews</MenuItem>
@@ -155,7 +138,7 @@ export default class FeedbackForm extends React.Component<
               </FormControl>
             </div>
           ) : null}
-          {this.state.reviewType === "Onboarding" ? (
+          {feedbackFormState.reviewType === "Onboarding" ? (
             <div className={"p-2 m-2 justify-center"}>
               <FormControl fullWidth>
                 <InputLabel id="Responsible Team">Responsible Team</InputLabel>
@@ -163,8 +146,8 @@ export default class FeedbackForm extends React.Component<
                   labelId="Responsible Team"
                   id="Responsible Team"
                   label="Responsible Team"
-                  value={this.state.responsibleTeam}
-                  onChange={this.handleInputChange("responsibleTeam")}
+                  value={feedbackFormState.responsibleTeam}
+                  onChange={this.handleSelectChange("responsibleTeam")}
                 >
                   <MenuItem value="Norway">Norway</MenuItem>
                   <MenuItem value="Denmark">Denmark</MenuItem>
@@ -187,7 +170,7 @@ export default class FeedbackForm extends React.Component<
               fullWidth
               id="quality-checker"
               label="Quality Checker"
-              value={this.state.qualityChecker}
+              value={feedbackFormState.qualityChecker}
               onChange={this.handleInputChange("qualityChecker")}
             />
           </div>
@@ -198,7 +181,7 @@ export default class FeedbackForm extends React.Component<
               fullWidth
               id="regulatory-analyst"
               label="Regulatory Analyst"
-              value={this.state.regulatoryAnalyst}
+              value={feedbackFormState.regulatoryAnalyst}
               onChange={this.handleInputChange("regulatoryAnalyst")}
             />
           </div>
