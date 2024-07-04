@@ -1,19 +1,12 @@
 import * as React from "react";
 import "./styles.css";
 import { Divider, List, ListItem, ListItemText } from "@mui/material";
-
 interface HeaderProps {
   quality: string;
   customerName: string;
 }
 
-interface ReviewState {
-  tabIndex: number;
-  answers: { [id: string]: string };
-  commentsReview: { [id: string]: string };
-}
-
-export default class Header extends React.Component<HeaderProps, ReviewState> {
+export default class Header extends React.Component<HeaderProps> {
   render() {
     return (
       <div className="p-5 m-2 justify-center">

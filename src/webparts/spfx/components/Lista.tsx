@@ -102,27 +102,26 @@ export default class Lista extends React.Component<
     quality: string,
     answer: object
   ) => {
-    // Przejdź do komponentu Review
     this.props.setCustomerName(customerName);
     this.props.setQuality(quality);
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(3);
-    console.log(quality);
+    console.log("Quality in handleEdit:", quality);
   };
+
   private handleView = (
     id: number,
     customerName: string,
     quality: string,
     answer: object
   ) => {
-    // Przejdź do komponentu Review
     this.props.setCustomerName(customerName);
     this.props.setQuality(quality);
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
-    console.log(quality);
+    console.log("Quality in handleView:", quality);
   };
 
   private handleNew = () => {
