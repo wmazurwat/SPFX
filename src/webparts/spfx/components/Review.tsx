@@ -3,20 +3,11 @@ import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Tab,
-  Tabs,
-} from "@mui/material";
+import { Box, Button, IconButton, Tab, Tabs } from "@mui/material";
 import Question from "./Question";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
+import Header from "./Header";
 
 interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
@@ -95,7 +86,7 @@ export default class Review extends React.Component<
 
       await item.update({
         Answer: JSON.stringify(answers),
-        Status: "Reviewed", // Update status to "Reviewed"
+        // Status: "Reviewed", // Update status to "Reviewed"
       });
     } catch (error) {
       console.error(`Error updating item ${idReview}:`, error);
@@ -133,22 +124,7 @@ export default class Review extends React.Component<
             Customer risk analysis - Review
           </div>
         </div>
-        <div className="p-5 m-2 justify-center">
-          <List>
-            <ListItem>
-              <ListItemText primary={customerName} />
-            </ListItem>
-            <Divider variant="middle" component="li" textAlign="left">
-              Customer Name
-            </Divider>
-            <ListItem>
-              <ListItemText primary={quality} />
-            </ListItem>
-            <Divider variant="middle" component="li" textAlign="left">
-              Quality
-            </Divider>
-          </List>
-        </div>
+        <Header quality={quality} customerName={customerName} />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
