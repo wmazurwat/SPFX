@@ -19,8 +19,8 @@ export interface Answer {
       Person: string;
       Comment: string;
     };
-    CommentReview?: {
+    CommentReview?: Array<{
       Person: string;
       Comment: string;
-    }[];
+    }>;
   }
