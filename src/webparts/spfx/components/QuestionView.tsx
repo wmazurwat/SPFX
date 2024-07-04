@@ -55,15 +55,16 @@ export default class QuestionView extends React.Component<
               </>
             )}
           </div>
-          {/* <div className="flex items-center"> // przerobić na CommentReview
-            {answer.CommentQA?.Comment && (
+          <div className="flex items-center">
+            {" "}
+            {answer.CommentReview?.[0]?.Comment && (
               <>
-                {answer.CommentQA?.Person}
+                {answer.CommentReview?.[0]?.Person}
                 {": "}
-                {answer.CommentQA?.Comment}
+                {answer.CommentReview?.[0]?.Comment}
               </>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     );
