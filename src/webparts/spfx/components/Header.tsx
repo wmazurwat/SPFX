@@ -22,7 +22,7 @@ export default class Header extends React.Component<HeaderProps, ReviewState> {
             <ListItemText primary={this.props.customerName} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
-            !!!Customer Name
+            Customer Name
           </Divider>
           <ListItem>
             <ListItemText primary={this.props.quality} />
