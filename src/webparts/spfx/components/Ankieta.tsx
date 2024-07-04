@@ -100,37 +100,38 @@ export default class Ankieta extends React.Component<
         userDisplayName,
       } = this.props;
       const { comments } = this.state;
-
       const status = "Review";
-      const allAnswers = Object.entries(savedAnswers).flatMap(
-        ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
-          const sectionQuestions =
-            this.state.sections[
-              Object.keys(this.state.sections)[parseInt(sectionIndex, 10)]
-            ];
-          return sectionQuestions.map((q) => ({
-            ID: q.id,
-            Section: Object.keys(this.state.sections)[
-              parseInt(sectionIndex, 10)
-            ],
-            Question: q.Pytanie,
-            Hint: q.Podpowiedź,
-            Weight: q.Waga,
-            Answer: sectionAnswers[q.id] || "",
-            CommentQA: {
-              Person:
-                comments[parseInt(sectionIndex, 10)]?.[q.id] == null
-                  ? ""
-                  : userDisplayName,
-              Comment: comments[parseInt(sectionIndex, 10)]?.[q.id] || "",
-            },
-            CommentReview: {
-              Person: "",
-              Comment: "",
-            },
-          }));
-        }
-      );
+      // console.log("savedAnswers", savedAnswers);
+      const { sections } = this.state;
+      const answersList = Object.assign({}, ...Object.values(savedAnswers)); //tutaj
+      // console.log(answersList);
+      let cumulativeIndex = 0;
+
+      const list = Object.keys(sections).flatMap((key) => {
+        const itemsWithIndex = sections[key].map((item) => ({
+          ...item,
+          section: key,
+          index: cumulativeIndex,
+        }));
+        cumulativeIndex++;
+        return itemsWithIndex;
+      });
+      const allAnswers = list.map((q) => ({
+        ID: q.id,
+        Section: q.section,
+        Question: q.Pytanie,
+        Hint: q.Podpowiedź,
+        Weight: q.Waga,
+        Answer: answersList[q.id] || "",
+        CommentQA: {
+          Person: comments[q.index]?.[q.id] == null ? "" : userDisplayName,
+          Comment: comments[q.index]?.[q.id] || "",
+        },
+        CommentReview: {
+          Person: "",
+          Comment: "",
+        },
+      }));
       const feedbackFormColumns = {
         GCN: feedbackFormState.gcn,
         CurrentDDLevel: feedbackFormState.currentDdLevel,
@@ -145,7 +146,7 @@ export default class Ankieta extends React.Component<
         Quality: quality,
         Status: status,
       };
-
+      // console.log("allAnswers", allAnswers);
       const item = {
         ...feedbackFormColumns,
         Answer: JSON.stringify(allAnswers),
