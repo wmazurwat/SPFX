@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "spfx-SEB-v2.0",
+    "name": "spfx-SEB-v04-07-2024-01",
     "id": "55bad390-54ea-477a-9605-e1fdea83e974",
     "version": "2.0.0.0",
     "includeClientSideAssets": true,
@@ -35,6 +35,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/spfx-v2.0.sppkg"
+    "zippedPackage": "solution/spfx-v04-07-2024-01.sppkg"
   }
 }
