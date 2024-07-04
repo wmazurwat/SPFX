@@ -6,7 +6,6 @@ import {
   FormControl,
   FormControlLabel,
   Radio,
-  Button,
   TextField,
 } from "@mui/material";
 import { SectionAnswers } from "./Ankieta";
@@ -50,24 +49,12 @@ export default class DynamicSection extends React.Component<
     answers: {},
   };
 
-  updateWeight = (answers: { [key: string]: string }) => {
-    let totalWeight = 0;
-    this.props.questions.forEach((q) => {
-      if (answers[q.id] === "No") {
-        totalWeight += q.Waga;
-      }
-    });
-    this.props.updateTotalWeight(totalWeight);
-    console.log("Total Weight for 'No' responses:", totalWeight);
-  };
-
   handleChange = (id: string, value: string) => {
     const newAnswers = {
       ...this.props.answers,
       [id]: value,
     };
     this.props.saveAnswers(newAnswers, this.state.comments);
-    this.updateWeight(newAnswers);
   };
 
   handleCommentChange = (id: string, value: string) => {
@@ -79,38 +66,8 @@ export default class DynamicSection extends React.Component<
     this.props.saveAnswers(this.props.answers, newComments);
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    const hasErrors = Object.values(this.props.answers).some(
-      (answer: string) => !answer
-    );
-    this.setState({
-      hasErrors,
-    });
-    if (!hasErrors) {
-      const { sectionName, questions, answers, userDisplayName } = this.props;
-      const { comments } = this.state;
-      const result = questions.map((q) => ({
-        ID: q.id,
-        Section: sectionName,
-        Question: q.Pytanie,
-        Hint: q.Podpowiedź,
-        Weight: q.Waga,
-        Answer: answers[q.id] || "",
-        CommentQA: {
-          Person: comments[q.id] == null ? "" : userDisplayName,
-          Comment: comments[q.id] || "",
-        },
-        CommentReview: "", // Możesz dostosować to, aby zawierało komentarze przeglądowe, jeśli potrzebne
-      }));
-      console.log("Saved JSON: ", JSON.stringify(result, null, 2));
-      this.props.saveAnswers(answers, comments);
-    }
-  };
-
   renderQuestion = () => {
     const { questions } = this.props;
-    // console.log("Questions in DynamicSection:", questions);
     return questions.map((q, i) => (
       <div key={i} className="w-full">
         <FormControl variant="standard" required className="w-full">
@@ -155,13 +112,6 @@ export default class DynamicSection extends React.Component<
   };
 
   public render(): React.ReactElement<DynamicSectionProps> {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        {this.renderQuestion()}
-        <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
-          Check Answer
-        </Button>
-      </form>
-    );
+    return <form>{this.renderQuestion()}</form>;
   }
 }

@@ -237,6 +237,25 @@ export default class Ankieta extends React.Component<
     );
   };
 
+  getQuality = (): string => {
+    const allAnswers = Object.entries(this.props.savedAnswers).flatMap(
+      ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
+        const sectionQuestions =
+          this.state.sections[
+            Object.keys(this.state.sections)[parseInt(sectionIndex, 10)]
+          ];
+        return sectionQuestions.map((q) => ({
+          Weight: q.Waga,
+          Answer: sectionAnswers[q.id] || "",
+        }));
+      }
+    );
+    const quality = allAnswers.reduce((acc, curr) => {
+      return acc - (curr.Answer === "No" ? curr.Weight : 0);
+    }, 100);
+    return quality.toString();
+  };
+
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
     const { tabIndex } = this.state;
@@ -260,7 +279,7 @@ export default class Ankieta extends React.Component<
         </div>
         <Header
           customerName={this.props.customerName}
-          quality={this.props.quality}
+          quality={this.getQuality()}
         />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
