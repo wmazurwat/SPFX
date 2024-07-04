@@ -23,6 +23,7 @@ type State = {
     Reviewtype: string;
     ResponsibleTeam: string;
     Quality: string;
+    Status: string;
     Answer: object;
   }[];
 };
@@ -80,7 +81,7 @@ export default class Lista extends React.Component<
           "Answer",
           "Status"
         )
-        .filter("Status eq 'Review'")();
+        .top(100)(); // Pobierz do 100 elementów
       this.setState({ items });
       // console.log(items);
     } catch (error) {
@@ -155,6 +156,8 @@ export default class Lista extends React.Component<
                   <TableCell>Review Type</TableCell>
                   <TableCell>Responsible Team</TableCell>
                   <TableCell>Quality</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right"></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
               </TableHead>
@@ -167,6 +170,24 @@ export default class Lista extends React.Component<
                     <TableCell>{item.Reviewtype}</TableCell>
                     <TableCell>{item.ResponsibleTeam}</TableCell>
                     <TableCell>{item.Quality}</TableCell>
+                    <TableCell>{item.Status}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() =>
+                          this.handleEdit(
+                            item.Id,
+                            item.CustomerName,
+                            item.Quality,
+                            item.Answer
+                          )
+                        }
+                        disabled={item.Status !== "Review"}
+                      >
+                        Review
+                      </Button>
+                    </TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
@@ -180,7 +201,7 @@ export default class Lista extends React.Component<
                           )
                         }
                       >
-                        Review
+                        View
                       </Button>
                     </TableCell>
                   </TableRow>

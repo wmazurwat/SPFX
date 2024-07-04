@@ -86,7 +86,7 @@ export default class Review extends React.Component<
 
       await item.update({
         Answer: JSON.stringify(answers),
-        // Status: "Reviewed", // Update status to "Reviewed"
+        Status: "Reviewed", // Update status to "Reviewed"
       });
     } catch (error) {
       console.error(`Error updating item ${idReview}:`, error);
