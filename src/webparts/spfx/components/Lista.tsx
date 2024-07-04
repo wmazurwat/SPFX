@@ -108,6 +108,21 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(3);
+    console.log(quality);
+  };
+  private handleView = (
+    id: number,
+    customerName: string,
+    quality: string,
+    answer: object
+  ) => {
+    // Przejdź do komponentu Review
+    this.props.setCustomerName(customerName);
+    this.props.setQuality(quality);
+    this.props.setAnswer(answer);
+    this.props.setIdReview(id);
+    this.props.setActivePage(4);
+    console.log(quality);
   };
 
   private handleNew = () => {
@@ -192,7 +207,7 @@ export default class Lista extends React.Component<
                         variant="contained"
                         color="primary"
                         onClick={() =>
-                          this.handleEdit(
+                          this.handleView(
                             item.Id,
                             item.CustomerName,
                             item.Quality,
