@@ -83,13 +83,6 @@ export default class Ankieta extends React.Component<
     this.setState({ tabIndex: newValue });
   };
 
-  updateTotalWeight = (weight: number) => {
-    this.setState({ totalWeight: weight });
-    if (this.props.setQuality) {
-      this.props.setQuality();
-    }
-  };
-
   saveAnswersToSharePoint = async () => {
     try {
       const {
@@ -234,7 +227,6 @@ export default class Ankieta extends React.Component<
         userEmail={userEmail}
         context={context}
         quality={quality}
-        updateTotalWeight={this.updateTotalWeight}
         totalWeight={totalWeight}
       />
     );
