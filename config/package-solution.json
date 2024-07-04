@@ -1,9 +1,9 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "spfx-SEB-v10",
+    "name": "spfx-SEB-v2.0",
     "id": "55bad390-54ea-477a-9605-e1fdea83e974",
-    "version": "1.0.0.10",
+    "version": "2.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -30,11 +30,11 @@
         "title": "spfx Feature",
         "description": "The feature that activates elements of the spfx solution.",
         "id": "4b901ea0-1d41-4eb0-9ea5-ab0adce563d4",
-        "version": "1.0.0.10"
+        "version": "2.0.0.0"
       }
     ]
   },
   "paths": {
-    "zippedPackage": "solution/spfx-v010.sppkg"
+    "zippedPackage": "solution/spfx-v2.0.sppkg"
   }
 }
