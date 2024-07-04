@@ -107,7 +107,7 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(3);
-    console.log("Quality in handleEdit:", qualityReview);
+    // console.log("Quality in handleEdit:", qualityReview);
   };
 
   private handleView = (
@@ -121,7 +121,7 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
-    console.log("Quality in handleView:", qualityReview);
+    // console.log("Quality in handleView:", qualityReview);
   };
 
   private handleNew = () => {

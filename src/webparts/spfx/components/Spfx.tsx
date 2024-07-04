@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
@@ -76,7 +76,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     this.setState({ qualityReview });
   };
   setQuality = () => {
-    console.log("hello");
+    // console.log();
   };
   // setQuality = (quality: string) => {
   //   this.setState({ quality });
@@ -213,7 +213,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       <>
         <div className="w-full">
           {this.renderPage()}
-          <div className={"p-10 flex justify-center"}>
+          {/* <div className={"p-10 flex justify-center"}>
             <Button
               className={"p-10 flex "}
               onClick={this.handleButtonClickBack}
@@ -226,7 +226,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             >
               Forward
             </Button>
-          </div>
+          </div> */}
         </div>
       </>
     );

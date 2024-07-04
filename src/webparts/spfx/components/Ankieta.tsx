@@ -157,7 +157,7 @@ export default class Ankieta extends React.Component<
 
       await this.spWeb.lists.getByTitle("Dane").items.add(item);
 
-      alert("Data saved successfully!");
+      // alert("Data saved successfully!");
     } catch (error) {
       console.error("Error adding item to SharePoint list", error);
       alert("Failed to save data!");
