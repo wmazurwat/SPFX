@@ -95,6 +95,7 @@ export default class Review extends React.Component<
 
       await item.update({
         Answer: JSON.stringify(answers),
+        Status: "Reviewed", // Update status to "Reviewed"
       });
     } catch (error) {
       console.error(`Error updating item ${idReview}:`, error);
@@ -131,13 +132,6 @@ export default class Review extends React.Component<
           <div className="flex-grow text-center">
             Customer risk analysis - Review
           </div>
-          <Button
-            onClick={this.handleSaveComments}
-            variant="contained"
-            color="primary"
-          >
-            Save Comments
-          </Button>
         </div>
         <div className="p-5 m-2 justify-center">
           <List>
@@ -179,6 +173,16 @@ export default class Review extends React.Component<
             ))}
           </Box>
         </Box>
+        <div>
+          <Button
+            className="absolute right-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={this.handleSaveComments}
+            variant="contained"
+            color="primary"
+          >
+            Save Review
+          </Button>
+        </div>
       </section>
     );
   }
