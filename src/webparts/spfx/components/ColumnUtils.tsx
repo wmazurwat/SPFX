@@ -1,17 +1,12 @@
 import { IWeb } from "@pnp/sp/webs";
 import { IFieldAddResult } from "@pnp/sp/fields";
-// import { IQAItem } from "./types"; // Importuj typ IQAItem
 
 export async function getQAData(spWeb: IWeb): Promise<any> {
   try {
     const items: any[] = await spWeb.lists.getByTitle("QA").items();
-    console.log("Raw items from QA list:", items); // Dodaj ten wiersz
 
     items.forEach((item, index) => {
-      // console.log(`Item ${index}:`, item);
-      // console.log(
       //   `Title: ${item.Title}, field_1: ${item.field_1}, field_2: ${item.field_2}, rate: ${item.field_11}`
-      // );
     });
 
     const sections = items.reduce((acc, item) => {
@@ -31,8 +26,6 @@ export async function getQAData(spWeb: IWeb): Promise<any> {
       });
       return acc;
     }, {} as Record<string, { Pytanie: string; Podpowiedź: string; id: string; Waga: number }[]>);
-
-    console.log("Sections:", sections); // Dodaj ten wiersz
 
     return sections;
   } catch (error) {

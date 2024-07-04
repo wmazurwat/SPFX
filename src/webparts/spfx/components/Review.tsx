@@ -66,7 +66,8 @@ export default class Review extends React.Component<
         .getByTitle("Dane")
         .items.getById(idReview);
       const answerData = await item.select("Answer")();
-      let answers = JSON.parse(answerData.Answer);
+      const answers = JSON.parse(answerData.Answer);
+      // console.log("answers", answers);
 
       // Add comments to the correct answers
       for (const [id, comment] of Object.entries(commentsReview)) {
