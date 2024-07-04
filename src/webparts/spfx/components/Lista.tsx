@@ -214,7 +214,7 @@ export default class Lista extends React.Component<
                           )
                         }
                       >
-                        View
+                        Prewiew
                       </Button>
                     </TableCell>
                   </TableRow>

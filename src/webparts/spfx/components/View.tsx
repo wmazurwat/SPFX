@@ -130,7 +130,7 @@ export default class Review extends React.Component<
             <ArrowBackIosNewIcon />
           </IconButton>
           <div className="flex-grow text-center">
-            Customer risk analysis - Review
+            Customer risk analysis - Preview
           </div>
         </div>
         <div className="p-5 m-2 justify-center">
