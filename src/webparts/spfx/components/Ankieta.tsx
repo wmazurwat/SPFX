@@ -27,7 +27,8 @@ interface AnkietaProps extends ISpfxProps {
   ) => void;
   feedbackFormState: any;
   setActivePage: (page: number) => void;
-  setQuality?: (quality: string) => void;
+  setQuality: () => void;
+  setSections: (sections: string) => void;
   userDisplayName: string;
 }
 
@@ -67,9 +68,9 @@ export default class Ankieta extends React.Component<
     try {
       const existingColumns = await getColumnList(this.spWeb);
       const sections = await getQAData(this.spWeb);
-
       if (existingColumns && sections) {
         this.setState({ existingColumns, sections });
+        this.props.setSections(sections);
       } else {
         console.error("Failed to fetch existing columns or sections");
       }
@@ -85,7 +86,7 @@ export default class Ankieta extends React.Component<
   updateTotalWeight = (weight: number) => {
     this.setState({ totalWeight: weight });
     if (this.props.setQuality) {
-      this.props.setQuality((100 - weight).toString());
+      this.props.setQuality();
     }
   };
 
@@ -193,6 +194,7 @@ export default class Ankieta extends React.Component<
   ) => {
     const updatedComments = { ...this.state.comments, [index]: comments };
     this.props.saveAnswers(index, answers, comments);
+    this.props.setQuality();
     this.setState({ comments: updatedComments });
   };
 
@@ -237,25 +239,6 @@ export default class Ankieta extends React.Component<
     );
   };
 
-  getQuality = (): string => {
-    const allAnswers = Object.entries(this.props.savedAnswers).flatMap(
-      ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
-        const sectionQuestions =
-          this.state.sections[
-            Object.keys(this.state.sections)[parseInt(sectionIndex, 10)]
-          ];
-        return sectionQuestions.map((q) => ({
-          Weight: q.Waga,
-          Answer: sectionAnswers[q.id] || "",
-        }));
-      }
-    );
-    const quality = allAnswers.reduce((acc, curr) => {
-      return acc - (curr.Answer === "No" ? curr.Weight : 0);
-    }, 100);
-    return quality.toString();
-  };
-
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
     const { tabIndex } = this.state;
@@ -279,7 +262,7 @@ export default class Ankieta extends React.Component<
         </div>
         <Header
           customerName={this.props.customerName}
-          quality={this.getQuality()}
+          quality={this.props.quality}
         />
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
@@ -312,7 +295,10 @@ export default class Ankieta extends React.Component<
             Next
           </Button>
         </div>
-        <Button className={"p-10 m-2"} onClick={this.saveAnswersToSharePoint}>
+        <Button
+          className={"flex justify-end mr-10"}
+          onClick={this.saveAnswersToSharePoint}
+        >
           Save Answers
         </Button>
       </section>

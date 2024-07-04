@@ -13,7 +13,7 @@ export interface ISpfxProps {
   setCustomerName?: (name: string) => void;
   setIdReview?: (name: number) => void;
   setActivePage?: (page: number) => void;
-  setQuality?: (quality: string) => void;
+  setQuality?: () => void;
   setAnswer?: (answer: Answer[] | string[]) => void;
 }
 // Importowanie typów kontekstu z @microsoft/sp-webpart-base

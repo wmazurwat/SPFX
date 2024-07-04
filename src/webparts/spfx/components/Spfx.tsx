@@ -22,6 +22,7 @@ type State = {
   quality: string;
   answers: Answer[];
   idReview: number;
+  sections: any;
 };
 
 export default class Spfx extends React.Component<ISpfxProps, State> {
@@ -31,6 +32,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       activePage: 0,
       customerName: "",
       savedAnswers: {},
+      sections: [],
       feedbackFormState: {
         currentDdLevel: "",
         reviewType: "",
@@ -44,12 +46,37 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     };
   }
 
+  getQuality = (answers: any): string => {
+    const allAnswers = Object.entries(answers).flatMap(
+      ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
+        const sectionQuestions =
+          this.state.sections[
+            Object.keys(this.state.sections)[parseInt(sectionIndex, 10)]
+          ];
+        return sectionQuestions.map((q: any) => ({
+          Weight: q.Waga,
+          Answer: sectionAnswers[q.id] || "",
+        }));
+      }
+    );
+    const quality = allAnswers.reduce((acc, curr) => {
+      return acc - (curr.Answer === "No" ? curr.Weight : 0);
+    }, 100);
+    console.log(allAnswers, quality);
+    return quality.toString();
+  };
+
   setCustomerName = (name: string) => {
     this.setState({ customerName: name });
   };
 
-  setQuality = (quality: string) => {
-    this.setState({ quality });
+  // TODO: remove setQuality
+  setQuality = () => {
+    console.log("hello");
+  };
+
+  setSections = (sections: any) => {
+    this.setState({ sections });
   };
 
   setAnswers = (answers: Answer[]) => {
@@ -57,9 +84,12 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   };
 
   saveAnswers = (index: number, answers: SectionAnswers) => {
+    const newAnswers = { ...this.state.savedAnswers, [index]: answers };
     this.setState({
-      savedAnswers: { ...this.state.savedAnswers, [index]: answers },
+      savedAnswers: newAnswers,
+      quality: this.getQuality(newAnswers),
     });
+    console.log("newAnswers", newAnswers);
   };
 
   setFeedbackFormState = (state: any) => {
@@ -123,6 +153,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             feedbackFormState={this.state.feedbackFormState}
             setActivePage={this.setActivePage}
             setQuality={this.setQuality}
+            setSections={this.setSections}
           />
         );
       case 3:
