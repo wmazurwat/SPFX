@@ -15,6 +15,7 @@ import { ISpfxProps } from './components/ISpfxProps';
 export interface ISpfxWebPartProps {
   description: string;
   quality: string;
+  qualityReview: string;
 }
 
 export default class SpfxWebPart extends BaseClientSideWebPart<ISpfxWebPartProps> {
@@ -33,7 +34,8 @@ export default class SpfxWebPart extends BaseClientSideWebPart<ISpfxWebPartProps
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         userEmail: this.context.pageContext.user.displayName,
-        quality: this.properties.quality
+        quality: this.properties.quality,
+        qualityReview: this.properties.qualityReview
       }
     );
 

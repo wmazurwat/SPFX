@@ -25,6 +25,7 @@ type DynamicSectionProps = {
   answers: { [key: string]: string };
   comments: { [key: string]: string };
   // updateTotalWeight: (weight: number) => void;
+  qualityReview: string;
   totalWeight: number;
 } & ISpfxProps;
 

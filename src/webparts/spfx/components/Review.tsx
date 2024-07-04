@@ -3,16 +3,26 @@ import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Box, Button, IconButton, Tab, Tabs } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Tab,
+  Tabs,
+} from "@mui/material";
 import QuestionReview from "./QuestionReview";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
-import Header from "./Header";
+// import Header from "./Header";
 
 interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
   customerName: string;
-  quality: string;
+  qualityReview: string;
   setActivePage: (page: number) => void;
   idReview: number; // Add idReview prop
 }
@@ -97,7 +107,7 @@ export default class Review extends React.Component<
   };
 
   render() {
-    const { hasTeamsContext, customerName, quality } = this.props;
+    const { hasTeamsContext, customerName, qualityReview } = this.props;
     const parsedAnswers = JSON.parse(this.props.answers as unknown as string);
     const { tabIndex, commentsReview } = this.state;
 
@@ -125,7 +135,23 @@ export default class Review extends React.Component<
             Customer risk analysis - Review
           </div>
         </div>
-        <Header quality={quality} customerName={customerName} />
+        <div className="p-5 m-2 justify-center">
+          <List>
+            <ListItem>
+              <ListItemText primary={customerName} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Customer Name
+            </Divider>
+            <ListItem>
+              <ListItemText primary={qualityReview} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Quality
+            </Divider>
+          </List>
+        </div>
+        {console.log("1", qualityReview)}
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
@@ -150,7 +176,16 @@ export default class Review extends React.Component<
             ))}
           </Box>
         </Box>
-        <div>
+        <div className={"flex justify-end mr-5"}>
+          <Button
+            variant="contained"
+            // className={"flex justify-end mr-5"}
+            onClick={this.handleSaveComments}
+          >
+            Save Answers
+          </Button>
+        </div>
+        {/* <div>
           <Button
             className="absolute right-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={this.handleSaveComments}
@@ -159,7 +194,7 @@ export default class Review extends React.Component<
           >
             Save Review
           </Button>
-        </div>
+        </div> */}
       </section>
     );
   }

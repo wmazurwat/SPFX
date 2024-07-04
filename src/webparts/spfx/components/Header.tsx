@@ -2,7 +2,7 @@ import * as React from "react";
 import "./styles.css";
 import { Divider, List, ListItem, ListItemText } from "@mui/material";
 interface HeaderProps {
-  quality: string;
+  qualityReview: string;
   customerName: string;
 }
 
@@ -18,7 +18,7 @@ export default class Header extends React.Component<HeaderProps> {
             Customer Name
           </Divider>
           <ListItem>
-            <ListItemText primary={this.props.quality} />
+            <ListItemText primary={this.props.qualityReview} />
           </ListItem>
           <Divider variant="middle" component="li" textAlign="left">
             Quality

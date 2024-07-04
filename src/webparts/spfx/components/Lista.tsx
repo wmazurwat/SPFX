@@ -32,7 +32,7 @@ export default class Lista extends React.Component<
   ISpfxProps & {
     setActivePage: (page: number) => void;
     setCustomerName: (name: string) => void;
-    setQuality: (name: string) => void;
+    setQualityReview: (qualityReview: string) => void;
     setAnswer: (answer: object) => void;
     setIdReview: (id: number) => void;
     resetFeedbackFormState: () => void;
@@ -45,7 +45,7 @@ export default class Lista extends React.Component<
     props: ISpfxProps & {
       setActivePage: (page: number) => void;
       setCustomerName: (name: string) => void;
-      setQuality: (name: string) => void;
+      setQualityReview: (qualityReview: string) => void;
       setAnswer: (answer: object) => void;
       setIdReview: (id: number) => void;
       resetFeedbackFormState: () => void;
@@ -99,29 +99,29 @@ export default class Lista extends React.Component<
   private handleEdit = (
     id: number,
     customerName: string,
-    quality: string,
+    qualityReview: string,
     answer: object
   ) => {
     this.props.setCustomerName(customerName);
-    this.props.setQuality(quality);
+    this.props.setQualityReview(qualityReview);
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(3);
-    console.log("Quality in handleEdit:", quality);
+    console.log("Quality in handleEdit:", qualityReview);
   };
 
   private handleView = (
     id: number,
     customerName: string,
-    quality: string,
+    qualityReview: string,
     answer: object
   ) => {
     this.props.setCustomerName(customerName);
-    this.props.setQuality(quality);
+    this.props.setQualityReview(qualityReview);
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
-    console.log("Quality in handleView:", quality);
+    console.log("Quality in handleView:", qualityReview);
   };
 
   private handleNew = () => {

@@ -55,7 +55,7 @@ export default class QuestionView extends React.Component<
               </>
             )}
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center"> // przerobić na CommentReview
             {answer.CommentQA?.Comment && (
               <>
                 {answer.CommentQA?.Person}
@@ -63,7 +63,7 @@ export default class QuestionView extends React.Component<
                 {answer.CommentQA?.Comment}
               </>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     );

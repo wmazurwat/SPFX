@@ -9,11 +9,13 @@ export interface ISpfxProps {
   userEmail: string;
   customerName?: string;
   idReview?: number;
-  answer?: Answer[]; // Zaktualizowanie typu na Answer[]
+  answer?: Answer[]; 
+  qualityReview: string;
   setCustomerName?: (name: string) => void;
   setIdReview?: (name: number) => void;
   setActivePage?: (page: number) => void;
-  setQuality?: () => void;
+  setQuality?: () => void; // Zaktualizowanie typu argumentu
+  setQualityReview?: (qualityReview: string) => void; // Zaktualizowanie typu argumentu
   setAnswer?: (answer: Answer[] | string[]) => void;
 }
 // Importowanie typów kontekstu z @microsoft/sp-webpart-base

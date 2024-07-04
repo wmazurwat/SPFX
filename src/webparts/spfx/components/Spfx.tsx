@@ -21,6 +21,7 @@ type State = {
     regulatoryAnalyst: string;
   };
   quality: string;
+  qualityReview: string;
   answers: Answer[];
   idReview: number;
   sections: any;
@@ -42,6 +43,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         regulatoryAnalyst: "",
       },
       quality: "100",
+      qualityReview: "100",
       answers: [],
       idReview: 0,
     };
@@ -70,10 +72,15 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     this.setState({ customerName: name });
   };
 
-  // TODO: remove setQuality
+  setQualityReview = (qualityReview: string) => {
+    this.setState({ qualityReview });
+  };
   setQuality = () => {
     console.log("hello");
   };
+  // setQuality = (quality: string) => {
+  //   this.setState({ quality });
+  // };
 
   setSections = (sections: any) => {
     this.setState({ sections });
@@ -124,7 +131,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             {...this.props}
             setActivePage={this.setActivePage}
             setCustomerName={this.setCustomerName}
-            setQuality={this.setQuality}
+            setQualityReview={this.setQualityReview}
             setAnswer={this.setAnswers}
             resetFeedbackFormState={this.resetFeedbackFormState}
             setIdReview={this.setIdReview}
@@ -162,6 +169,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
+            qualityReview={this.state.qualityReview}
             setActivePage={this.setActivePage}
             idReview={this.state.idReview} // Pass idReview to Review component
           />
@@ -170,6 +178,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         return (
           <View
             {...this.props}
+            qualityReview={this.state.qualityReview}
             customerName={this.state.customerName}
             quality={this.state.quality}
             answers={this.state.answers}
@@ -182,7 +191,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
           <Review
             {...this.props}
             customerName={this.state.customerName}
-            quality={this.state.quality}
+            qualityReview={this.state.qualityReview}
             answers={this.state.answers}
             setActivePage={this.setActivePage}
             idReview={this.state.idReview} // Pass idReview to Review component

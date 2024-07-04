@@ -1,6 +1,16 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
-import { IconButton, Box, Tabs, Tab, Button } from "@mui/material";
+import {
+  IconButton,
+  Box,
+  Tabs,
+  Tab,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
 import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
@@ -15,7 +25,7 @@ import {
   getQAData,
 } from "./ColumnUtils";
 import DynamicSection from "./DynamicSection";
-import Header from "./Header";
+// import Header from "./Header";
 
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
@@ -204,6 +214,7 @@ export default class Ankieta extends React.Component<
       context,
       quality,
       savedAnswers,
+      qualityReview,
     } = this.props;
     const sectionName = Object.keys(sections)[tabIndex];
     return (
@@ -228,6 +239,7 @@ export default class Ankieta extends React.Component<
         context={context}
         quality={quality}
         totalWeight={totalWeight}
+        qualityReview={qualityReview}
       />
     );
   };
@@ -253,10 +265,26 @@ export default class Ankieta extends React.Component<
             Customer risk analysis - Questionnaire
           </div>
         </div>
-        <Header
+        <div className="p-5 m-2 justify-center">
+          <List>
+            <ListItem>
+              <ListItemText primary={this.props.customerName} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Customer Name
+            </Divider>
+            <ListItem>
+              <ListItemText primary={this.props.quality} />
+            </ListItem>
+            <Divider variant="middle" component="li" textAlign="left">
+              Quality
+            </Divider>
+          </List>
+        </div>
+        {/* <Header
           customerName={this.props.customerName}
           quality={this.props.quality}
-        />
+        /> */}
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
@@ -288,12 +316,15 @@ export default class Ankieta extends React.Component<
             Next
           </Button>
         </div>
-        <Button
-          className={"flex justify-end mr-10"}
-          onClick={this.saveAnswersToSharePoint}
-        >
-          Save Answers
-        </Button>
+        <div className={"flex justify-end mr-5"}>
+          <Button
+            variant="contained"
+            // className={"flex justify-end mr-5"}
+            onClick={this.saveAnswersToSharePoint}
+          >
+            Save Answers
+          </Button>
+        </div>
       </section>
     );
   }
