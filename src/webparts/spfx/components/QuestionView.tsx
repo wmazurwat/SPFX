@@ -1,14 +1,17 @@
 import * as React from "react";
-import { Chip, TextField } from "@mui/material";
+import { Chip } from "@mui/material";
 import { Answer } from "./types";
 
-interface QuestionProps {
+interface QuestionViewProps {
   answer: Answer;
   commentsReview: { [id: string]: string };
   onCommentChange: (id: string, value: string) => void;
 }
 
-export default class Question extends React.Component<QuestionProps, {}> {
+export default class QuestionView extends React.Component<
+  QuestionViewProps,
+  {}
+> {
   handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.onCommentChange(
       this.props.answer.ID.toString(),
@@ -17,7 +20,7 @@ export default class Question extends React.Component<QuestionProps, {}> {
   };
 
   render() {
-    const { answer, commentsReview } = this.props;
+    const { answer } = this.props;
     return (
       <div key={answer.ID} className="border-b-2 border-sky-500">
         <div className="flex justify-between items-start p-2 m-2">
@@ -43,19 +46,14 @@ export default class Question extends React.Component<QuestionProps, {}> {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 p-2 m-2">
-          <div>
-            <TextField
-              fullWidth
-              id={`comment-${answer.ID}`}
-              label="Comment"
-              multiline
-              maxRows={4}
-              value={commentsReview[answer.ID] || ""}
-              onChange={this.handleCommentChange}
-              InputProps={{
-                readOnly: false,
-              }}
-            />
+          <div className="flex items-center">
+            {answer.CommentQA?.Comment && (
+              <>
+                {answer.CommentQA?.Person}
+                {": "}
+                {answer.CommentQA?.Comment}
+              </>
+            )}
           </div>
           <div className="flex items-center">
             {answer.CommentQA?.Comment && (

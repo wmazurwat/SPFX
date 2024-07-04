@@ -6,6 +6,7 @@ import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
 import Lista from "./Lista";
+import View from "./View";
 import { Answer } from "./types";
 
 type State = {
@@ -62,7 +63,6 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     const quality = allAnswers.reduce((acc, curr) => {
       return acc - (curr.Answer === "No" ? curr.Weight : 0);
     }, 100);
-    console.log(allAnswers, quality);
     return quality.toString();
   };
 
@@ -89,7 +89,6 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       savedAnswers: newAnswers,
       quality: this.getQuality(newAnswers),
     });
-    console.log("newAnswers", newAnswers);
   };
 
   setFeedbackFormState = (state: any) => {
@@ -159,6 +158,17 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       case 3:
         return (
           <Review
+            {...this.props}
+            customerName={this.state.customerName}
+            quality={this.state.quality}
+            answers={this.state.answers}
+            setActivePage={this.setActivePage}
+            idReview={this.state.idReview} // Pass idReview to Review component
+          />
+        );
+      case 4:
+        return (
+          <View
             {...this.props}
             customerName={this.state.customerName}
             quality={this.state.quality}

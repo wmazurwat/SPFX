@@ -3,8 +3,8 @@ import * as React from "react";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import { Box, Button, IconButton, Tab, Tabs } from "@mui/material";
-import QuestionReview from "./QuestionReview";
+import { Box, IconButton, Tab, Tabs } from "@mui/material";
+import QuestionView from "./QuestionView";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
 import Header from "./Header";
@@ -100,7 +100,6 @@ export default class Review extends React.Component<
     const { hasTeamsContext, customerName, quality } = this.props;
     const parsedAnswers = JSON.parse(this.props.answers as unknown as string);
     const { tabIndex, commentsReview } = this.state;
-
     // Filter out the section named "MI Data"
     const sections = [
       ...new Set(parsedAnswers.map((item: Answer) => item.Section)),
@@ -126,6 +125,7 @@ export default class Review extends React.Component<
           </div>
         </div>
         <Header quality={quality} customerName={customerName} />
+
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
@@ -141,7 +141,7 @@ export default class Review extends React.Component<
           </Tabs>
           <Box sx={{ flexGrow: 1, p: 3 }}>
             {filteredAnswers.map((a: any) => (
-              <QuestionReview
+              <QuestionView
                 key={a.ID.toString()}
                 answer={a}
                 commentsReview={commentsReview}
@@ -150,16 +150,6 @@ export default class Review extends React.Component<
             ))}
           </Box>
         </Box>
-        <div>
-          <Button
-            className="absolute right-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={this.handleSaveComments}
-            variant="contained"
-            color="primary"
-          >
-            Save Review
-          </Button>
-        </div>
       </section>
     );
   }
