@@ -77,9 +77,10 @@ export default class Lista extends React.Component<
           "Reviewtype",
           "ResponsibleTeam",
           "Quality",
-          "Answer"
+          "Answer",
+          "Status"
         )
-        .top(100)(); // Pobierz do 100 elementów
+        .filter("Status eq 'Review'")();
       this.setState({ items });
       // console.log(items);
     } catch (error) {

@@ -109,6 +109,7 @@ export default class Ankieta extends React.Component<
       } = this.props;
       const { comments } = this.state;
 
+      const status = "Review";
       const allAnswers = Object.entries(savedAnswers).flatMap(
         ([sectionIndex, sectionAnswers]: [string, SectionAnswers]) => {
           const sectionQuestions =
@@ -138,7 +139,6 @@ export default class Ankieta extends React.Component<
           }));
         }
       );
-
       const feedbackFormColumns = {
         GCN: feedbackFormState.gcn,
         CurrentDDLevel: feedbackFormState.currentDdLevel,
@@ -151,6 +151,7 @@ export default class Ankieta extends React.Component<
         Challengeprocess: feedbackFormState.challengeProcess,
         CustomerName: customerName,
         Quality: quality,
+        Status: status,
       };
 
       const item = {
