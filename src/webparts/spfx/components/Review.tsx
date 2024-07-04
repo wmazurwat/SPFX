@@ -17,7 +17,6 @@ import {
 import QuestionReview from "./QuestionReview";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
-// import Header from "./Header";
 
 interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
@@ -77,7 +76,6 @@ export default class Review extends React.Component<
         .items.getById(idReview);
       const answerData = await item.select("Answer")();
       const answers = JSON.parse(answerData.Answer);
-      // console.log("answers", answers);
 
       // Add comments to the correct answers
       for (const [id, comment] of Object.entries(commentsReview)) {
@@ -151,7 +149,6 @@ export default class Review extends React.Component<
             </Divider>
           </List>
         </div>
-        {console.log("1", qualityReview)}
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
@@ -177,24 +174,10 @@ export default class Review extends React.Component<
           </Box>
         </Box>
         <div className={"flex justify-end mr-5"}>
-          <Button
-            variant="contained"
-            // className={"flex justify-end mr-5"}
-            onClick={this.handleSaveComments}
-          >
-            Save Answers
-          </Button>
-        </div>
-        {/* <div>
-          <Button
-            className="absolute right-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={this.handleSaveComments}
-            variant="contained"
-            color="primary"
-          >
+          <Button variant="contained" onClick={this.handleSaveComments}>
             Save Review
           </Button>
-        </div> */}
+        </div>
       </section>
     );
   }
