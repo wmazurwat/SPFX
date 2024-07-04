@@ -80,8 +80,7 @@ export default class Lista extends React.Component<
           "Quality",
           "Answer",
           "Status"
-        )
-        .top(100)(); // Pobierz do 100 elementów
+        )();
       this.setState({ items });
       // console.log(items);
     } catch (error) {
