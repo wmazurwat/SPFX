@@ -50,7 +50,7 @@ export default class Lista extends React.Component<
       setAnswer: (answer: object) => void;
       setIdReview: (id: number) => void;
       resetFeedbackFormState: () => void;
-      saveAnswers: (index: number, answers: object, comments: object) => void; // Add this line
+      saveAnswers: (index: number, answers: object, comments: object) => void;
     }
   ) {
     super(props);
@@ -123,12 +123,12 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
-    this.props.setAnswer({});
     // console.log("Quality in handleView:", qualityReview);
   };
 
   private handleNew = () => {
     // Reset feedbackFormState and navigate to FeedbackForm
+    this.props.setAnswer({});
     this.props.resetFeedbackFormState();
     this.props.setActivePage(1);
     this.props.saveAnswers(0, {}, {}); // Reset saved answers
@@ -173,7 +173,7 @@ export default class Lista extends React.Component<
                   <TableCell>Review Type</TableCell>
                   <TableCell>Responsible Team</TableCell>
                   <TableCell>Quality</TableCell>
-                  <TableCell>Status</TableCell>
+                  {/* <TableCell>Status</TableCell> */}
                   <TableCell align="right"></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
@@ -187,7 +187,7 @@ export default class Lista extends React.Component<
                     <TableCell>{item.Reviewtype}</TableCell>
                     <TableCell>{item.ResponsibleTeam}</TableCell>
                     <TableCell>{item.Quality}</TableCell>
-                    <TableCell>{item.Status}</TableCell>
+                    {/* <TableCell>{item.Status}</TableCell> */}
                     <TableCell align="right">
                       <Button
                         variant="contained"
