@@ -163,6 +163,8 @@ export default class Ankieta extends React.Component<
       alert("Failed to save data!");
     }
     this.props.setActivePage(0); // Navigate to List page
+    this.resetState(); // Reset Ankieta state
+    this.props.saveAnswers(0, {}, {}); // Reset saved answers
   };
 
   handleAddSingleLineColumn = async (columnName: string) => {
@@ -189,6 +191,15 @@ export default class Ankieta extends React.Component<
 
   handleNavigateToFeedbackForm = () => {
     this.props.setActivePage(1); // Navigate to FeedbackForm page
+  };
+  resetState = () => {
+    this.setState({
+      tabIndex: 0,
+      existingColumns: [],
+      sections: {},
+      totalWeight: 0,
+      comments: {},
+    });
   };
 
   saveAnswers = (

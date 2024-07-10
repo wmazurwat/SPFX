@@ -36,6 +36,7 @@ export default class Lista extends React.Component<
     setAnswer: (answer: object) => void;
     setIdReview: (id: number) => void;
     resetFeedbackFormState: () => void;
+    saveAnswers: (index: number, answers: object, comments: object) => void;
   },
   State
 > {
@@ -49,6 +50,7 @@ export default class Lista extends React.Component<
       setAnswer: (answer: object) => void;
       setIdReview: (id: number) => void;
       resetFeedbackFormState: () => void;
+      saveAnswers: (index: number, answers: object, comments: object) => void; // Add this line
     }
   ) {
     super(props);
@@ -121,6 +123,7 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
+    this.props.setAnswer({});
     // console.log("Quality in handleView:", qualityReview);
   };
 
@@ -128,6 +131,7 @@ export default class Lista extends React.Component<
     // Reset feedbackFormState and navigate to FeedbackForm
     this.props.resetFeedbackFormState();
     this.props.setActivePage(1);
+    this.props.saveAnswers(0, {}, {}); // Reset saved answers
   };
 
   public render(): React.ReactElement<ISpfxProps> {

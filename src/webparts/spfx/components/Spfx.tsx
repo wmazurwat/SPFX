@@ -135,6 +135,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setAnswer={this.setAnswers}
             resetFeedbackFormState={this.resetFeedbackFormState}
             setIdReview={this.setIdReview}
+            saveAnswers={this.saveAnswers}
           />
         );
       case 1:
