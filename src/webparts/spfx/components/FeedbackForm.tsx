@@ -19,6 +19,7 @@ interface FeedbackFormProps extends ISpfxProps {
   setCustomerName: (name: string) => void;
   feedbackFormState: {
     currentDdLevel: string;
+    customerNumber: string;
     reviewType: string;
     responsibleTeam: string;
     qualityChecker: string;
@@ -78,6 +79,17 @@ export default class FeedbackForm extends React.Component<FeedbackFormProps> {
               label="Customer Name"
               value={this.props.customerName}
               onChange={this.handleInputChange("customerName")}
+            />
+          </div>
+          <div className={"p-2 m-2 justify-start"}>
+            <TextField
+              multiline
+              maxRows={1}
+              fullWidth
+              id="customer-number"
+              label="Customer Number"
+              value={feedbackFormState.customerNumber}
+              onChange={this.handleInputChange("customerNumber")}
             />
           </div>
           <div className={"p-2 m-2 justify-center"}>

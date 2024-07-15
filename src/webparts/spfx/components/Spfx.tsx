@@ -19,6 +19,7 @@ type State = {
     responsibleTeam: string;
     qualityChecker: string;
     regulatoryAnalyst: string;
+    customerNumber: string;
   };
   quality: string;
   qualityReview: string;
@@ -41,6 +42,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         responsibleTeam: "",
         qualityChecker: "",
         regulatoryAnalyst: "",
+        customerNumber: "",
       },
       quality: "100",
       qualityReview: "100",
@@ -115,6 +117,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         responsibleTeam: "",
         qualityChecker: "",
         regulatoryAnalyst: "",
+        customerNumber: "",
       },
     });
   };

@@ -128,7 +128,6 @@ export default class Ankieta extends React.Component<
         },
       }));
       const feedbackFormColumns = {
-        GCN: feedbackFormState.gcn,
         CurrentDDLevel: feedbackFormState.currentDdLevel,
         Reviewtype: feedbackFormState.reviewType,
         ResponsibleTeam: feedbackFormState.responsibleTeam,
@@ -137,6 +136,7 @@ export default class Ankieta extends React.Component<
         Amountoffeedbacks: feedbackFormState.amountOfFeedbacks,
         Adjustmentsrequired: feedbackFormState.adjustmentsRequired,
         Challengeprocess: feedbackFormState.challengeProcess,
+        CustomerNumber: feedbackFormState.customerNumber,
         CustomerName: customerName,
         Quality: quality,
         Status: status,
