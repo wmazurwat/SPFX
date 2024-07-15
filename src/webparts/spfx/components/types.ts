@@ -11,8 +11,9 @@ export interface CommentQA {
   
 export interface Answer {
     ID: number;
-    Question: string;
+    Question?: string;
     Hint?: string;
+    Weight?: string;
     Answer: string | null;
     Section: string;
     CommentQA?: {
