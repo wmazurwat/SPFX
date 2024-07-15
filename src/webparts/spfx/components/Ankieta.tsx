@@ -286,20 +286,31 @@ export default class Ankieta extends React.Component<
             </Divider>
           </List>
         </div>
-        <Box sx={{ flexGrow: 1, display: "flex" }}>
+        <Box sx={{ display: "flex", height: "100%" }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
             value={tabIndex}
             onChange={this.handleTabChange}
             aria-label="Vertical tabs"
-            sx={{ borderRight: 1, borderColor: "divider" }}
+            sx={{
+              borderRight: 1,
+              borderColor: "divider",
+              minWidth: 330,
+              width: 330,
+            }}
           >
             {Object.keys(this.state.sections).map((section, index) => (
-              <Tab key={index} label={section} />
+              <Tab
+                key={index}
+                label={section}
+                sx={{ minWidth: 330, width: 330 }}
+              />
             ))}
           </Tabs>
-          <Box sx={{ flexGrow: 1, p: 3 }}>{this.renderSection()}</Box>
+          <Box sx={{ flexGrow: 1, p: 3, overflowY: "auto" }}>
+            {this.renderSection()}
+          </Box>
         </Box>
         <div className="flex justify-between p-10">
           <Button
