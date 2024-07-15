@@ -66,9 +66,7 @@ export default class FeedbackForm extends React.Component<FeedbackFormProps> {
           <IconButton onClick={this.handleBack} className="absolute left-5">
             <ArrowBackIosNewIcon />
           </IconButton>
-          <div className="flex-grow text-center">
-            QRM Feedback Form - Review
-          </div>
+          <div className="flex-grow text-center">QRM Feedback Form</div>
         </div>
         <div className={"p-2 m-2 shadow grid grid-cols-2"}>
           <div className={"p-2 m-2 justify-start"}>
@@ -102,11 +100,11 @@ export default class FeedbackForm extends React.Component<FeedbackFormProps> {
           </div>
           <div className={"p-2 m-2 justify-center"}>
             <FormControl fullWidth>
-              <InputLabel id="Review Type">Review Type</InputLabel>
+              <InputLabel id="Proces Type">Proces Type</InputLabel>
               <Select
-                labelId="Review Type"
-                id="Review Type"
-                label="Review Type"
+                labelId="Proces Type"
+                id="Proces Type"
+                label="Proces Type"
                 value={feedbackFormState.reviewType}
                 onChange={this.handleSelectChange("reviewType")}
               >
