@@ -16,7 +16,6 @@ import {
 import QuestionView from "./QuestionView";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
-// import Header from "./Header";
 
 interface ISpfxPropsWithAnswer extends ISpfxProps {
   answers: Answer[];
