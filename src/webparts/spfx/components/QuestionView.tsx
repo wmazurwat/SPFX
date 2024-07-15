@@ -25,7 +25,18 @@ export default class QuestionView extends React.Component<
       <div key={answer.ID} className="border-b-2 border-sky-500">
         <div className="flex justify-between items-start p-2 m-2">
           <div className="flex flex-col">
-            <div className="text-xl justify-start">{answer.Question}</div>
+            <div className="text-xl justify-start">
+              {answer.Question}
+              {Number(answer.Weight) < 0.5 ? (
+                <span></span>
+              ) : Number(answer.Weight) === 0.5 ? (
+                <span>*</span>
+              ) : Number(answer.Weight) === 1 ? (
+                <span>**</span>
+              ) : (
+                <span>***</span>
+              )}
+            </div>
             <div className="text-base justify-start">{answer.Hint}</div>
           </div>
           <div className="p-2 m-2">
