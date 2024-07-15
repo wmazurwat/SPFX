@@ -62,9 +62,13 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
         }));
       }
     );
-    const quality = allAnswers.reduce((acc, curr) => {
+    let quality = allAnswers.reduce((acc, curr) => {
       return acc - (curr.Answer === "No" ? curr.Weight : 0);
     }, 100);
+    // Jeśli obliczona jakość jest mniejsza niż 0, ustaw jakość na 0
+    if (quality < 0) {
+      quality = 0;
+    }
     return quality.toString();
   };
 
