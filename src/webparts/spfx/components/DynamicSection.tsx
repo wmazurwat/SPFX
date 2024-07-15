@@ -24,13 +24,12 @@ type DynamicSectionProps = {
   }>;
   answers: { [key: string]: string };
   comments: { [key: string]: string };
-  // updateTotalWeight: (weight: number) => void;
   qualityReview: string;
   totalWeight: number;
 } & ISpfxProps;
 
 type DynamicSectionState = {
-  hasErrors: boolean;
+  hasErrors: { [key: string]: boolean };
   comments: { [key: string]: string };
 };
 
@@ -41,7 +40,7 @@ export default class DynamicSection extends React.Component<
   constructor(props: DynamicSectionProps) {
     super(props);
     this.state = {
-      hasErrors: false,
+      hasErrors: {},
       comments: props.comments || {},
     };
   }
@@ -55,6 +54,15 @@ export default class DynamicSection extends React.Component<
       ...this.props.answers,
       [id]: value,
     };
+
+    const newErrors = {
+      ...this.state.hasErrors,
+      [id]:
+        value === "No" &&
+        (!this.state.comments[id] || this.state.comments[id].trim() === ""),
+    };
+
+    this.setState({ hasErrors: newErrors });
     this.props.saveAnswers(newAnswers, this.state.comments);
   };
 
@@ -63,7 +71,13 @@ export default class DynamicSection extends React.Component<
       ...this.state.comments,
       [id]: value,
     };
-    this.setState({ comments: newComments });
+
+    const newErrors = {
+      ...this.state.hasErrors,
+      [id]: this.props.answers[id] === "No" && (!value || value.trim() === ""),
+    };
+
+    this.setState({ comments: newComments, hasErrors: newErrors });
     this.props.saveAnswers(this.props.answers, newComments);
   };
 
@@ -71,10 +85,17 @@ export default class DynamicSection extends React.Component<
     const { questions } = this.props;
     return questions.map((q, i) => (
       <div key={i} className="w-full">
-        <FormControl variant="standard" required className="w-full">
+        <FormControl
+          variant="standard"
+          required
+          className="w-full"
+          error={this.state.hasErrors[q.id]}
+        >
           <div className={"text-xl justify-start"} id="demo-error-radios">
             {q.Pytanie}
-            {q.Waga === 0.5 ? (
+            {q.Waga < 0.5 ? (
+              <span></span>
+            ) : q.Waga === 0.5 ? (
               <span> *</span>
             ) : q.Waga === 1 ? (
               <span> **</span>
@@ -104,6 +125,12 @@ export default class DynamicSection extends React.Component<
               maxRows={4}
               value={this.state.comments[q.id] || ""}
               onChange={(e) => this.handleCommentChange(q.id, e.target.value)}
+              error={this.state.hasErrors[q.id]}
+              helperText={
+                this.state.hasErrors[q.id]
+                  ? "Comment is required if answer is No"
+                  : ""
+              }
             />
           </div>
           <div className="border-b-2 border-sky-500" />

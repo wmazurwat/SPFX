@@ -1,4 +1,3 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
 import {
   IconButton,
@@ -11,6 +10,7 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
@@ -19,13 +19,8 @@ import "@pnp/sp/fields";
 import styles from "./Spfx.module.scss";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-import {
-  getColumnList,
-  addSingleLineTextColumnToSharePoint,
-  getQAData,
-} from "./ColumnUtils";
+import { getQAData } from "./ColumnUtils";
 import DynamicSection from "./DynamicSection";
-// import Header from "./Header";
 
 interface AnkietaProps extends ISpfxProps {
   customerName: string;
@@ -48,10 +43,10 @@ export interface SectionAnswers {
 
 interface AnkietaState {
   tabIndex: number;
-  existingColumns: string[];
   sections: { [key: string]: any[] };
   totalWeight: number;
   comments: { [key: number]: { [key: string]: string } };
+  hasValidationErrors: boolean;
 }
 
 export default class Ankieta extends React.Component<
@@ -64,10 +59,10 @@ export default class Ankieta extends React.Component<
     super(props);
     this.state = {
       tabIndex: 0,
-      existingColumns: [],
       sections: {},
       totalWeight: 0,
       comments: {},
+      hasValidationErrors: false,
     };
 
     const sp = spfi().using(SPFx(this.props.context));
@@ -76,24 +71,23 @@ export default class Ankieta extends React.Component<
 
   async componentDidMount() {
     try {
-      const existingColumns = await getColumnList(this.spWeb);
       const sections = await getQAData(this.spWeb);
-      if (existingColumns && sections) {
-        this.setState({ existingColumns, sections });
-        this.props.setSections(sections);
-      } else {
-        console.error("Failed to fetch existing columns or sections");
-      }
+      this.props.setSections(sections);
+      this.setState({ sections });
     } catch (error) {
       console.error("Error fetching items or columns:", error);
     }
   }
 
   handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    this.setState({ tabIndex: newValue });
+    this.setState({ tabIndex: newValue }, this.scrollToTop);
   };
 
   saveAnswersToSharePoint = async () => {
+    if (this.state.hasValidationErrors) {
+      alert("Please correct validation errors before saving.");
+      return;
+    }
     try {
       const {
         savedAnswers,
@@ -104,10 +98,8 @@ export default class Ankieta extends React.Component<
       } = this.props;
       const { comments } = this.state;
       const status = "Review";
-      // console.log("savedAnswers", savedAnswers);
       const { sections } = this.state;
-      const answersList = Object.assign({}, ...Object.values(savedAnswers)); //tutaj
-      // console.log(answersList);
+      const answersList = Object.assign({}, ...Object.values(savedAnswers));
       let cumulativeIndex = 0;
 
       const list = Object.keys(sections).flatMap((key) => {
@@ -149,56 +141,55 @@ export default class Ankieta extends React.Component<
         Quality: quality,
         Status: status,
       };
-      // console.log("allAnswers", allAnswers);
       const item = {
         ...feedbackFormColumns,
         Answer: JSON.stringify(allAnswers),
       };
 
       await this.spWeb.lists.getByTitle("Dane").items.add(item);
-
-      // alert("Data saved successfully!");
+      this.scrollToTop();
     } catch (error) {
       console.error("Error adding item to SharePoint list", error);
       alert("Failed to save data!");
     }
-    this.props.setActivePage(0); // Navigate to List page
-    this.resetState(); // Reset Ankieta state
-    this.props.saveAnswers(0, {}, {}); // Reset saved answers
-  };
-
-  handleAddSingleLineColumn = async (columnName: string) => {
-    await addSingleLineTextColumnToSharePoint(
-      this.spWeb,
-      columnName,
-      this.state.existingColumns
-    );
+    this.props.setActivePage(0);
+    this.resetState();
+    this.props.saveAnswers(0, {}, {});
   };
 
   handleNext = () => {
     const { tabIndex, sections } = this.state;
     if (tabIndex < Object.keys(sections).length - 1) {
-      this.setState({ tabIndex: tabIndex + 1 });
+      this.setState({ tabIndex: tabIndex + 1 }, this.scrollToTop);
     }
   };
 
   handleBack = () => {
     const { tabIndex } = this.state;
     if (tabIndex > 0) {
-      this.setState({ tabIndex: tabIndex - 1 });
+      this.setState({ tabIndex: tabIndex - 1 }, this.scrollToTop);
     }
   };
 
-  handleNavigateToFeedbackForm = () => {
-    this.props.setActivePage(1); // Navigate to FeedbackForm page
+  scrollToTop = () => {
+    document.querySelector("section")?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    console.log("test");
   };
+
+  handleNavigateToFeedbackForm = () => {
+    this.props.setActivePage(1);
+  };
+
   resetState = () => {
     this.setState({
       tabIndex: 0,
-      existingColumns: [],
       sections: {},
       totalWeight: 0,
       comments: {},
+      hasValidationErrors: false,
     });
   };
 
@@ -208,6 +199,11 @@ export default class Ankieta extends React.Component<
     comments: { [key: string]: string }
   ) => {
     const updatedComments = { ...this.state.comments, [index]: comments };
+    const hasErrors = Object.keys(answers).some(
+      (key) =>
+        answers[key] === "No" && (!comments[key] || comments[key].trim() === "")
+    );
+    this.setState({ hasValidationErrors: hasErrors });
     this.props.saveAnswers(index, answers, comments);
     this.props.setQuality();
     this.setState({ comments: updatedComments });
@@ -257,13 +253,13 @@ export default class Ankieta extends React.Component<
 
   public render(): React.ReactElement<ISpfxProps> {
     const { hasTeamsContext } = this.props;
-    const { tabIndex } = this.state;
+    const { tabIndex, hasValidationErrors } = this.state;
 
     return (
       <section
-        className={`${styles.spfx} ${
-          hasTeamsContext ? styles.teams : "shadow"
-        }`}
+        className={`relative flex flex-col overflow-y-auto h-full ${
+          styles.spfx
+        } ${hasTeamsContext ? styles.teams : "shadow"}`}
       >
         <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
           <IconButton
@@ -272,9 +268,7 @@ export default class Ankieta extends React.Component<
           >
             <ArrowBackIosNewIcon />
           </IconButton>
-          <div className="flex-grow text-center">
-            Customer risk analysis - Questionnaire
-          </div>
+          <div className="flex-grow text-center">QRM Feedback Form</div>
         </div>
         <div className="p-5 m-2 justify-center">
           <List>
@@ -292,10 +286,6 @@ export default class Ankieta extends React.Component<
             </Divider>
           </List>
         </div>
-        {/* <Header
-          customerName={this.props.customerName}
-          quality={this.props.quality}
-        /> */}
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Tabs
             orientation="vertical"
@@ -330,8 +320,8 @@ export default class Ankieta extends React.Component<
         <div className={"flex justify-end mr-5"}>
           <Button
             variant="contained"
-            // className={"flex justify-end mr-5"}
             onClick={this.saveAnswersToSharePoint}
+            disabled={hasValidationErrors}
           >
             Save Answers
           </Button>
