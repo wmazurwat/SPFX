@@ -139,7 +139,7 @@ export default class Lista extends React.Component<
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
         <div className="flex justify-between items-center bg-gray-100 p-4 border-b border-gray-300">
-          <div className="text-4xl">Customer risk analysis - List</div>
+          <div className="text-4xl">QRM Feedback Form</div>
           <div className="text-xl">{userDisplayName}</div>
         </div>
         <div className="p-5">
@@ -170,7 +170,7 @@ export default class Lista extends React.Component<
                   <TableCell>ID</TableCell>
                   <TableCell>Customer Name</TableCell>
                   <TableCell>Current DD Level</TableCell>
-                  <TableCell>Review Type</TableCell>
+                  <TableCell>Process Type</TableCell>
                   <TableCell>Responsible Team</TableCell>
                   <TableCell>Quality</TableCell>
                   {/* <TableCell>Status</TableCell> */}
@@ -218,7 +218,7 @@ export default class Lista extends React.Component<
                           )
                         }
                       >
-                        Prewiew
+                        Preview
                       </Button>
                     </TableCell>
                   </TableRow>
