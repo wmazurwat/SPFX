@@ -97,7 +97,6 @@ export default class Ankieta extends React.Component<
         userDisplayName,
       } = this.props;
       const { comments } = this.state;
-      const status = "Review";
       const { sections } = this.state;
       const answersList = Object.assign({}, ...Object.values(savedAnswers));
       let cumulativeIndex = 0;
@@ -140,7 +139,7 @@ export default class Ankieta extends React.Component<
         CustomerNumber: feedbackFormState.customerNumber,
         CustomerName: customerName,
         Quality: quality,
-        Status: status,
+        Status: "Rework",
       };
       const item = {
         ...feedbackFormColumns,

@@ -200,9 +200,9 @@ export default class Lista extends React.Component<
                             item.Answer
                           )
                         }
-                        disabled={item.Status !== "Review"}
+                        disabled={item.Status !== "In progress"}
                       >
-                        Review
+                        Rework
                       </Button>
                     </TableCell>
                     <TableCell align="right">
