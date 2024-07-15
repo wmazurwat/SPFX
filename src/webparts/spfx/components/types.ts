@@ -1,9 +1,3 @@
-export interface IQAItem {
-    Sekcja: string;
-    Pytanie: string;
-    Podpowiedź: string;
-    id: string;
-  }
 export interface CommentQA {
     Person: string;
     Comment: string;
