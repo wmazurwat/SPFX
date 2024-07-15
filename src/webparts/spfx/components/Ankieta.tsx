@@ -127,6 +127,7 @@ export default class Ankieta extends React.Component<
           Comment: "",
         },
       }));
+      const adjustmentsRequired = Number(quality) < 100 ? "Yes" : "No";
       const feedbackFormColumns = {
         CurrentDDLevel: feedbackFormState.currentDdLevel,
         Reviewtype: feedbackFormState.reviewType,
@@ -134,7 +135,7 @@ export default class Ankieta extends React.Component<
         QualityChecker: feedbackFormState.qualityChecker,
         RegulatoryAnalyst: feedbackFormState.regulatoryAnalyst,
         Amountoffeedbacks: "1",
-        Adjustmentsrequired: feedbackFormState.adjustmentsRequired,
+        Adjustmentsrequired: adjustmentsRequired,
         Challengeprocess: feedbackFormState.challengeProcess,
         CustomerNumber: feedbackFormState.customerNumber,
         CustomerName: customerName,
