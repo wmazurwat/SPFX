@@ -44,11 +44,22 @@ export default class Review extends React.Component<
     this.state = {
       tabIndex: 0,
       answers: {},
-      commentsReview: {},
+      commentsReview: this.initializeComments(props.answers),
     };
     const sp = spfi().using(SPFx(this.props.context));
     this.spWeb = sp.web;
   }
+
+  initializeComments = (answers: Answer[]) => {
+    const comments: { [key: string]: string } = {};
+    answers.forEach((answer) => {
+      if (answer.CommentReview && answer.CommentReview.length) {
+        comments[answer.ID.toString()] =
+          answer.CommentReview[answer.CommentReview.length - 1].Comment;
+      }
+    });
+    return comments;
+  };
 
   handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     this.setState({ tabIndex: newValue });
@@ -79,17 +90,15 @@ export default class Review extends React.Component<
       const answers = JSON.parse(answerData.Answer);
 
       for (const [id, comment] of Object.entries(commentsReview)) {
-        if (comment) {
-          const answer = answers.find((a: Answer) => a.ID.toString() === id);
-          if (answer) {
-            if (!Array.isArray(answer.CommentReview)) {
-              answer.CommentReview = [];
-            }
-            answer.CommentReview.push({
-              Person: userDisplayName,
-              Comment: comment,
-            });
+        const answer = answers.find((a: Answer) => a.ID.toString() === id);
+        if (answer) {
+          if (!Array.isArray(answer.CommentReview)) {
+            answer.CommentReview = [];
           }
+          answer.CommentReview.push({
+            Person: userDisplayName,
+            Comment: comment,
+          });
         }
       }
 
@@ -105,8 +114,7 @@ export default class Review extends React.Component<
   };
 
   render() {
-    const { hasTeamsContext, customerName, qualityReview, answers } =
-      this.props;
+    const { customerName, qualityReview, answers } = this.props;
     const { tabIndex, commentsReview } = this.state;
     const parsedAnswers = JSON.parse(answers as unknown as string);
 
@@ -119,9 +127,7 @@ export default class Review extends React.Component<
     );
 
     return (
-      <section
-        className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
-      >
+      <section className={styles.spfx}>
         <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
           <IconButton
             onClick={this.handleBackClick}
