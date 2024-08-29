@@ -1,8 +1,4 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as React from "react";
-import styles from "./Spfx.module.scss";
-import "./styles.css";
-import type { ISpfxProps } from "./ISpfxProps";
 import {
   Box,
   Button,
@@ -14,32 +10,35 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import QuestionReview from "./QuestionReview";
 import { Answer } from "./types";
 import { spfi, SPFx } from "@pnp/sp";
+import styles from "./Spfx.module.scss";
 
-interface ISpfxPropsWithAnswer extends ISpfxProps {
+interface IDraftReviewProps {
   answers: Answer[];
   customerName: string;
   qualityReview: string;
   setActivePage: (page: number) => void;
   idReview: number;
   userDisplayName: string;
+  context: any;
 }
 
-interface ReviewState {
+interface DraftReviewState {
   tabIndex: number;
   answers: { [id: string]: string };
   commentsReview: { [id: string]: string };
 }
 
-export default class Review extends React.Component<
-  ISpfxPropsWithAnswer,
-  ReviewState
+export default class DraftReview extends React.Component<
+  IDraftReviewProps,
+  DraftReviewState
 > {
   private spWeb;
 
-  constructor(props: ISpfxPropsWithAnswer) {
+  constructor(props: IDraftReviewProps) {
     super(props);
     this.state = {
       tabIndex: 0,
@@ -105,8 +104,7 @@ export default class Review extends React.Component<
   };
 
   render() {
-    const { hasTeamsContext, customerName, qualityReview, answers } =
-      this.props;
+    const { customerName, qualityReview, answers } = this.props;
     const { tabIndex, commentsReview } = this.state;
     const parsedAnswers = JSON.parse(answers as unknown as string);
 
@@ -119,9 +117,7 @@ export default class Review extends React.Component<
     );
 
     return (
-      <section
-        className={`${styles.spfx} ${hasTeamsContext ? styles.teams : ""}`}
-      >
+      <section className={styles.spfx}>
         <div className="relative flex items-center justify-center p-5 m-2 text-4xl">
           <IconButton
             onClick={this.handleBackClick}
@@ -129,7 +125,7 @@ export default class Review extends React.Component<
           >
             <ArrowBackIosNewIcon />
           </IconButton>
-          <div className="flex-grow text-center">QRM Feedback Form</div>
+          <div className="flex-grow text-center">QRM Draft Feedback Form</div>
         </div>
         <div className="p-5 m-2 justify-center">
           <List>

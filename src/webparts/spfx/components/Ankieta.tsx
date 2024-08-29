@@ -32,7 +32,7 @@ interface AnkietaProps extends ISpfxProps {
   ) => void;
   feedbackFormState: any;
   setActivePage: (page: number) => void;
-  setQuality: () => void;
+  // setQuality: () => void;
   setSections: (sections: string) => void;
   userDisplayName: string;
 }
@@ -205,7 +205,7 @@ export default class Ankieta extends React.Component<
     );
     this.setState({ hasValidationErrors: hasErrors });
     this.props.saveAnswers(index, answers, comments);
-    this.props.setQuality();
+    // this.props.setQuality();
     this.setState({ comments: updatedComments });
   };
 

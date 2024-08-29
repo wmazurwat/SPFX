@@ -13,8 +13,9 @@ export interface ISpfxProps {
   qualityReview: string;
   setCustomerName?: (name: string) => void;
   setIdReview?: (name: number) => void;
+  setStatus?: (name: string) => void;
   setActivePage?: (page: number) => void;
-  setQuality?: () => void; // Zaktualizowanie typu argumentu
+  // setQuality?: () => void; // Zaktualizowanie typu argumentu
   setQualityReview?: (qualityReview: string) => void; // Zaktualizowanie typu argumentu
   setAnswer?: (answer: Answer[] | string[]) => void;
 }

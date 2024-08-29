@@ -21,6 +21,12 @@ export default class QuestionReview extends React.Component<
 
   render() {
     const { answer, commentsReview } = this.props;
+
+    // Pobieramy najnowszy komentarz
+    const latestComment = answer.CommentReview?.length
+      ? answer.CommentReview[answer.CommentReview.length - 1].Comment
+      : "";
+
     return (
       <div key={answer.ID} className="border-b-2 border-sky-500">
         <div className="flex justify-between items-start p-2 m-2">
@@ -64,7 +70,7 @@ export default class QuestionReview extends React.Component<
               label="Comment"
               multiline
               maxRows={4}
-              value={commentsReview[answer.ID] || ""}
+              value={commentsReview[answer.ID] || latestComment}
               onChange={this.handleCommentChange}
               InputProps={{
                 readOnly: false,

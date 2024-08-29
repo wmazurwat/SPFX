@@ -3,7 +3,6 @@ import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
-import type { ISpfxProps } from "./ISpfxProps";
 import {
   Button,
   Table,
@@ -28,31 +27,10 @@ type State = {
   }[];
 };
 
-export default class Lista extends React.Component<
-  ISpfxProps & {
-    setActivePage: (page: number) => void;
-    setCustomerName: (name: string) => void;
-    setQualityReview: (qualityReview: string) => void;
-    setAnswer: (answer: object) => void;
-    setIdReview: (id: number) => void;
-    resetFeedbackFormState: () => void;
-    saveAnswers: (index: number, answers: object, comments: object) => void;
-  },
-  State
-> {
+export default class Lista extends React.Component<any, State> {
   private spWeb;
 
-  constructor(
-    props: ISpfxProps & {
-      setActivePage: (page: number) => void;
-      setCustomerName: (name: string) => void;
-      setQualityReview: (qualityReview: string) => void;
-      setAnswer: (answer: object) => void;
-      setIdReview: (id: number) => void;
-      resetFeedbackFormState: () => void;
-      saveAnswers: (index: number, answers: object, comments: object) => void;
-    }
-  ) {
+  constructor(props: any) {
     super(props);
     this.state = {
       items: [],
@@ -84,7 +62,6 @@ export default class Lista extends React.Component<
           "Status"
         )();
       this.setState({ items });
-      // console.log(items);
     } catch (error) {
       console.error("Error fetching items:", error);
     }
@@ -102,14 +79,18 @@ export default class Lista extends React.Component<
     id: number,
     customerName: string,
     qualityReview: string,
-    answer: object
+    answer: object,
+    status: string
   ) => {
     this.props.setCustomerName(customerName);
     this.props.setQualityReview(qualityReview);
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
-    this.props.setActivePage(3);
-    // console.log("Quality in handleEdit:", qualityReview);
+    if (status === "Rework draft") {
+      this.props.setActivePage(5); // Przejście do DraftReview
+    } else {
+      this.props.setActivePage(3); // Przejście do Review
+    }
   };
 
   private handleView = (
@@ -123,18 +104,16 @@ export default class Lista extends React.Component<
     this.props.setAnswer(answer);
     this.props.setIdReview(id);
     this.props.setActivePage(4);
-    // console.log("Quality in handleView:", qualityReview);
   };
 
   private handleNew = () => {
-    // Reset feedbackFormState and navigate to FeedbackForm
     this.props.setAnswer({});
     this.props.resetFeedbackFormState();
     this.props.setActivePage(1);
-    this.props.saveAnswers(0, {}, {}); // Reset saved answers
+    this.props.saveAnswers(0, {}, {});
   };
 
-  public render(): React.ReactElement<ISpfxProps> {
+  public render(): React.ReactElement<any> {
     const { hasTeamsContext, userDisplayName } = this.props;
     return (
       <section className={`${hasTeamsContext ? "teams" : "shadow"} p-5`}>
@@ -169,11 +148,11 @@ export default class Lista extends React.Component<
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>Customer Name</TableCell>
-                  <TableCell>Current DD Level</TableCell>
+                  {/* <TableCell>Current DD Level</TableCell>
                   <TableCell>Process Type</TableCell>
-                  <TableCell>Responsible Team</TableCell>
+                  <TableCell>Responsible Team</TableCell> */}
                   <TableCell>Quality</TableCell>
-                  {/* <TableCell>Status</TableCell> */}
+                  <TableCell>Status</TableCell>
                   <TableCell align="right"></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
@@ -183,11 +162,11 @@ export default class Lista extends React.Component<
                   <TableRow key={item.Id}>
                     <TableCell>{item.Id}</TableCell>
                     <TableCell>{item.CustomerName}</TableCell>
-                    <TableCell>{item.CurrentDDLevel}</TableCell>
+                    {/* <TableCell>{item.CurrentDDLevel}</TableCell>
                     <TableCell>{item.Reviewtype}</TableCell>
-                    <TableCell>{item.ResponsibleTeam}</TableCell>
+                    <TableCell>{item.ResponsibleTeam}</TableCell> */}
                     <TableCell>{item.Quality}</TableCell>
-                    {/* <TableCell>{item.Status}</TableCell> */}
+                    <TableCell>{item.Status}</TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
@@ -197,10 +176,14 @@ export default class Lista extends React.Component<
                             item.Id,
                             item.CustomerName,
                             item.Quality,
-                            item.Answer
+                            item.Answer,
+                            item.Status
                           )
                         }
-                        disabled={item.Status !== "In progress"}
+                        disabled={
+                          item.Status !== "Rework draft" &&
+                          item.Status !== "Rework"
+                        }
                       >
                         Rework
                       </Button>

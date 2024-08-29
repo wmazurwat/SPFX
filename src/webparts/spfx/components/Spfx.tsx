@@ -1,12 +1,12 @@
 import * as React from "react";
 import "./styles.css";
 import type { ISpfxProps } from "./ISpfxProps";
-// import { Button } from "@mui/material";
 import Ankieta, { SectionAnswers } from "./Ankieta";
 import Review from "./Review";
 import FeedbackForm from "./FeedbackForm";
 import Lista from "./Lista";
 import View from "./View";
+import DraftReview from "./DraftReview";
 import { Answer } from "./types";
 
 type State = {
@@ -25,6 +25,7 @@ type State = {
   qualityReview: string;
   answers: Answer[];
   idReview: number;
+  status: string;
   sections: any;
 };
 
@@ -48,6 +49,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
       qualityReview: "100",
       answers: [],
       idReview: 0,
+      status: "",
     };
   }
 
@@ -67,7 +69,6 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
     let quality = allAnswers.reduce((acc, curr) => {
       return acc - (curr.Answer === "No" ? curr.Weight : 0);
     }, 100);
-    // Jeśli obliczona jakość jest mniejsza niż 0, ustaw jakość na 0
     if (quality < 0) {
       quality = 0;
     }
@@ -81,12 +82,6 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   setQualityReview = (qualityReview: string) => {
     this.setState({ qualityReview });
   };
-  setQuality = () => {
-    // console.log();
-  };
-  // setQuality = (quality: string) => {
-  //   this.setState({ quality });
-  // };
 
   setSections = (sections: any) => {
     this.setState({ sections });
@@ -125,6 +120,9 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
   setIdReview = (id: number) => {
     this.setState({ idReview: id });
   };
+  setStatus = (status: string) => {
+    this.setState({ status: status });
+  };
 
   setActivePage = (page: number) => {
     this.setState({ activePage: page });
@@ -142,6 +140,7 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             setAnswer={this.setAnswers}
             resetFeedbackFormState={this.resetFeedbackFormState}
             setIdReview={this.setIdReview}
+            setStatus={this.setStatus}
             saveAnswers={this.saveAnswers}
           />
         );
@@ -166,7 +165,6 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             saveAnswers={this.saveAnswers}
             feedbackFormState={this.state.feedbackFormState}
             setActivePage={this.setActivePage}
-            setQuality={this.setQuality}
             setSections={this.setSections}
           />
         );
@@ -179,7 +177,8 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             answers={this.state.answers}
             qualityReview={this.state.qualityReview}
             setActivePage={this.setActivePage}
-            idReview={this.state.idReview} // Pass idReview to Review component
+            idReview={this.state.idReview}
+            userDisplayName={this.props.userDisplayName}
           />
         );
       case 4:
@@ -191,7 +190,19 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             quality={this.state.quality}
             answers={this.state.answers}
             setActivePage={this.setActivePage}
-            idReview={this.state.idReview} // Pass idReview to Review component
+            idReview={this.state.idReview}
+          />
+        );
+      case 5:
+        return (
+          <DraftReview
+            {...this.props}
+            customerName={this.state.customerName}
+            qualityReview={this.state.qualityReview}
+            answers={this.state.answers}
+            setActivePage={this.setActivePage}
+            idReview={this.state.idReview}
+            userDisplayName={this.props.userDisplayName}
           />
         );
       default:
@@ -202,41 +213,13 @@ export default class Spfx extends React.Component<ISpfxProps, State> {
             qualityReview={this.state.qualityReview}
             answers={this.state.answers}
             setActivePage={this.setActivePage}
-            idReview={this.state.idReview} // Pass idReview to Review component
+            idReview={this.state.idReview}
           />
         );
     }
   };
 
-  handleButtonClickForward = () => {
-    this.setState((prevState) => ({ activePage: prevState.activePage + 1 }));
-  };
-
-  handleButtonClickBack = () => {
-    this.setState((prevState) => ({ activePage: prevState.activePage - 1 }));
-  };
-
   render() {
-    return (
-      <>
-        <div className="w-full">
-          {this.renderPage()}
-          {/* <div className={"p-10 flex justify-center"}>
-            <Button
-              className={"p-10 flex "}
-              onClick={this.handleButtonClickBack}
-            >
-              Backward
-            </Button>
-            <Button
-              className={"p-10 flex "}
-              onClick={this.handleButtonClickForward}
-            >
-              Forward
-            </Button>
-          </div> */}
-        </div>
-      </>
-    );
+    return <div className="w-full">{this.renderPage()}</div>;
   }
 }
